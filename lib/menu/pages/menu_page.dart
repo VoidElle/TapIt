@@ -1,4 +1,11 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:tapit/global/utils/global_color_constants.dart';
+import 'package:tapit/global/widgets/global_dynamic_spacer.dart';
+import 'package:tapit/menu/utils/menu_text_styles.dart';
+import 'package:tapit/menu/widgets/menu_title.dart';
+
+import '../../global/widgets/global_animated_button.dart';
 
 class MenuPage extends StatelessWidget {
 
@@ -12,67 +19,64 @@ class MenuPage extends StatelessWidget {
         children: [
 
           /// The title section
-          //const MenuTitle(),
+          const MenuTitle(),
 
           /// Spacer
-          //const GlobalDynamicSpacer(),
+          const GlobalDynamicSpacer(),
 
           /// Local game button
-          /*GlobalAnimatedButton(
+          GlobalAnimatedButton(
             onTapUp: () {
-              Navigator.of(context).pushNamed(GameLocalScreen.route);
+              // Navigator.of(context).pushNamed(GameLocalScreen.route);
             },
             child: AutoSizeText(
               "LOCAL",
               maxLines: 1,
-              style: GlobalTextStyles.menuScreenButtonTextStyle(),
+              style: MenuTextStyles.buttonTextStyle(),
             ),
-          ),*/
+          ),
 
           /// Spacer
-          //const GlobalDynamicSpacer(),
+          const GlobalDynamicSpacer(),
 
           /// Online game button
-          /*GlobalAnimatedButton(
+          GlobalAnimatedButton(
             onTapUp: () {
-              Navigator.of(context).pushNamed(GameOnlineMenuScreen.route);
+              // Navigator.of(context).pushNamed(GameOnlineMenuScreen.route);
             },
             child: AutoSizeText(
               "ONLINE",
               maxLines: 1,
-              style: GlobalTextStyles.menuScreenButtonTextStyle(),
+              style: MenuTextStyles.buttonTextStyle(),
             ),
-          ),*/
+          ),
 
           /// Spacer
-          //const GlobalDynamicSpacer(),
+          const GlobalDynamicSpacer(),
 
           /// Tutorial button
-          /*GlobalAnimatedButton(
+          GlobalAnimatedButton(
             color: GlobalColorConstants.kRedColor,
             shadowColor: GlobalColorConstants.kDarkRedColor,
             onTapUp: () {
               // Todo
             },
             child: AutoSizeText(
-              "TUTORIAL",
+              "SHOP",
               maxLines: 1,
-              style: GlobalTextStyles.menuScreenButtonTextStyle(),
+              style: MenuTextStyles.buttonTextStyle(),
             ),
-          ),*/
+          ),
 
           /// Spacer
-          //const GlobalDynamicSpacer(),
+          const GlobalDynamicSpacer(),
 
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
 
-              /// Spacer
-              //const GlobalDynamicSpacer(),
-
               /// Settings button
-              /*GlobalAnimatedButton.circular(
+              GlobalAnimatedButton.circular(
                 child: const Padding(
                   padding: EdgeInsets.only(
                     bottom: 10,
@@ -86,31 +90,13 @@ class MenuPage extends StatelessWidget {
                 onTapUp: () {
                   // Todo
                 },
-              ),*/
-
-              /// Spacer
-              // const GlobalDynamicSpacer(),
-
-              /// Shop button
-              /*GlobalAnimatedButton.circular(
-                enabled: false,
-                child: Text(
-                  "\$",
-                  style: GlobalTextStyles.menuScreenButtonTextStyle(),
-                ),
-                onTapUp: () {
-                  // Todo
-                },
-              ),*/
-
-              /// Spacer
-              // const GlobalDynamicSpacer(),
+              ),
 
             ],
           ),
 
           /// Spacer
-          // const GlobalDynamicSpacer(),
+          const GlobalDynamicSpacer(),
 
         ],
       ),
