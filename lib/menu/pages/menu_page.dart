@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:tapit/game/local/pages/game_local_page.dart';
 import 'package:tapit/global/utils/global_color_constants.dart';
 import 'package:tapit/global/widgets/global_dynamic_spacer.dart';
 import 'package:tapit/menu/utils/menu_text_styles.dart';
@@ -26,9 +27,7 @@ class MenuPage extends StatelessWidget {
 
           /// Local game button
           GlobalAnimatedButton(
-            onTapUp: () {
-              // Navigator.of(context).pushNamed(GameLocalScreen.route);
-            },
+            onTapUp: () => Navigator.of(context).pushNamed(GameLocalPage.route),
             child: AutoSizeText(
               "LOCAL",
               maxLines: 1,

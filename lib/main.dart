@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tapit/global/utils/global_functions.dart';
 import 'package:tapit/menu/pages/menu_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const TapIt());
+  runApp(
+    const ProviderScope(
+      child: TapIt(),
+    ),
+  );
 }
 
 class TapIt extends StatelessWidget {
@@ -29,11 +35,11 @@ class TapIt extends StatelessWidget {
       ),
     );
 
-    return const MaterialApp(
+    return MaterialApp(
       title: "TapIt: Challenge your friends",
       debugShowCheckedModeBanner: false,
-      // onGenerateRoute: (RouteSettings settings) => GlobalFunctions.generateRoutes(settings),
-      home: MenuPage(),
+      onGenerateRoute: (RouteSettings settings) => GlobalFunctions.generateRoutes(settings),
+      home: const MenuPage(),
     );
   }
 
