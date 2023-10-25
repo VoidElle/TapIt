@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tapit/game/local/providers/game_local_player_data.dart';
+import 'package:tapit/game/local/providers/game_local_player_data_provider.dart';
 
 import '../models/game_local_player_model.dart';
 

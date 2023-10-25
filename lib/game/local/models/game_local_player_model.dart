@@ -3,10 +3,10 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'game_local_player_model.freezed.dart';
 part 'game_local_player_model.g.dart';
 
-@freezed
+@unfreezed
 class GameLocalPlayerModel with _$GameLocalPlayerModel {
 
-  const factory GameLocalPlayerModel({
+  factory GameLocalPlayerModel({
     required int colorValue,
     @Default(50) int percentageValue,
     @Default(false) bool readyStatus,

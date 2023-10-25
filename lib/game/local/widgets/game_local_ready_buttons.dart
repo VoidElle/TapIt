@@ -1,0 +1,90 @@
+import 'dart:math';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tapit/game/local/utils/game_local_text_styles.dart';
+
+import '../../../global/utils/global_color_constants.dart';
+import '../../../global/widgets/global_animated_button.dart';
+import '../models/game_local_player_model.dart';
+import '../providers/game_local_player_data_provider.dart';
+
+class GameLocalReadyButtons extends ConsumerWidget {
+
+  const GameLocalReadyButtons({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+
+    final gameLocalPlayerData = ref.watch(gameLocalPlayerDataNotifierProvider);
+    final gameLocalPlayerDataNotifier = ref.read(gameLocalPlayerDataNotifierProvider.notifier);
+
+    final GameLocalPlayerModel topPlayer = gameLocalPlayerData[0];
+    final GameLocalPlayerModel bottomPlayer = gameLocalPlayerData[1];
+
+    final double deviceHeight = MediaQuery.of(context).size.height;
+    const String buttonsText = "Ready";
+
+    return Column(
+      children: [
+
+        SizedBox(
+          height: deviceHeight / 2,
+          width: double.infinity,
+          child: Center(
+            child: AnimatedOpacity(
+              duration: const Duration(milliseconds: 250),
+              opacity: topPlayer.readyStatus ? 0 : 1,
+              child: Transform.rotate(
+                angle: pi,
+                child: GlobalAnimatedButton(
+                  height: 50,
+                  width: 150,
+                  canBePressed: true,
+                  color: GlobalColorConstants.kBlackColor,
+                  shadowColor: GlobalColorConstants.kDarkBlackColor,
+                  onTapUp: () {
+                    gameLocalPlayerDataNotifier.updateReadyStatus(ref, 0, true);
+                  },
+                  child: Text(
+                    buttonsText,
+                    style: GameLocalTextStyles.readyButtonTextStyle(),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+
+        SizedBox(
+          height: deviceHeight / 2,
+          width: double.infinity,
+          child: Center(
+            child: AnimatedOpacity(
+              duration: const Duration(milliseconds: 250),
+              opacity: bottomPlayer.readyStatus ? 0 : 1,
+              child: GlobalAnimatedButton(
+                height: 50,
+                width: 150,
+                canBePressed: true,
+                color: GlobalColorConstants.kBlackColor,
+                shadowColor: GlobalColorConstants.kDarkBlackColor,
+                onTapUp: () {
+                  gameLocalPlayerDataNotifier.updateReadyStatus(ref, 1, true);
+                },
+                child: Text(
+                  buttonsText,
+                  style: GameLocalTextStyles.readyButtonTextStyle(),
+                ),
+              ),
+            ),
+          ),
+        ),
+
+      ],
+    );
+  }
+
+}

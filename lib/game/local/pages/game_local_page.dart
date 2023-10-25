@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../widgets/game_local_gesture_detectors.dart';
 import '../widgets/game_local_player_containers.dart';
+import '../widgets/game_local_player_percentages.dart';
+import '../widgets/game_local_ready_buttons.dart';
 
 class GameLocalPage extends StatelessWidget {
 
@@ -16,13 +19,13 @@ class GameLocalPage extends StatelessWidget {
 
           GameLocalPlayersContainers(),
 
-          // GameLocalPlayersPercentages(),
+          GameLocalPlayersPercentages(),
 
-          // GameLocalReadyButtons(),
+          GameLocalReadyButtons(),
 
           // GameLocalCountDown(),
 
-          // GameLocalGestureDetectors(),
+          GameLocalGestureDetectors(),
 
         ],
       ),

@@ -21,8 +21,11 @@ GameLocalPlayerModel _$GameLocalPlayerModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$GameLocalPlayerModel {
   int get colorValue => throw _privateConstructorUsedError;
+  set colorValue(int value) => throw _privateConstructorUsedError;
   int get percentageValue => throw _privateConstructorUsedError;
+  set percentageValue(int value) => throw _privateConstructorUsedError;
   bool get readyStatus => throw _privateConstructorUsedError;
+  set readyStatus(bool value) => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -120,7 +123,7 @@ class __$$_GameLocalPlayerModelCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_GameLocalPlayerModel implements _GameLocalPlayerModel {
-  const _$_GameLocalPlayerModel(
+  _$_GameLocalPlayerModel(
       {required this.colorValue,
       this.percentageValue = 50,
       this.readyStatus = false});
@@ -129,36 +132,18 @@ class _$_GameLocalPlayerModel implements _GameLocalPlayerModel {
       _$$_GameLocalPlayerModelFromJson(json);
 
   @override
-  final int colorValue;
+  int colorValue;
   @override
   @JsonKey()
-  final int percentageValue;
+  int percentageValue;
   @override
   @JsonKey()
-  final bool readyStatus;
+  bool readyStatus;
 
   @override
   String toString() {
     return 'GameLocalPlayerModel(colorValue: $colorValue, percentageValue: $percentageValue, readyStatus: $readyStatus)';
   }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$_GameLocalPlayerModel &&
-            (identical(other.colorValue, colorValue) ||
-                other.colorValue == colorValue) &&
-            (identical(other.percentageValue, percentageValue) ||
-                other.percentageValue == percentageValue) &&
-            (identical(other.readyStatus, readyStatus) ||
-                other.readyStatus == readyStatus));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, colorValue, percentageValue, readyStatus);
 
   @JsonKey(ignore: true)
   @override
@@ -176,20 +161,23 @@ class _$_GameLocalPlayerModel implements _GameLocalPlayerModel {
 }
 
 abstract class _GameLocalPlayerModel implements GameLocalPlayerModel {
-  const factory _GameLocalPlayerModel(
-      {required final int colorValue,
-      final int percentageValue,
-      final bool readyStatus}) = _$_GameLocalPlayerModel;
+  factory _GameLocalPlayerModel(
+      {required int colorValue,
+      int percentageValue,
+      bool readyStatus}) = _$_GameLocalPlayerModel;
 
   factory _GameLocalPlayerModel.fromJson(Map<String, dynamic> json) =
       _$_GameLocalPlayerModel.fromJson;
 
   @override
   int get colorValue;
+  set colorValue(int value);
   @override
   int get percentageValue;
+  set percentageValue(int value);
   @override
   bool get readyStatus;
+  set readyStatus(bool value);
   @override
   @JsonKey(ignore: true)
   _$$_GameLocalPlayerModelCopyWith<_$_GameLocalPlayerModel> get copyWith =>
