@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tapit/game/local/pages/game_local_page.dart';
+import 'package:tapit/menu/pages/menu_page.dart';
 
 class GlobalFunctions {
 
@@ -8,6 +9,9 @@ class GlobalFunctions {
     late Widget returnScreen;
 
     switch (settings.name) {
+      case MenuPage.route:
+        returnScreen = const MenuPage();
+        break;
       case GameLocalPage.route:
         returnScreen = const GameLocalPage();
         break;

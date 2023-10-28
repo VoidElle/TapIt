@@ -10,6 +10,8 @@ import '../../global/widgets/global_animated_button.dart';
 
 class MenuPage extends StatelessWidget {
 
+  static const String route = "/menu-page";
+
   const MenuPage({super.key});
 
   @override
