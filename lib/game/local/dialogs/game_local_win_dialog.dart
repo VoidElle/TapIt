@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:tapit/game/local/utils/game_local_text_styles.dart';
 import 'package:tapit/menu/pages/menu_page.dart';
 
-import '../../../global/utils/global_color_constants.dart';
 import '../utils/game_local_enums.dart';
 import '../utils/game_local_functions.dart';
 
@@ -13,10 +12,10 @@ class GameLocalWinDialog extends ConsumerWidget {
   final Color winnerColor;
 
   const GameLocalWinDialog({
-    Key? key,
+    super.key,
     required this.gameLocalPlayerEnum,
     required this.winnerColor,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -55,13 +54,7 @@ class GameLocalWinDialog extends ConsumerWidget {
 
                 Text(
                   "Game Over!",
-                  style: GoogleFonts.odibeeSans(
-                    textStyle: const TextStyle(
-                      fontSize: 42,
-                      fontWeight: FontWeight.bold,
-                      color: GlobalColorConstants.kBlackColor,
-                    ),
-                  ),
+                  style: GameLocalTextStyles.winDialogTitleTextStyle(),
                 ),
 
                 const SizedBox(
@@ -70,12 +63,7 @@ class GameLocalWinDialog extends ConsumerWidget {
 
                 Text(
                   "${gameLocalPlayerEnum.text} player won the game",
-                  style: GoogleFonts.rubik(
-                    textStyle: const TextStyle(
-                      fontSize: 16,
-                      color: GlobalColorConstants.kBlackColor,
-                    ),
-                  ),
+                  style: GameLocalTextStyles.winDialogBodyTextStyle(),
                   textAlign: TextAlign.center,
                 ),
 
@@ -99,10 +87,7 @@ class GameLocalWinDialog extends ConsumerWidget {
                       },
                       child: Text(
                         "Menu",
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: winnerColor,
-                        ),
+                        style: GameLocalTextStyles.actionButtonTextStyle(winnerColor),
                       ),
                     ),
 
@@ -117,10 +102,7 @@ class GameLocalWinDialog extends ConsumerWidget {
                       },
                       child: Text(
                         "Rematch",
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: winnerColor,
-                        ),
+                        style: GameLocalTextStyles.actionButtonTextStyle(winnerColor),
                       ),
                     ),
 

@@ -11,9 +11,7 @@ import '../providers/game_local_player_data_provider.dart';
 
 class GameLocalReadyButtons extends ConsumerWidget {
 
-  const GameLocalReadyButtons({
-    Key? key,
-  }) : super(key: key);
+  const GameLocalReadyButtons({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

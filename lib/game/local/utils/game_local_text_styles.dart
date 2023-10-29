@@ -23,4 +23,30 @@ class GameLocalTextStyles {
     );
   }
 
+  static TextStyle winDialogTitleTextStyle() {
+    return GoogleFonts.odibeeSans(
+      textStyle: const TextStyle(
+        fontSize: 42,
+        fontWeight: FontWeight.bold,
+        color: GlobalColorConstants.kBlackColor,
+      ),
+    );
+  }
+
+  static TextStyle winDialogBodyTextStyle() {
+    return GoogleFonts.rubik(
+      textStyle: const TextStyle(
+        fontSize: 16,
+        color: GlobalColorConstants.kBlackColor,
+      ),
+    );
+  }
+
+  static TextStyle actionButtonTextStyle(Color winnerColor) {
+    return TextStyle(
+      fontSize: 18,
+      color: winnerColor,
+    );
+  }
+
 }

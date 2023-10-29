@@ -6,6 +6,7 @@ import 'package:tapit/global/widgets/global_dynamic_spacer.dart';
 import 'package:tapit/menu/utils/menu_text_styles.dart';
 import 'package:tapit/menu/widgets/menu_title.dart';
 
+import '../../game/online/pages/game_online_lobby_page.dart';
 import '../../global/widgets/global_animated_button.dart';
 
 class MenuPage extends StatelessWidget {
@@ -21,13 +22,13 @@ class MenuPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
 
-          /// The title section
+          // The title section
           const MenuTitle(),
 
-          /// Spacer
+          // Spacer
           const GlobalDynamicSpacer(),
 
-          /// Local game button
+          // Local game button
           GlobalAnimatedButton(
             onTapUp: () => Navigator.of(context).pushNamed(GameLocalPage.route),
             child: AutoSizeText(
@@ -37,14 +38,12 @@ class MenuPage extends StatelessWidget {
             ),
           ),
 
-          /// Spacer
+          // Spacer
           const GlobalDynamicSpacer(),
 
-          /// Online game button
+          // Online game button
           GlobalAnimatedButton(
-            onTapUp: () {
-              // Navigator.of(context).pushNamed(GameOnlineMenuScreen.route);
-            },
+            onTapUp: () => Navigator.of(context).pushNamed(GameOnlineLobbyPage.route),
             child: AutoSizeText(
               "ONLINE",
               maxLines: 1,
@@ -52,10 +51,10 @@ class MenuPage extends StatelessWidget {
             ),
           ),
 
-          /// Spacer
+          // Spacer
           const GlobalDynamicSpacer(),
 
-          /// Tutorial button
+          // Tutorial button
           GlobalAnimatedButton(
             color: GlobalColorConstants.kRedColor,
             shadowColor: GlobalColorConstants.kDarkRedColor,
@@ -69,14 +68,14 @@ class MenuPage extends StatelessWidget {
             ),
           ),
 
-          /// Spacer
+          // Spacer
           const GlobalDynamicSpacer(),
 
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
 
-              /// Settings button
+              // Settings button
               GlobalAnimatedButton.circular(
                 child: const Padding(
                   padding: EdgeInsets.only(
@@ -96,7 +95,7 @@ class MenuPage extends StatelessWidget {
             ],
           ),
 
-          /// Spacer
+          // Spacer
           const GlobalDynamicSpacer(),
 
         ],

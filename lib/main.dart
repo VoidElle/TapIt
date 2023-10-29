@@ -35,11 +35,11 @@ class TapIt extends StatelessWidget {
       ),
     );
 
-    return MaterialApp(
+    return const MaterialApp(
       title: "TapIt: Challenge your friends",
       debugShowCheckedModeBanner: false,
-      onGenerateRoute: (RouteSettings settings) => GlobalFunctions.generateRoutes(settings),
-      home: const MenuPage(),
+      onGenerateRoute: GlobalFunctions.generateRoutes,
+      home: MenuPage(),
     );
   }
 

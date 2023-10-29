@@ -10,8 +10,8 @@ import '../providers/game_local_player_data_provider.dart';
 class GameLocalPlayersPercentages extends ConsumerWidget {
 
   const GameLocalPlayersPercentages({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

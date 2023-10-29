@@ -8,9 +8,7 @@ import '../providers/game_local_player_data_provider.dart';
 
 class GameLocalGestureDetectors extends ConsumerWidget {
 
-  const GameLocalGestureDetectors({
-    Key? key,
-  }) : super(key: key);
+  const GameLocalGestureDetectors({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

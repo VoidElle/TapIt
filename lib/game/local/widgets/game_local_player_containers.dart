@@ -9,9 +9,9 @@ class GameLocalPlayersContainers extends ConsumerWidget {
   final Duration animationDuration;
 
   const GameLocalPlayersContainers({
-    Key? key,
+    super.key,
     this.animationDuration = const Duration(milliseconds: 150),
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
