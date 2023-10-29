@@ -21,13 +21,4 @@ class MenuTextStyles {
     );
   }
 
-  static TextStyle buttonTextStyle() {
-    return GoogleFonts.odibeeSans(
-      textStyle: const TextStyle(
-        fontSize: 64,
-        color: GlobalColorConstants.kBlackColor,
-      ),
-    );
-  }
-
 }

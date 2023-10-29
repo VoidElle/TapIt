@@ -28,4 +28,12 @@ class GlobalFunctions {
     return MaterialPageRoute(builder: (_) => returnScreen);
   }
 
+  static void clearAllDialogs(BuildContext context) {
+    while (_isThereCurrentDialogShowing(context)) {
+      Navigator.of(context).pop();
+    }
+  }
+
+  static bool _isThereCurrentDialogShowing(BuildContext context) => ModalRoute.of(context)?.isCurrent != true;
+
 }

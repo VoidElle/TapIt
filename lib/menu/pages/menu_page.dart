@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:tapit/game/local/pages/game_local_page.dart';
 import 'package:tapit/global/utils/global_color_constants.dart';
 import 'package:tapit/global/widgets/global_dynamic_spacer.dart';
-import 'package:tapit/menu/utils/menu_text_styles.dart';
 import 'package:tapit/menu/widgets/menu_title.dart';
 
 import '../../game/online/pages/game_online_lobby_page.dart';
+import '../../global/utils/global_text_styles.dart';
 import '../../global/widgets/global_animated_button.dart';
 
 class MenuPage extends StatelessWidget {
@@ -34,7 +34,7 @@ class MenuPage extends StatelessWidget {
             child: AutoSizeText(
               "LOCAL",
               maxLines: 1,
-              style: MenuTextStyles.buttonTextStyle(),
+              style: GlobalTextStyles.buttonTextStyle(),
             ),
           ),
 
@@ -47,7 +47,7 @@ class MenuPage extends StatelessWidget {
             child: AutoSizeText(
               "ONLINE",
               maxLines: 1,
-              style: MenuTextStyles.buttonTextStyle(),
+              style: GlobalTextStyles.buttonTextStyle(),
             ),
           ),
 
@@ -64,7 +64,7 @@ class MenuPage extends StatelessWidget {
             child: AutoSizeText(
               "SHOP",
               maxLines: 1,
-              style: MenuTextStyles.buttonTextStyle(),
+              style: GlobalTextStyles.buttonTextStyle(),
             ),
           ),
 
