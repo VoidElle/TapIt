@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
@@ -25,6 +26,8 @@ class GameOnlineSocketNotifier extends StateNotifier<Map> {
 
   void init(BuildContext context) {
 
+    _setLoadingState();
+
     late IO.Socket socket;
 
     socket = IO.io("http://10.0.2.2:3000/", <String, dynamic>{
@@ -45,10 +48,12 @@ class GameOnlineSocketNotifier extends StateNotifier<Map> {
 
     socket.onConnectError((err) async {
       debugPrint(err);
+      _setErrorState();
     });
 
     socket.onError((err) async {
       debugPrint(err);
+      _setErrorState();
     });
 
     state = {
@@ -58,11 +63,49 @@ class GameOnlineSocketNotifier extends StateNotifier<Map> {
 
   }
 
+  void _setLoadingState() {
+
+    final Map newState = {
+      ...state,
+      "status": GameOnlineSocketProviderStatusEnum.loading,
+    };
+
+    if (!mapEquals(state, newState)) {
+      state = {
+        ...newState,
+      };
+    }
+
+  }
+
   void _setSuccessfulState() {
-    state = {
+
+    final Map newState = {
       ...state,
       "status": GameOnlineSocketProviderStatusEnum.success,
     };
+
+    if (!mapEquals(state, newState)) {
+      state = {
+        ...newState,
+      };
+    }
+
+  }
+
+  void _setErrorState() {
+
+    final Map newState = {
+      ...state,
+      "status": GameOnlineSocketProviderStatusEnum.error,
+    };
+
+    if (!mapEquals(state, newState)) {
+      state = {
+        ...newState,
+      };
+    }
+
   }
 
   void reset() {
