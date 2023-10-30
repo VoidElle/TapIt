@@ -30,7 +30,7 @@ class MenuPage extends StatelessWidget {
 
           // Local game button
           GlobalAnimatedButton(
-            onTapUp: () => Navigator.of(context).pushNamed(GameLocalPage.route),
+            onTapUp: () => Navigator.of(context).pushReplacementNamed(GameLocalPage.route),
             child: AutoSizeText(
               "LOCAL",
               maxLines: 1,
@@ -43,7 +43,7 @@ class MenuPage extends StatelessWidget {
 
           // Online game button
           GlobalAnimatedButton(
-            onTapUp: () => Navigator.of(context).pushNamed(GameOnlineMenuPage.route),
+            onTapUp: () => Navigator.of(context).pushReplacementNamed(GameOnlineMenuPage.route),
             child: AutoSizeText(
               "ONLINE",
               maxLines: 1,

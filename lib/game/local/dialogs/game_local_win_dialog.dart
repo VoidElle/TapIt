@@ -79,7 +79,7 @@ class GameLocalWinDialog extends ConsumerWidget {
                       onPressed: () {
 
                         // Redirect to the Menu page
-                        Navigator.of(context).pushNamed(MenuPage.route);
+                        Navigator.of(context).pushReplacementNamed(MenuPage.route);
 
                         // Reset the providers of the game
                         GameLocalFunctions.resetProviders(ref);
