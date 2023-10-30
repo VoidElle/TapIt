@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tapit/game/local/pages/game_local_page.dart';
-import 'package:tapit/game/online/pages/game_online_lobby_page.dart';
+import 'package:tapit/game/online/pages/game_online_menu_page.dart';
 import 'package:tapit/game/online/pages/game_online_page.dart';
 import 'package:tapit/menu/pages/menu_page.dart';
 
@@ -17,8 +17,8 @@ class GlobalFunctions {
       case GameOnlinePage.route:
         returnScreen = const GameOnlinePage();
         break;
-      case GameOnlineLobbyPage.route:
-        returnScreen = const GameOnlineLobbyPage();
+      case GameOnlineMenuPage.route:
+        returnScreen = const GameOnlineMenuPage();
         break;
       case GameLocalPage.route:
         returnScreen = const GameLocalPage();

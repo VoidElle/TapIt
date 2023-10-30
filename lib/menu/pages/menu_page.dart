@@ -5,7 +5,7 @@ import 'package:tapit/global/utils/global_color_constants.dart';
 import 'package:tapit/global/widgets/global_dynamic_spacer.dart';
 import 'package:tapit/menu/widgets/menu_title.dart';
 
-import '../../game/online/pages/game_online_lobby_page.dart';
+import '../../game/online/pages/game_online_menu_page.dart';
 import '../../global/utils/global_text_styles.dart';
 import '../../global/widgets/global_animated_button.dart';
 
@@ -43,7 +43,7 @@ class MenuPage extends StatelessWidget {
 
           // Online game button
           GlobalAnimatedButton(
-            onTapUp: () => Navigator.of(context).pushNamed(GameOnlineLobbyPage.route),
+            onTapUp: () => Navigator.of(context).pushNamed(GameOnlineMenuPage.route),
             child: AutoSizeText(
               "ONLINE",
               maxLines: 1,

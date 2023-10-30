@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lottie/lottie.dart';
 import 'package:tapit/game/online/dialogs/game_online_join_dialog.dart';
 import 'package:tapit/game/online/utils/game_online_functions.dart';
 
@@ -9,17 +10,15 @@ import '../../../global/widgets/global_animated_button.dart';
 import '../providers/game_online_socket_provider.dart';
 import '../widgets/lobby/game_online_lobby_title.dart';
 
-class GameOnlineLobbyPage extends ConsumerWidget {
+class GameOnlineMenuPage extends ConsumerWidget {
 
-  static const String route = "/game-online-lobby-page";
+  static const String route = "/game-online-menu-page";
 
-  const GameOnlineLobbyPage({super.key});
+  const GameOnlineMenuPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
 
-    final Map socketState = ref.watch(gameOnlineSocketNotifierProvider);
-    final GameOnlineSocketProviderStatusEnum socketStatus = socketState["status"];
     final double deviceHeight = MediaQuery.of(context).size.height;
 
     GameOnlineFunctions.manageSocketStatus(context, ref);
@@ -32,7 +31,7 @@ class GameOnlineLobbyPage extends ConsumerWidget {
           const GameOnlineLobbyTitle(),
 
           Text(
-            socketStatus.toString(),
+            ref.watch(gameOnlineSocketNotifierProvider)["status"].toString(),
           ),
 
           SizedBox(
@@ -43,17 +42,7 @@ class GameOnlineLobbyPage extends ConsumerWidget {
             onTapUp: () async {
 
               // Invoke the function to create a lobby on the server
-              await GameOnlineFunctions.createLobby(context, ref);
-
-              // If the connection of the socket with the server is success,
-              // redirect the player to the online game's page
-              /*if (socketStatus == GameOnlineSocketProviderStatusEnum.success) {
-                if (context.mounted) {
-                  Navigator.of(context).pushNamed(GameOnlinePage.route);
-                } else {
-                  debugPrint(GlobalConstants.navigationWithContextNotMounted);
-                }
-              }*/
+              final String lobbyId = await GameOnlineFunctions.createLobby(context, ref);
 
             },
             child: AutoSizeText(

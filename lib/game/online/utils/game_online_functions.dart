@@ -2,9 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../global/dialogs/global_error_dialog.dart';
-import '../../../global/dialogs/global_loading_dialog.dart';
 import '../../../global/utils/global_functions.dart';
+import '../dialogs/game_online_error_dialog.dart';
+import '../dialogs/game_online_loading_dialog.dart';
 import '../pages/game_online_page.dart';
 import '../providers/game_online_socket_provider.dart';
 
@@ -39,10 +39,8 @@ class GameOnlineFunctions {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           showDialog(
             context: context,
-            builder: (BuildContext _) => const GlobalLoadingDialog(
-              title: "Loading",
-              description: "Connecting with servers...",
-            ),
+            barrierDismissible: false,
+            builder: (BuildContext _) => const GameOnlineLoadingDialog(),
           );
         });
         break;
@@ -50,12 +48,7 @@ class GameOnlineFunctions {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           showDialog(
             context: context,
-            builder: (BuildContext _) => const GlobalErrorDialog(
-              title: "Error",
-              content: Text(
-                "Error",
-              ),
-            ),
+            builder: (BuildContext _) => const GameOnlineErrorDialog(),
           );
         });
         break;
