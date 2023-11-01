@@ -73,4 +73,15 @@ class GameOnlineSocketNotifier extends StateNotifier<Map> {
     }
   }
 
+  @override
+  void dispose() {
+
+    final socket_io.Socket? socket = state["socket"];
+    if (socket != null) {
+      socket.dispose();
+    }
+
+    super.dispose();
+  }
+
 }
