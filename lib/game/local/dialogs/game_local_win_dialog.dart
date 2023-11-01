@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tapit/game/local/utils/game_local_text_styles.dart';
+import 'package:tapit/global/utils/global_functions.dart';
 import 'package:tapit/menu/pages/menu_page.dart';
 
 import '../utils/game_local_enums.dart';
@@ -77,7 +78,7 @@ class GameLocalWinDialog extends StatelessWidget {
                       onPressed: () {
 
                         // Redirect to the Menu page
-                        Navigator.of(context).pushReplacementNamed(MenuPage.route);
+                        GlobalFunctions.redirectAndClearRootTree(context, MenuPage.route);
 
                       },
                       child: Text(

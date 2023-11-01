@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:tapit/menu/pages/menu_page.dart';
 
 import '../../../global/dialogs/global_error_dialog.dart';
+import '../../../global/utils/global_functions.dart';
 
 class GameOnlineErrorDialog extends StatelessWidget {
 
@@ -29,6 +31,28 @@ class GameOnlineErrorDialog extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ),
+
+          const SizedBox(
+            height: 15,
+          ),
+
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              foregroundColor: Colors.black87,
+              backgroundColor: Colors.grey[300],
+              minimumSize: const Size(88, 36),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(2)),
+              ),
+            ),
+            onPressed: () {
+              GlobalFunctions.redirectAndClearRootTree(context, MenuPage.route);
+            },
+            child: const Text(
+              'Back to Menu',
+            ),
+          )
 
         ],
       ),

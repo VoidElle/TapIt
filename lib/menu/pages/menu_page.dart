@@ -6,6 +6,7 @@ import 'package:tapit/global/widgets/global_dynamic_spacer.dart';
 import 'package:tapit/menu/widgets/menu_title.dart';
 
 import '../../game/online/pages/game_online_menu_page.dart';
+import '../../global/utils/global_functions.dart';
 import '../../global/utils/global_text_styles.dart';
 import '../../global/widgets/global_animated_button.dart';
 
@@ -30,7 +31,7 @@ class MenuPage extends StatelessWidget {
 
           // Local game button
           GlobalAnimatedButton(
-            onTapUp: () => Navigator.of(context).pushReplacementNamed(GameLocalPage.route),
+            onTapUp: () => GlobalFunctions.redirectAndClearRootTree(context, GameLocalPage.route),
             child: AutoSizeText(
               "LOCAL",
               maxLines: 1,
@@ -43,7 +44,7 @@ class MenuPage extends StatelessWidget {
 
           // Online game button
           GlobalAnimatedButton(
-            onTapUp: () => Navigator.of(context).pushReplacementNamed(GameOnlineMenuPage.route),
+            onTapUp: () => GlobalFunctions.redirectAndClearRootTree(context, GameOnlineMenuPage.route),
             child: AutoSizeText(
               "ONLINE",
               maxLines: 1,
