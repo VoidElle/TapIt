@@ -9,6 +9,7 @@ import 'package:tapit/menu/pages/menu_page.dart';
 import '../../../global/utils/global_color_constants.dart';
 import '../../../global/utils/global_text_styles.dart';
 import '../../../global/widgets/global_animated_button.dart';
+import '../enums/socket_enums.dart';
 import '../providers/game_online_socket_provider.dart';
 import '../widgets/lobby/game_online_lobby_title.dart';
 

@@ -2,13 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:socket_io_client/socket_io_client.dart' as socket_io;
 
-enum GameOnlineSocketStatus {
-  toInit,
-  loading,
-  success,
-  error,
-  disconnected
-}
+import '../enums/socket_enums.dart';
 
 final gameOnlineSocketProvider = StateNotifierProvider.autoDispose<GameOnlineSocketNotifier, Map>(
       (ref) => GameOnlineSocketNotifier(),
