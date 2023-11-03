@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tapit/game/online/utils/game_online_functions.dart';
 
 class GameOnlineJoinDialog extends StatefulWidget {
 
@@ -35,9 +34,7 @@ class _GameOnlineJoinDialogState extends State<GameOnlineJoinDialog> {
               backgroundColor: Colors.red,
               elevation: 0,
             ),
-            onPressed: () {
-              GameOnlineFunctions.joinLobby(_lobbyId);
-            },
+            onPressed: () => Navigator.of(context).pop(_lobbyId),
             child: const Text(
               "Join",
             ),
@@ -47,5 +44,4 @@ class _GameOnlineJoinDialogState extends State<GameOnlineJoinDialog> {
       ),
     );
   }
-
 }

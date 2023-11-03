@@ -3,37 +3,14 @@ import 'package:flutter/material.dart';
 import '../../../../global/utils/global_color_constants.dart';
 import '../../utils/game_online_text_styles.dart';
 
-class CustomTriangleClipper extends CustomClipper<Path> {
-
-  @override
-  Path getClip(Size size) {
-
-    final path = Path();
-
-    path.lineTo(size.width, 0);
-    path.lineTo(size.width, size.height);
-    path.lineTo(0, 0);
-
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) {
-    return false;
-  }
-
-}
-
 class GameOnlineLobbyTitle extends StatelessWidget {
 
   final String text;
-  final double sectionSize;
   final EdgeInsets padding;
 
   const GameOnlineLobbyTitle({
     super.key,
-    this.text = "ONLINE",
-    this.sectionSize = 4,
+    this.text = "LOBBY",
     this.padding = const EdgeInsets.only(top: 50),
   });
 
@@ -48,31 +25,17 @@ class GameOnlineLobbyTitle extends StatelessWidget {
     return Stack(
       children: [
 
-        Row(
-          children: [
-
-            ClipPath(
-              clipper: CustomTriangleClipper(),
-              child: Container(
-                width: deviceWidth / 2,
-                height: deviceHeight / 4,
-                color: GlobalColorConstants.kYellowColor,
-              ),
+        Container(
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(100),
+              bottomRight: Radius.circular(100),
             ),
-
-            Transform.flip(
-              flipX: true,
-              child: ClipPath(
-                clipper: CustomTriangleClipper(),
-                child: Container(
-                  width: deviceWidth / 2,
-                  height: deviceHeight / 4,
-                  color: GlobalColorConstants.kYellowColor,
-                ),
-              ),
-            ),
-
-          ],
+            color: GlobalColorConstants.kYellowColor,
+            shape: BoxShape.rectangle,
+          ),
+          height: deviceHeight / 5,
+          width: deviceWidth,
         ),
 
         Center(
@@ -91,5 +54,4 @@ class GameOnlineLobbyTitle extends StatelessWidget {
       ],
     );
   }
-
 }

@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tapit/game/online/dialogs/game_online_join_dialog.dart';
+import 'package:tapit/game/online/pages/game_online_lobby_page.dart';
 import 'package:tapit/game/online/utils/game_online_functions.dart';
 import 'package:tapit/global/utils/global_functions.dart';
 import 'package:tapit/menu/pages/menu_page.dart';
@@ -11,7 +11,9 @@ import '../../../global/utils/global_text_styles.dart';
 import '../../../global/widgets/global_animated_button.dart';
 import '../enums/socket_enums.dart';
 import '../providers/game_online_socket_provider.dart';
-import '../widgets/lobby/game_online_lobby_title.dart';
+import '../widgets/menu/game_online_menu_title.dart';
+
+import 'package:socket_io_client/socket_io_client.dart' as socket_io;
 
 class GameOnlineMenuPage extends ConsumerStatefulWidget {
 
@@ -37,76 +39,114 @@ class _GameOnlineMenuPageState extends ConsumerState<GameOnlineMenuPage> {
     final double deviceHeight = MediaQuery.of(context).size.height;
 
     final Map socketProvider = ref.watch(gameOnlineSocketProvider);
-    final GameOnlineSocketStatus gameOnlineSocketStatus = socketProvider["status"];
 
+    final GameOnlineSocketStatus gameOnlineSocketStatus = socketProvider["status"];
     GameOnlineFunctions.manageSocketStatusFromMenu(gameOnlineSocketStatus, context);
 
     return Scaffold(
-      body: Column(
-        children: [
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
 
-          // The title section
-          const GameOnlineLobbyTitle(),
+            // The title section
+            const GameOnlineMenuTitle(),
 
-          SizedBox(
-            height: deviceHeight / 15,
-          ),
-
-          GlobalAnimatedButton(
-            onTapUp: () async {
-
-              // Invoke the function to create a lobby on the server
-              final String lobbyId = await GameOnlineFunctions.createLobby();
-
-            },
-            child: AutoSizeText(
-              "CREATE",
-              maxLines: 1,
-              style: GlobalTextStyles.buttonTextStyle(),
+            SizedBox(
+              height: deviceHeight / 15,
             ),
-          ),
 
-          SizedBox(
-            height: deviceHeight / 25,
-          ),
+            GlobalAnimatedButton(
+              onTapUp: () async {
 
-          GlobalAnimatedButton(
-            onTapUp: () {
+                final socket_io.Socket? socket = socketProvider["socket"];
 
-              // Show the dialog for getting the input of the lobby id
-              showDialog(
-                context: context,
-                builder: (BuildContext _) => const GameOnlineJoinDialog(),
-              );
+                if (socket != null) {
+                  socket.emit(GameOnlineSocketEvent.createLobby.text);
+                  socket.on(GameOnlineSocketEvent.createLobby.text, (dynamic data) {
+                    Navigator.of(context).pushReplacementNamed(
+                      GameOnlineLobbyPage.route,
+                      arguments: {
+                        "is_leader": true,
+                        "lobby_id": data.toString(),
+                      },
+                    );
+                  });
+                }
 
-            },
-            child: AutoSizeText(
-              "JOIN",
-              maxLines: 1,
-              style: GlobalTextStyles.buttonTextStyle(),
-            ),
-          ),
-
-          const SizedBox(
-            height: 50,
-          ),
-
-          GlobalAnimatedButton.circular(
-            child: const Padding(
-              padding: EdgeInsets.only(
-                bottom: 10,
-              ),
-              child: Icon(
-                Icons.home,
-                color: GlobalColorConstants.kBlackColor,
-                size: 40,
+              },
+              child: AutoSizeText(
+                "CREATE",
+                maxLines: 1,
+                style: GlobalTextStyles.buttonTextStyle(),
               ),
             ),
-            onTapUp: () => GlobalFunctions.redirectAndClearRootTree(context, MenuPage.route),
-          ),
 
-        ],
+            SizedBox(
+              height: deviceHeight / 25,
+            ),
+
+            GlobalAnimatedButton(
+              onTapUp: () async {
+
+                Navigator.of(context).pushReplacementNamed(
+                  GameOnlineLobbyPage.route,
+                  arguments: {
+                    "is_leader": false,
+                  },
+                );
+
+                // Show the dialog for getting the input of the lobby id
+                /*final String? lobbyId = await showDialog(
+                  context: context,
+                  builder: (BuildContext _) => const GameOnlineJoinDialog(),
+                );
+
+                if (lobbyId != null && lobbyId.isNotEmpty) {
+                  final socket_io.Socket? socket = socketProvider["socket"];
+                  if (socket != null) {
+                    socket.emit(GameOnlineSocketEvent.joinLobby.text, lobbyId);
+                    socket.on(GameOnlineSocketEvent.joinSuccess.text, (_) {
+                      Navigator.of(context).pushReplacementNamed(
+                        GameOnlinePage.route,
+                        arguments: {
+                          "lobby_id": lobbyId,
+                        },
+                      );
+                    });
+                  }
+                }*/
+
+              },
+              child: AutoSizeText(
+                "JOIN",
+                maxLines: 1,
+                style: GlobalTextStyles.buttonTextStyle(),
+              ),
+            ),
+
+            const SizedBox(
+              height: 50,
+            ),
+
+            GlobalAnimatedButton.circular(
+              child: const Padding(
+                padding: EdgeInsets.only(
+                  bottom: 10,
+                ),
+                child: Icon(
+                  Icons.home,
+                  color: GlobalColorConstants.kBlackColor,
+                  size: 40,
+                ),
+              ),
+              onTapUp: () => GlobalFunctions.redirectAndClearRootTree(context, MenuPage.route),
+            ),
+
+          ],
+        ),
       ),
     );
   }
+
 }
