@@ -1,12 +1,14 @@
 import 'dart:async';
 
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tapit/game/online/models/game_online_socket_model.dart';
+import 'package:tapit/game/online/providers/game_online_lobby_provider.dart';
 import 'package:tapit/global/utils/global_run_once.dart';
 import 'package:tapit/menu/pages/menu_page.dart';
 
+import '../../../../global/utils/global_color_constants.dart';
 import '../../enums/socket_enums.dart';
 import '../../providers/game_online_socket_provider.dart';
 import '../../utils/game_online_text_styles.dart';
@@ -28,31 +30,81 @@ class GameOnlineLobbyCreateSection extends ConsumerStatefulWidget {
 
 class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCreateSection> {
 
-  List<String> _sockets = [];
+  final GlobalRunOnce _globalRunOnce = GlobalRunOnce();
 
   Widget _buildSocketsList(String leaderSocket) {
+    final List<GameOnlineSocketModel> onlineLobbyProvider = ref.watch(gameOnlineLobbyProvider);
     return Column(
       children: [
 
-        for (String socket in _sockets)
+        for (GameOnlineSocketModel socket in onlineLobbyProvider)
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
 
               Text(
-                socket,
+                socket.socketId,
               ),
 
-              if (socket == leaderSocket)
+              if (socket.socketId == leaderSocket)
                 const Text(
                   " (You)"
-                )
+                ),
+
+              const SizedBox(
+                width: 5,
+              ),
+
+              _buildReadyStatusCircular(socket.readyStatus),
 
             ],
           ),
 
       ],
     );
+  }
+
+  Widget _buildReadyStatusCircular(bool readyStatus) {
+    return Container(
+      width: 20,
+      height: 20,
+      decoration: BoxDecoration(
+        color: readyStatus
+            ? GlobalColorConstants.kGreenColor
+            : GlobalColorConstants.kRedColor,
+        borderRadius: const BorderRadius.all(
+          Radius.circular(50),
+        ),
+      ),
+    );
+  }
+
+  @override
+  void initState() {
+
+    final onlineLobbyNotifier = ref.read(gameOnlineLobbyProvider.notifier);
+    final Map socketProvider = ref.read(gameOnlineSocketProvider);
+
+    final socket_io.Socket? socket = socketProvider["socket"];
+
+    if (socket != null) {
+
+      socket.on(GameOnlineSocketEvent.getSocketsInfo.text, (dynamic data) {
+        debugPrint("${GameOnlineSocketEvent.getSocketsInfo.text} event received, handling it...");
+        final List<String> socketsList = (data as List).map((item) => item as String).toList();
+        for (String socketId in socketsList) {
+          onlineLobbyNotifier.addSocket(socketId);
+        }
+      });
+
+      socket.on(GameOnlineSocketEvent.setReadyStatus.text, (dynamic data) {
+        debugPrint("${GameOnlineSocketEvent.setReadyStatus.text} event received, handling it...");
+        onlineLobbyNotifier.setReadyStatus(socket.id!);
+      });
+
+    }
+
+    super.initState();
   }
 
   @override
@@ -63,16 +115,8 @@ class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCr
 
     if (socket != null) {
 
-      GlobalRunOnce().call(() {
+      _globalRunOnce.call(() {
         socket.emit(GameOnlineSocketEvent.getSocketsInfo.text, widget.lobbyId);
-      });
-
-      socket.on(GameOnlineSocketEvent.getSocketsInfo.text, (dynamic data) {
-        final List<String> socketsList = (data as List).map((item) => item as String).toList();
-
-        if (!listEquals(socketsList, _sockets)) {
-          setState(() => _sockets = socketsList);
-        }
       });
 
       Timer.periodic(const Duration(seconds: 3), (_) {
@@ -103,6 +147,17 @@ class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCr
 
         if (socket != null)
           _buildSocketsList(socket.id!),
+
+        TextButton(
+          onPressed: () {
+            if (socket != null) {
+              socket.emit(GameOnlineSocketEvent.setReadyStatus.text, widget.lobbyId);
+            }
+          },
+          child: const Text(
+            "Change ready status",
+          ),
+        ),
 
         TextButton(
           onPressed: () => Navigator.of(context).pushReplacementNamed(MenuPage.route),

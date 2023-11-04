@@ -22,6 +22,25 @@ class _GameOnlineLobbyJoinSectionState extends ConsumerState<GameOnlineLobbyJoin
   String? _value;
 
   @override
+  void initState() {
+
+    final Map socketProvider = ref.read(gameOnlineSocketProvider);
+    final socket_io.Socket? socket = socketProvider["socket"];
+
+    if (socket != null) {
+      socket.on(GameOnlineSocketEvent.joinSuccess.text, (_) {
+        debugPrint("JOIN LOBBY SUCCESS");
+      });
+
+      socket.on(GameOnlineSocketEvent.joinFail.text, (_) {
+        debugPrint("JOIN LOBBY ERROR");
+      });
+    }
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
 
     final Map socketProvider = ref.watch(gameOnlineSocketProvider);
@@ -55,23 +74,10 @@ class _GameOnlineLobbyJoinSectionState extends ConsumerState<GameOnlineLobbyJoin
         TextButton(
           onPressed: () {
             if (_value != null) {
-
               final socket_io.Socket? socket = socketProvider["socket"];
-
               if (socket != null) {
-
                 socket.emit(GameOnlineSocketEvent.joinLobby.text, _value);
-
-                socket.on(GameOnlineSocketEvent.joinSuccess.text, (_) {
-                  debugPrint("JOIN LOBBY SUCCESS");
-                });
-
-                socket.on(GameOnlineSocketEvent.joinFail.text, (_) {
-                  debugPrint("JOIN LOBBY ERROR");
-                });
-
               }
-
             }
           },
           child: const Text(
