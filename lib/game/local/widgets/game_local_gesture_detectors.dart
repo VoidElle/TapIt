@@ -13,10 +13,10 @@ class GameLocalGestureDetectors extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
 
-    final gameStatus = ref.watch(gameLocalGameStatusNotifierProvider);
+    final gameStatus = ref.watch(gameLocalGameStatusProvider);
 
-    final gameLocalPlayerData = ref.watch(gameLocalPlayerDataNotifierProvider);
-    final gameLocalPlayerDataNotifier = ref.read(gameLocalPlayerDataNotifierProvider.notifier);
+    final gameLocalPlayerData = ref.watch(gameLocalPlayerDataProvider);
+    final gameLocalPlayerDataNotifier = ref.read(gameLocalPlayerDataProvider.notifier);
 
     final bool gameStarted = gameStatus["game_started"];
 

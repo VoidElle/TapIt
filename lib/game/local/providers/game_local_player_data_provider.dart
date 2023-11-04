@@ -5,7 +5,7 @@ import 'package:tapit/global/utils/global_color_constants.dart';
 
 import 'game_local_game_status_provider.dart';
 
-final gameLocalPlayerDataNotifierProvider = StateNotifierProvider.autoDispose<GameLocalPlayerDataNotifier, List<GameLocalPlayerModel>>(
+final gameLocalPlayerDataProvider = StateNotifierProvider.autoDispose<GameLocalPlayerDataNotifier, List<GameLocalPlayerModel>>(
     (ref) => GameLocalPlayerDataNotifier(),
 );
 
@@ -16,23 +16,29 @@ class GameLocalPlayerDataNotifier extends StateNotifier<List<GameLocalPlayerMode
 
   // Initial state of the provider
   static final List<GameLocalPlayerModel> _initialState = [
-    GameLocalPlayerModel(colorValue: GlobalColorConstants.kRedColor.value),
-    GameLocalPlayerModel(colorValue: GlobalColorConstants.kBlueColor.value)
+
+    GameLocalPlayerModel(
+      colorValue: GlobalColorConstants.kRedColor.value,
+    ),
+
+    GameLocalPlayerModel(
+      colorValue: GlobalColorConstants.kBlueColor.value,
+    ),
+
   ];
 
-  GameLocalPlayerDataNotifier() : super(_initialState);
+  GameLocalPlayerDataNotifier() : super([ ..._initialState ]);
 
   // Function to reset the provider
   void reset() {
 
-    // Creation of a new list, cannot use the initial state because of
-    // cannot create a deep copy, only shallow
-    final List<GameLocalPlayerModel> newState = [
-      GameLocalPlayerModel(colorValue: GlobalColorConstants.kRedColor.value),
-      GameLocalPlayerModel(colorValue: GlobalColorConstants.kBlueColor.value),
-    ];
+    // Needs to reset the state inside the initial state,
+    // cannot do a deep copy in flutter
+    for (GameLocalPlayerModel gameLocalPlayerModel in _initialState) {
+      gameLocalPlayerModel.resetState();
+    }
 
-    state = [ ...newState ];
+    state = [ ..._initialState ];
   }
 
   // Function to make a player score
@@ -91,7 +97,7 @@ class GameLocalPlayerDataNotifier extends StateNotifier<List<GameLocalPlayerMode
     // Check ready status of both players,
     // if they're both ready. start the game
     if (topPlayerReadyStatus && bottomPlayerReadyStatus) {
-      ref.read(gameLocalGameStatusNotifierProvider.notifier).startGame();
+      ref.read(gameLocalGameStatusProvider.notifier).startGame();
     }
 
     // Update the state of the provider to the new one

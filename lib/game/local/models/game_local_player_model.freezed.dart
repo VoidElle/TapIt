@@ -122,11 +122,12 @@ class __$$_GameLocalPlayerModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_GameLocalPlayerModel implements _GameLocalPlayerModel {
+class _$_GameLocalPlayerModel extends _GameLocalPlayerModel {
   _$_GameLocalPlayerModel(
       {required this.colorValue,
       this.percentageValue = 50,
-      this.readyStatus = false});
+      this.readyStatus = false})
+      : super._();
 
   factory _$_GameLocalPlayerModel.fromJson(Map<String, dynamic> json) =>
       _$$_GameLocalPlayerModelFromJson(json);
@@ -160,11 +161,12 @@ class _$_GameLocalPlayerModel implements _GameLocalPlayerModel {
   }
 }
 
-abstract class _GameLocalPlayerModel implements GameLocalPlayerModel {
+abstract class _GameLocalPlayerModel extends GameLocalPlayerModel {
   factory _GameLocalPlayerModel(
       {required int colorValue,
       int percentageValue,
       bool readyStatus}) = _$_GameLocalPlayerModel;
+  _GameLocalPlayerModel._() : super._();
 
   factory _GameLocalPlayerModel.fromJson(Map<String, dynamic> json) =
       _$_GameLocalPlayerModel.fromJson;

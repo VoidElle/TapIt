@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final gameLocalGameStatusNotifierProvider = StateNotifierProvider.autoDispose<GameLocalGameStatusNotifier, Map>(
+final gameLocalGameStatusProvider = StateNotifierProvider.autoDispose<GameLocalGameStatusNotifier, Map>(
     (ref) => GameLocalGameStatusNotifier(),
 );
 
@@ -11,7 +11,7 @@ class GameLocalGameStatusNotifier extends StateNotifier<Map> {
     "game_started": false,
   };
 
-  GameLocalGameStatusNotifier(): super(_initialState);
+  GameLocalGameStatusNotifier(): super({ ..._initialState });
 
   // Function to start the game
   void startGame() {

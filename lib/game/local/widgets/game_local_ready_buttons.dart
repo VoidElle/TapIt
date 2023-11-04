@@ -16,8 +16,8 @@ class GameLocalReadyButtons extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
 
-    final gameLocalPlayerData = ref.watch(gameLocalPlayerDataNotifierProvider);
-    final gameLocalPlayerDataNotifier = ref.read(gameLocalPlayerDataNotifierProvider.notifier);
+    final gameLocalPlayerData = ref.watch(gameLocalPlayerDataProvider);
+    final gameLocalPlayerDataNotifier = ref.read(gameLocalPlayerDataProvider.notifier);
 
     final GameLocalPlayerModel topPlayer = gameLocalPlayerData[0];
     final GameLocalPlayerModel bottomPlayer = gameLocalPlayerData[1];

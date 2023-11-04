@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tapit/game/local/utils/game_local_text_styles.dart';
 import 'package:tapit/global/utils/global_functions.dart';
 import 'package:tapit/menu/pages/menu_page.dart';
 
 import '../utils/game_local_enums.dart';
+import '../utils/game_local_functions.dart';
 
-class GameLocalWinDialog extends StatelessWidget {
+class GameLocalWinDialog extends ConsumerWidget {
 
   final GameLocalPlayerEnum gameLocalPlayerEnum;
   final Color winnerColor;
@@ -17,7 +19,7 @@ class GameLocalWinDialog extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
@@ -77,8 +79,11 @@ class GameLocalWinDialog extends StatelessWidget {
                     TextButton(
                       onPressed: () {
 
+                        // Reset the providers of the match
+                        GameLocalFunctions.resetProviders(ref);
+
                         // Redirect to the Menu page
-                        GlobalFunctions.redirectAndClearRootTree(context, MenuPage.route);
+                        GlobalFunctions.redirect(context, MenuPage.route);
 
                       },
                       child: Text(
@@ -92,6 +97,9 @@ class GameLocalWinDialog extends StatelessWidget {
 
                         // Pop the dialog
                         Navigator.of(context).pop();
+
+                        // Reset the providers of the match
+                        GameLocalFunctions.resetProviders(ref);
 
                       },
                       child: Text(

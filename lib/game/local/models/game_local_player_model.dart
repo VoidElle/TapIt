@@ -6,6 +6,8 @@ part 'game_local_player_model.g.dart';
 @unfreezed
 class GameLocalPlayerModel with _$GameLocalPlayerModel {
 
+  GameLocalPlayerModel._();
+
   factory GameLocalPlayerModel({
     required int colorValue,
     @Default(50) int percentageValue,
@@ -13,5 +15,10 @@ class GameLocalPlayerModel with _$GameLocalPlayerModel {
   }) = _GameLocalPlayerModel;
 
   factory GameLocalPlayerModel.fromJson(Map<String, Object?> json) => _$GameLocalPlayerModelFromJson(json);
+
+  void resetState() {
+    percentageValue = 50;
+    readyStatus = false;
+  }
 
 }

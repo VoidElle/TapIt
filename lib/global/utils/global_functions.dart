@@ -48,6 +48,11 @@ class GlobalFunctions {
     return MaterialPageRoute(builder: (_) => returnScreen);
   }
 
+  // Function to redirect to a route
+  static void redirect(BuildContext context, String route, {Map? arguments}) {
+    Navigator.of(context).pushReplacementNamed(route, arguments: arguments);
+  }
+
   // Function to redirect to a route and remove all the pages below
   static void redirectAndClearRootTree(BuildContext context, String route, {Map? arguments}) {
     Navigator.of(context).pushNamedAndRemoveUntil(route, (Route<dynamic> route) => false, arguments: arguments);

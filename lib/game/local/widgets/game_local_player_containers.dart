@@ -16,7 +16,7 @@ class GameLocalPlayersContainers extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
 
-    final gameLocalPlayerData = ref.watch(gameLocalPlayerDataNotifierProvider);
+    final gameLocalPlayerData = ref.watch(gameLocalPlayerDataProvider);
 
     final GameLocalPlayerModel topPlayer = gameLocalPlayerData[0];
     final GameLocalPlayerModel bottomPlayer = gameLocalPlayerData[1];
