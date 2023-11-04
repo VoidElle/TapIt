@@ -47,7 +47,7 @@ class _GameOnlineMenuPageState extends ConsumerState<GameOnlineMenuPage> {
         context,
         GameOnlineLobbyPage.route,
         arguments: {
-          "is_leader": true,
+          "is_joined": true,
           "lobby_id": data.toString(),
         },
       );
@@ -109,7 +109,7 @@ class _GameOnlineMenuPageState extends ConsumerState<GameOnlineMenuPage> {
                   context,
                   GameOnlineLobbyPage.route,
                   arguments: {
-                    "is_leader": false,
+                    "is_joined": false,
                   },
                 );
 

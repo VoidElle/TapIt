@@ -12,10 +12,10 @@ import 'package:socket_io_client/socket_io_client.dart' as socket_io;
 
 class GameOnlineLobbyJoinSection extends ConsumerStatefulWidget {
 
-  final Function(String lobbyId) changeLeaderFunction;
+  final Function(String lobbyId) changeJoinedStatus;
 
   const GameOnlineLobbyJoinSection({
-    required this.changeLeaderFunction,
+    required this.changeJoinedStatus,
     super.key,
   });
 
@@ -43,7 +43,7 @@ class _GameOnlineLobbyJoinSectionState extends ConsumerState<GameOnlineLobbyJoin
 
       // Invoke the function on the widget's father to change
       // the visualization from the joining to the lobby
-      widget.changeLeaderFunction(_value!);
+      widget.changeJoinedStatus(_value!);
 
     });
 

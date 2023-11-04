@@ -8,11 +8,11 @@ class GameOnlineLobbyPage extends StatefulWidget {
 
   static const String route = "/game-online-lobby-page";
 
-  final bool isLeader;
+  final bool isJoined;
   final String? lobbyId;
 
   const GameOnlineLobbyPage({
-    required this.isLeader,
+    required this.isJoined,
     required this.lobbyId,
     super.key,
   });
@@ -23,21 +23,20 @@ class GameOnlineLobbyPage extends StatefulWidget {
 
 class _GameOnlineLobbyPageState extends State<GameOnlineLobbyPage> {
 
-  late bool _isLeader;
+  late bool _isJoined;
   late String _lobbyId;
 
   @override
   void initState() {
     super.initState();
-    _isLeader = widget.isLeader;
+    _isJoined = widget.isJoined;
     _lobbyId = widget.lobbyId ?? "";
   }
 
-  // Function to show the same widgets of the leader
-  // to the player that joined a room
-  void _changeLeaderFunction(String lobbyId) {
+  // Function to change the status of joining inside the lobby state
+  void _changeJoinedStatus(String lobbyId) {
     setState(() {
-      _isLeader = true;
+      _isJoined = true;
       _lobbyId = lobbyId;
     });
   }
@@ -60,13 +59,12 @@ class _GameOnlineLobbyPageState extends State<GameOnlineLobbyPage> {
               height: deviceHeight / 25,
             ),
 
-            // Todo: Find a new way to dynamically render the different widget
-            _isLeader
+            _isJoined
                 ? GameOnlineLobbyCreateSection(
                     lobbyId: _lobbyId,
                   )
                 : GameOnlineLobbyJoinSection(
-                    changeLeaderFunction: _changeLeaderFunction,
+                    changeJoinedStatus: _changeJoinedStatus,
                   ),
           ],
         ),

@@ -34,11 +34,11 @@ class GlobalFunctions {
         break;
       case GameOnlineLobbyPage.route:
 
-        final bool isLeader = arguments!["is_leader"] ?? false;
+        final bool isJoined = arguments!["is_joined"] ?? false;
         final String? lobbyId = arguments["lobby_id"];
 
         returnScreen = GameOnlineLobbyPage(
-          isLeader: isLeader,
+          isJoined: isJoined,
           lobbyId: lobbyId,
         );
 
