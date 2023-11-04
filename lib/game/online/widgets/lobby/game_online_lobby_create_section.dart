@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tapit/game/online/models/game_online_socket_model.dart';
@@ -30,6 +31,7 @@ class GameOnlineLobbyCreateSection extends ConsumerStatefulWidget {
 
 class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCreateSection> {
 
+  Timer? _timer;
   final GlobalRunOnce _globalRunOnce = GlobalRunOnce();
 
   Widget _buildSocketsList(String leaderSocket) {
@@ -83,27 +85,34 @@ class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCr
   void initState() {
 
     final onlineLobbyNotifier = ref.read(gameOnlineLobbyProvider.notifier);
+    final List<GameOnlineSocketModel> onlineLobbyState = ref.read(gameOnlineLobbyProvider);
+
     final Map socketProvider = ref.read(gameOnlineSocketProvider);
 
     final socket_io.Socket? socket = socketProvider["socket"];
 
-    if (socket != null) {
+    socket?.on(GameOnlineSocketEvent.getSocketsInfo.text, (dynamic data) {
 
-      socket.on(GameOnlineSocketEvent.getSocketsInfo.text, (dynamic data) {
-        debugPrint("${GameOnlineSocketEvent.getSocketsInfo.text} event received, handling it...");
-        final List<String> socketsList = (data as List).map((item) => item as String).toList();
-        for (String socketId in socketsList) {
-          onlineLobbyNotifier.addSocket(socketId);
-        }
-      });
+      debugPrint("${GameOnlineSocketEvent.getSocketsInfo.text} event received, handling it...");
 
-      socket.on(GameOnlineSocketEvent.setReadyStatus.text, (dynamic data) {
-        final String socketIdToChangeReadyStatus = data as String;
-        debugPrint("${GameOnlineSocketEvent.setReadyStatus.text} event received, handling it...");
-        onlineLobbyNotifier.setReadyStatus(socketIdToChangeReadyStatus);
-      });
+      final List<String> connectedSocketIds = (data as List).map((item) => item as String).toList();
+      final List<String> socketsIdsInState = onlineLobbyState.map((item) => item as String).toList();
 
-    }
+      if (!listEquals(connectedSocketIds, socketsIdsInState)) {
+        onlineLobbyNotifier.setSocketsList(connectedSocketIds);
+      }
+
+    });
+
+    socket?.on(GameOnlineSocketEvent.setReadyStatus.text, (dynamic data) {
+      final String socketIdToChangeReadyStatus = data as String;
+      debugPrint("${GameOnlineSocketEvent.setReadyStatus.text} event received, handling it...");
+      onlineLobbyNotifier.setReadyStatus(socketIdToChangeReadyStatus);
+    });
+
+    _timer = Timer.periodic(const Duration(seconds: 3), (_) {
+      socket?.emit(GameOnlineSocketEvent.getSocketsInfo.text, widget.lobbyId);
+    });
 
     super.initState();
   }
@@ -114,17 +123,9 @@ class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCr
     final Map socketProvider = ref.watch(gameOnlineSocketProvider);
     final socket_io.Socket? socket = socketProvider["socket"];
 
-    if (socket != null) {
-
-      _globalRunOnce.call(() {
-        socket.emit(GameOnlineSocketEvent.getSocketsInfo.text, widget.lobbyId);
-      });
-
-      Timer.periodic(const Duration(seconds: 3), (_) {
-        socket.emit(GameOnlineSocketEvent.getSocketsInfo.text, widget.lobbyId);
-      });
-
-    }
+    _globalRunOnce.call(() {
+      socket?.emit(GameOnlineSocketEvent.getSocketsInfo.text, widget.lobbyId);
+    });
 
     return Column(
       children: [
@@ -134,7 +135,7 @@ class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCr
             horizontal: 25,
           ),
           child: AutoSizeText(
-            "Hello, share with your friend the code below to join this lobby",
+            "Share with your friend the code below to join this lobby",
             textAlign: TextAlign.center,
             maxLines: 2,
             style: GameOnlineTextStyles.lobbyInstructionTextStyle(),
@@ -151,9 +152,7 @@ class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCr
 
         TextButton(
           onPressed: () {
-            if (socket != null) {
-              socket.emit(GameOnlineSocketEvent.setReadyStatus.text, widget.lobbyId);
-            }
+            socket?.emit(GameOnlineSocketEvent.setReadyStatus.text, widget.lobbyId);
           },
           child: const Text(
             "Change ready status",
@@ -170,4 +169,11 @@ class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCr
       ],
     );
   }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
 }

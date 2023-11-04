@@ -11,19 +11,44 @@ class GameOnlineLobbyProvider extends StateNotifier<List<GameOnlineSocketModel>>
 
   GameOnlineLobbyProvider(): super(_initialState);
 
-  void addSocket(String socketId) {
+  bool _doesStateContainsSocketId(String socketId) {
+    for (GameOnlineSocketModel gameOnlineSocketModel in state) {
+      if (gameOnlineSocketModel.socketId == socketId) {
+        return true;
+      }
+    }
+    return false;
+  }
 
-    final GameOnlineSocketModel gameOnlineSocketModel = GameOnlineSocketModel(
-      socketId: socketId,
-    );
+  int _getPositionOfSocketIdInState(String socketId) {
+    int i = 0;
+    for (GameOnlineSocketModel gameOnlineSocketModel in state) {
+      if (gameOnlineSocketModel.socketId == socketId) {
+        return i;
+      }
+      i++;
+    }
+    return -1;
+  }
 
-    if (!state.contains(gameOnlineSocketModel)) {
-      state = [
-        ...state,
-        gameOnlineSocketModel,
-      ];
+  void setSocketsList(List<String> socketsIdsList) {
+
+    final List<GameOnlineSocketModel> newState = [];
+
+    for (String socketId in socketsIdsList) {
+      if (_doesStateContainsSocketId(socketId)) {
+        final int positionOfSocketInState = _getPositionOfSocketIdInState(socketId);
+        newState.add(GameOnlineSocketModel.fromJson(state[positionOfSocketInState].toJson()));
+      } else {
+        newState.add(
+          GameOnlineSocketModel(
+            socketId: socketId,
+          ),
+        );
+      }
     }
 
+    state = [...newState];
   }
 
   void setReadyStatus(String socketId) {
@@ -38,14 +63,6 @@ class GameOnlineLobbyProvider extends StateNotifier<List<GameOnlineSocketModel>>
     }
 
     state = [...newState];
-  }
-
-  void removeSocket(GameOnlineSocketModel gameOnlineSocketModel) {
-    if (state.contains(gameOnlineSocketModel)) {
-      final List<GameOnlineSocketModel> newState = [...state];
-      newState.remove(gameOnlineSocketModel);
-      state = [...newState];
-    }
   }
 
 }
