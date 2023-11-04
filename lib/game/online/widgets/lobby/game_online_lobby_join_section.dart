@@ -25,24 +25,35 @@ class GameOnlineLobbyJoinSection extends ConsumerStatefulWidget {
 
 class _GameOnlineLobbyJoinSectionState extends ConsumerState<GameOnlineLobbyJoinSection> {
 
+  // Id of the lobby we want to join
   String? _value;
 
   @override
   void initState() {
 
+    // Getting the socket from the provider
     final Map socketProvider = ref.read(gameOnlineSocketProvider);
     final socket_io.Socket? socket = socketProvider["socket"];
 
-    if (socket != null) {
-      socket.on(GameOnlineSocketEvent.joinSuccess.text, (_) {
-        debugPrint("JOIN LOBBY SUCCESS");
-        widget.changeLeaderFunction(_value!);
-      });
+    // Listening to the join success event from the server
+    socket?.on(GameOnlineSocketEvent.joinSuccess.text, (_) {
 
-      socket.on(GameOnlineSocketEvent.joinFail.text, (_) {
-        debugPrint("JOIN LOBBY ERROR");
-      });
-    }
+      // Log the event
+      debugPrint("JOIN LOBBY SUCCESS");
+
+      // Invoke the function on the widget's father to change
+      // the visualization from the joining to the lobby
+      widget.changeLeaderFunction(_value!);
+
+    });
+
+    // Listening to the join fail event from the server
+    socket?.on(GameOnlineSocketEvent.joinFail.text, (_) {
+
+      // Log the event
+      debugPrint("JOIN LOBBY ERROR");
+
+    });
 
     super.initState();
   }
@@ -50,11 +61,14 @@ class _GameOnlineLobbyJoinSectionState extends ConsumerState<GameOnlineLobbyJoin
   @override
   Widget build(BuildContext context) {
 
+    // Getting the socket from the provider
     final Map socketProvider = ref.watch(gameOnlineSocketProvider);
+    final socket_io.Socket? socket = socketProvider["socket"];
 
     return Column(
       children: [
 
+        // Text
         Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 25,
@@ -67,6 +81,7 @@ class _GameOnlineLobbyJoinSectionState extends ConsumerState<GameOnlineLobbyJoin
           ),
         ),
 
+        // Form field for input of the lobby id to join
         Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 50,
@@ -81,10 +96,11 @@ class _GameOnlineLobbyJoinSectionState extends ConsumerState<GameOnlineLobbyJoin
         TextButton(
           onPressed: () {
             if (_value != null) {
-              final socket_io.Socket? socket = socketProvider["socket"];
-              if (socket != null) {
-                socket.emit(GameOnlineSocketEvent.joinLobby.text, _value);
-              }
+
+              // If the value is not null, send the event JoinLobby
+              // to the server with the lobby id
+              socket?.emit(GameOnlineSocketEvent.joinLobby.text, _value);
+
             }
           },
           child: const Text(
@@ -94,10 +110,13 @@ class _GameOnlineLobbyJoinSectionState extends ConsumerState<GameOnlineLobbyJoin
 
         TextButton(
           onPressed: () {
+
+            // Redirect the player to the HomePage
             GlobalFunctions.redirectAndClearRootTree(
               context,
               MenuPage.route,
             );
+
           },
           child: const Text(
             "Go back to HomePage",

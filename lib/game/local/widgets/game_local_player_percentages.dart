@@ -27,6 +27,7 @@ class GameLocalPlayersPercentages extends ConsumerWidget {
         child: Column(
           children: [
 
+            // Top player's value percentage
             Expanded(
               child: Align(
                 alignment: Alignment.topRight,
@@ -40,6 +41,7 @@ class GameLocalPlayersPercentages extends ConsumerWidget {
               ),
             ),
 
+            // Bottom player's value percentage
             Expanded(
               child: Align(
                 alignment: Alignment.bottomLeft,

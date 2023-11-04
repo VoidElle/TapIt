@@ -6,12 +6,14 @@ final gameLocalGameStatusNotifierProvider = StateNotifierProvider.autoDispose<Ga
 
 class GameLocalGameStatusNotifier extends StateNotifier<Map> {
 
+  // Initial state of the provider
   static final Map _initialState = {
     "game_started": false,
   };
 
   GameLocalGameStatusNotifier(): super(_initialState);
 
+  // Function to start the game
   void startGame() {
 
     final newState = {
@@ -22,6 +24,7 @@ class GameLocalGameStatusNotifier extends StateNotifier<Map> {
     state = newState;
   }
 
+  // Function to reset the provider's state
   void reset() {
     state = { ..._initialState };
   }

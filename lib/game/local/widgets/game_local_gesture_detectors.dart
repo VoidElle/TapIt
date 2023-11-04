@@ -23,12 +23,17 @@ class GameLocalGestureDetectors extends ConsumerWidget {
     return Column(
       children: [
 
+        // Top tap detector
         Expanded(
           child: GestureDetector(
             onTapUp: (TapUpDetails _) {
               debugPrint("Top tap $gameStatus");
               if (gameStarted) {
+
+                // Score TOP player and store if it has won
                 final bool playerWon = gameLocalPlayerDataNotifier.score(GameLocalPlayerEnum.top);
+
+                // If the TOP player has won, show the win dialog
                 if (playerWon) {
                   showDialog(
                     context: context,
@@ -39,17 +44,23 @@ class GameLocalGestureDetectors extends ConsumerWidget {
                     ),
                   );
                 }
+
               }
             },
           ),
         ),
 
+        // Bottom tap detector
         Expanded(
           child: GestureDetector(
             onTapUp: (TapUpDetails _) {
               debugPrint("Bottom tap $gameStatus");
               if (gameStarted) {
+
+                // Score BOTTOM player and store if it has won
                 final bool playerWon = gameLocalPlayerDataNotifier.score(GameLocalPlayerEnum.bottom);
+
+                // If the BOTTOM player has won, show the win dialog
                 if (playerWon) {
                   showDialog(
                     context: context,
@@ -60,6 +71,7 @@ class GameLocalGestureDetectors extends ConsumerWidget {
                     ),
                   );
                 }
+
               }
             },
           ),

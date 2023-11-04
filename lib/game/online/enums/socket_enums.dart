@@ -1,3 +1,5 @@
+
+// Enum for managing the state of the Socket
 enum GameOnlineSocketStatus {
   toInit,
   loading,
@@ -6,6 +8,7 @@ enum GameOnlineSocketStatus {
   disconnected
 }
 
+// Enum for managing the events with the server
 enum GameOnlineSocketEvent {
   connection,
   disconnect,
@@ -18,6 +21,7 @@ enum GameOnlineSocketEvent {
   setReadyStatus,
 }
 
+// Extension to transform the enum to String using .text
 extension GameOnlineSocketEventExtension on GameOnlineSocketEvent {
 
   String get text {

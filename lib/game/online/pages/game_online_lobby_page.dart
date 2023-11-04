@@ -33,6 +33,8 @@ class _GameOnlineLobbyPageState extends State<GameOnlineLobbyPage> {
     _lobbyId = widget.lobbyId ?? "";
   }
 
+  // Function to show the same widgets of the leader
+  // to the player that joined a room
   void _changeLeaderFunction(String lobbyId) {
     setState(() {
       _isLeader = true;
@@ -58,6 +60,7 @@ class _GameOnlineLobbyPageState extends State<GameOnlineLobbyPage> {
               height: deviceHeight / 25,
             ),
 
+            // Todo: Find a new way to dynamically render the different widget
             _isLeader
                 ? GameOnlineLobbyCreateSection(
                     lobbyId: _lobbyId,

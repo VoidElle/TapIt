@@ -24,12 +24,14 @@ class GameLocalPlayersContainers extends ConsumerWidget {
     return Column(
       children: [
 
+        // Top player's container
         AnimatedContainer(
           duration: animationDuration,
           height: _getValueFromPercentage(context, topPlayer.percentageValue),
           color: Color(topPlayer.colorValue),
         ),
 
+        // Bottom player's container
         AnimatedContainer(
           duration: animationDuration,
           height: _getValueFromPercentage(context, bottomPlayer.percentageValue),

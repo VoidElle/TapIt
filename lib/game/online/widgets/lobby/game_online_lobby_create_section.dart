@@ -10,12 +10,13 @@ import 'package:tapit/global/utils/global_functions.dart';
 import 'package:tapit/global/utils/global_run_once.dart';
 import 'package:tapit/menu/pages/menu_page.dart';
 
-import '../../../../global/utils/global_color_constants.dart';
 import '../../enums/socket_enums.dart';
 import '../../providers/game_online_socket_provider.dart';
 import '../../utils/game_online_text_styles.dart';
 
 import 'package:socket_io_client/socket_io_client.dart' as socket_io;
+
+import 'game_online_lobby_sockets_list.dart';
 
 class GameOnlineLobbyCreateSection extends ConsumerStatefulWidget {
 
@@ -32,87 +33,63 @@ class GameOnlineLobbyCreateSection extends ConsumerStatefulWidget {
 
 class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCreateSection> {
 
+  // Declaration of timer to execute periodically the getSocketsInfo's event
   Timer? _timer;
+
+  // Initialization of utils class to execute a function only once
   final GlobalRunOnce _globalRunOnce = GlobalRunOnce();
-
-  Widget _buildSocketsList(String leaderSocket) {
-    final List<GameOnlineSocketModel> onlineLobbyProvider = ref.watch(gameOnlineLobbyProvider);
-    return Column(
-      children: [
-
-        for (GameOnlineSocketModel socket in onlineLobbyProvider)
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-
-              Text(
-                socket.socketId,
-              ),
-
-              if (socket.socketId == leaderSocket)
-                const Text(
-                  " (You)"
-                ),
-
-              const SizedBox(
-                width: 5,
-              ),
-
-              _buildReadyStatusCircular(socket.readyStatus),
-
-            ],
-          ),
-
-      ],
-    );
-  }
-
-  Widget _buildReadyStatusCircular(bool readyStatus) {
-    return Container(
-      width: 20,
-      height: 20,
-      decoration: BoxDecoration(
-        color: readyStatus
-            ? GlobalColorConstants.kGreenColor
-            : GlobalColorConstants.kRedColor,
-        borderRadius: const BorderRadius.all(
-          Radius.circular(50),
-        ),
-      ),
-    );
-  }
 
   @override
   void initState() {
 
+    // Getting the gameOnlineLobby state and notifier
     final onlineLobbyNotifier = ref.read(gameOnlineLobbyProvider.notifier);
     final List<GameOnlineSocketModel> onlineLobbyState = ref.read(gameOnlineLobbyProvider);
 
+    // Getting the socket from the provider
     final Map socketProvider = ref.read(gameOnlineSocketProvider);
-
     final socket_io.Socket? socket = socketProvider["socket"];
 
+    // Listening the getSocketsInfo's event from the server
     socket?.on(GameOnlineSocketEvent.getSocketsInfo.text, (dynamic data) {
 
+      // Logging the event
       debugPrint("${GameOnlineSocketEvent.getSocketsInfo.text} event received, handling it...");
 
+      // Getting the list of sockets' ids from the current state and from the server's data
       final List<String> connectedSocketIds = (data as List).map((item) => item as String).toList();
       final List<String> socketsIdsInState = onlineLobbyState.map((item) => item as String).toList();
 
+      // Check if the lists of the sockets list have differences
       if (!listEquals(connectedSocketIds, socketsIdsInState)) {
+
+        // If so, set the list that we got from the server as current state
         onlineLobbyNotifier.setSocketsList(connectedSocketIds);
+
       }
 
     });
 
+    // Listening the setReadyStatus's event from the server
     socket?.on(GameOnlineSocketEvent.setReadyStatus.text, (dynamic data) {
-      final String socketIdToChangeReadyStatus = data as String;
+
+      // Logging the event
       debugPrint("${GameOnlineSocketEvent.setReadyStatus.text} event received, handling it...");
+
+      // Get the socket id from the server that have changed the ready status
+      final String socketIdToChangeReadyStatus = data as String;
+
+      // Change the ready status of the socket's that the server gave us
       onlineLobbyNotifier.setReadyStatus(socketIdToChangeReadyStatus);
+
     });
 
+    // Declaration of the timer, execute the internal functions every 3 seconds
     _timer = Timer.periodic(const Duration(seconds: 3), (_) {
+
+      // Emit the getSocketsInfo's event to the server with the lobbyId
       socket?.emit(GameOnlineSocketEvent.getSocketsInfo.text, widget.lobbyId);
+
     });
 
     super.initState();
@@ -121,16 +98,23 @@ class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCr
   @override
   Widget build(BuildContext context) {
 
+    // Getting the socket from the provider
     final Map socketProvider = ref.watch(gameOnlineSocketProvider);
     final socket_io.Socket? socket = socketProvider["socket"];
 
+    // Use the GlobalRunOnce utils class to run the anonymous function only once
     _globalRunOnce.call(() {
+
+      // Emit the initial getSocketsInfo's event before the timer start, so the player
+      // doesn't see a 3 seconds long clear list of the sockets connected to the lobby
       socket?.emit(GameOnlineSocketEvent.getSocketsInfo.text, widget.lobbyId);
+
     });
 
     return Column(
       children: [
 
+        // Top text
         Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 25,
@@ -143,29 +127,41 @@ class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCr
           ),
         ),
 
+        // Lobby id text
         Text(
           widget.lobbyId,
           style: GameOnlineTextStyles.lobbyCodeTextStyle(),
         ),
 
+        // Show the connected sockets' ids list
         if (socket != null)
-          _buildSocketsList(socket.id!),
+          GameOnlineLobbySocketsList(
+            leaderSocket: socket.id!,
+          ),
 
+        // Button to change the status of the socket
         TextButton(
           onPressed: () {
+
+            // Emit the setReadyStatus' event to the server with the lobby id
             socket?.emit(GameOnlineSocketEvent.setReadyStatus.text, widget.lobbyId);
+
           },
           child: const Text(
             "Change ready status",
           ),
         ),
 
+        // Button to go back to the HomePage
         TextButton(
           onPressed: () {
+
+            // Redirect the player to the Home page
             GlobalFunctions.redirectAndClearRootTree(
               context,
               MenuPage.route,
             );
+
           },
           child: const Text(
             "Go back to HomePage",
@@ -178,7 +174,10 @@ class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCr
 
   @override
   void dispose() {
+
+    // Cancel the timer on the widget's dispose
     _timer?.cancel();
+
     super.dispose();
   }
 

@@ -17,14 +17,15 @@ class GameOnlineLobbyTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    // Getting the device's sizes
     final Size deviceSizes = MediaQuery.of(context).size;
-
     final double deviceHeight = deviceSizes.height;
     final double deviceWidth = deviceSizes.width;
 
     return Stack(
       children: [
 
+        // Background
         Container(
           decoration: const BoxDecoration(
             borderRadius: BorderRadius.only(
@@ -38,6 +39,7 @@ class GameOnlineLobbyTitle extends StatelessWidget {
           width: deviceWidth,
         ),
 
+        // Text
         Center(
           child: Padding(
             padding: padding,

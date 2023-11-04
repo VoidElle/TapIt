@@ -9,18 +9,24 @@ import '../providers/game_online_socket_provider.dart';
 
 class GameOnlineFunctions {
 
+  // Function to initialize the socket connection with the server
   static void initSocketConnection(WidgetRef ref) {
     ref.read(gameOnlineSocketProvider.notifier).init();
   }
 
+  // Function to manage the Socket status from the Menu screen
   static void manageSocketStatusFromMenu(GameOnlineSocketStatus gameOnlineSocketStatus, BuildContext context) {
 
     debugPrint("GameOnlineSocketStatus -> ${gameOnlineSocketStatus.toString()}");
 
+    // Pop a dialog if it's currently showing
     GlobalFunctions.popIfADialogIsShown(context);
 
     switch(gameOnlineSocketStatus) {
       case GameOnlineSocketStatus.loading:
+
+        // If the socket's current status is Loading,
+        // show the loading dialog
         GlobalFunctions.executeAfterBuild(() {
           showDialog(
             context: context,
@@ -28,12 +34,21 @@ class GameOnlineFunctions {
             builder: (BuildContext _) => const GameOnlineLoadingDialog(),
           );
         });
+
         break;
       case GameOnlineSocketStatus.success:
+
+        // If the socket's current status is Success,
+        // pop the currently showing dialog
+        // (it should be the loading one, or also the error one)
         GlobalFunctions.popIfADialogIsShown(context);
+
         break;
       case GameOnlineSocketStatus.error:
       case GameOnlineSocketStatus.disconnected:
+
+        // If the socket's current status is Error or Disconnected,
+        // show the error dialog
         GlobalFunctions.executeAfterBuild(() {
           showDialog(
             context: context,
@@ -41,6 +56,7 @@ class GameOnlineFunctions {
             builder: (BuildContext _) => const GameOnlineErrorDialog(),
           );
         });
+
         break;
       default:
         break;
@@ -48,8 +64,6 @@ class GameOnlineFunctions {
 
   }
 
-  static void manageSocketStatusFromGame() {
-
-  }
+  static void manageSocketStatusFromGame() {}
 
 }

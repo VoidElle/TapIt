@@ -1,16 +1,19 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tapit/game/online/models/game_online_socket_model.dart';
 
-final gameOnlineLobbyProvider = StateNotifierProvider.autoDispose<GameOnlineLobbyProvider, List<GameOnlineSocketModel>>(
-      (ref) => GameOnlineLobbyProvider(),
+final gameOnlineLobbyProvider = StateNotifierProvider.autoDispose<GameOnlineLobbyNotifier, List<GameOnlineSocketModel>>(
+      (ref) => GameOnlineLobbyNotifier(),
 );
 
-class GameOnlineLobbyProvider extends StateNotifier<List<GameOnlineSocketModel>> {
+class GameOnlineLobbyNotifier extends StateNotifier<List<GameOnlineSocketModel>> {
 
+  // Initial state of the Provider
   static final List<GameOnlineSocketModel> _initialState = [];
 
-  GameOnlineLobbyProvider(): super(_initialState);
+  // Constructor of the provider
+  GameOnlineLobbyNotifier(): super(_initialState);
 
+  // Function to check if the current state contains a given socket's id
   bool _doesStateContainsSocketId(String socketId) {
     for (GameOnlineSocketModel gameOnlineSocketModel in state) {
       if (gameOnlineSocketModel.socketId == socketId) {
@@ -20,6 +23,7 @@ class GameOnlineLobbyProvider extends StateNotifier<List<GameOnlineSocketModel>>
     return false;
   }
 
+  // Function to get the position inside the state's array of a given socket's id inside the current state
   int _getPositionOfSocketIdInState(String socketId) {
     int i = 0;
     for (GameOnlineSocketModel gameOnlineSocketModel in state) {
@@ -31,26 +35,37 @@ class GameOnlineLobbyProvider extends StateNotifier<List<GameOnlineSocketModel>>
     return -1;
   }
 
+  // Function to set a given list containing sockets' ids as the current state
   void setSocketsList(List<String> socketsIdsList) {
 
     final List<GameOnlineSocketModel> newState = [];
 
     for (String socketId in socketsIdsList) {
+
+      // Check if the current state already contains this socket id
       if (_doesStateContainsSocketId(socketId)) {
+
+        // If so, to ensure that the state of this socket is maintained,
+        // a deep copy is done using .fromJson and .toJson to recreate an object with the same properties
         final int positionOfSocketInState = _getPositionOfSocketIdInState(socketId);
         newState.add(GameOnlineSocketModel.fromJson(state[positionOfSocketInState].toJson()));
+
       } else {
+
+        // If not, create a new object and add to the new state
         newState.add(
           GameOnlineSocketModel(
             socketId: socketId,
           ),
         );
+
       }
     }
 
     state = [...newState];
   }
 
+  // Function to change the ready status of a given socket's id
   void setReadyStatus(String socketId) {
 
     final List<GameOnlineSocketModel> newState = [...state];

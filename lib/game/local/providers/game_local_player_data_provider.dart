@@ -22,6 +22,7 @@ class GameLocalPlayerDataNotifier extends StateNotifier<List<GameLocalPlayerMode
 
   GameLocalPlayerDataNotifier() : super(_initialState);
 
+  // Function to reset the provider
   void reset() {
 
     // Creation of a new list, cannot use the initial state because of
@@ -34,6 +35,7 @@ class GameLocalPlayerDataNotifier extends StateNotifier<List<GameLocalPlayerMode
     state = [ ...newState ];
   }
 
+  // Function to make a player score
   bool score(GameLocalPlayerEnum playerEnum) {
 
     // Get the current provider's state
@@ -70,6 +72,7 @@ class GameLocalPlayerDataNotifier extends StateNotifier<List<GameLocalPlayerMode
     return attackerPercentageValueToSet == 100;
   }
 
+  // Function to update a player's ready status
   void updateReadyStatus(WidgetRef ref, int playerPosition, bool readyStatus) {
 
     // Get the current provider's state

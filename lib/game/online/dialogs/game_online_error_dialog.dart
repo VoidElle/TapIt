@@ -19,12 +19,14 @@ class GameOnlineErrorDialog extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
 
+          // Lottie of error icon
           Lottie.asset(
             'assets/lotties/global_error_icon.json',
             repeat: false,
             frameRate: FrameRate.max,
           ),
 
+          // Content text
           const Center(
             child: Text(
               "An error occurred connecting with the servers\nPlease try again",
@@ -36,6 +38,7 @@ class GameOnlineErrorDialog extends StatelessWidget {
             height: 15,
           ),
 
+          // Back to home button
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               foregroundColor: Colors.black87,
@@ -47,7 +50,10 @@ class GameOnlineErrorDialog extends StatelessWidget {
               ),
             ),
             onPressed: () {
+
+              // Redirect to MenuPage
               GlobalFunctions.redirectAndClearRootTree(context, MenuPage.route);
+
             },
             child: const Text(
               'Back to Menu',

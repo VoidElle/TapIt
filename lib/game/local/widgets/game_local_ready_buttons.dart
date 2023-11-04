@@ -28,6 +28,7 @@ class GameLocalReadyButtons extends ConsumerWidget {
     return Column(
       children: [
 
+        // Top player's ready button
         SizedBox(
           height: deviceHeight / 2,
           width: double.infinity,
@@ -44,7 +45,10 @@ class GameLocalReadyButtons extends ConsumerWidget {
                   color: GlobalColorConstants.kBlackColor,
                   shadowColor: GlobalColorConstants.kDarkBlackColor,
                   onTapUp: () {
+
+                    // Update the ready status of the TOP player setting it to true
                     gameLocalPlayerDataNotifier.updateReadyStatus(ref, 0, true);
+
                   },
                   child: Text(
                     buttonsText,
@@ -56,6 +60,7 @@ class GameLocalReadyButtons extends ConsumerWidget {
           ),
         ),
 
+        // Bottom player's ready button
         SizedBox(
           height: deviceHeight / 2,
           width: double.infinity,
@@ -70,7 +75,10 @@ class GameLocalReadyButtons extends ConsumerWidget {
                 color: GlobalColorConstants.kBlackColor,
                 shadowColor: GlobalColorConstants.kDarkBlackColor,
                 onTapUp: () {
+
+                  // Update the ready status of the BOTTOM player setting it to true
                   gameLocalPlayerDataNotifier.updateReadyStatus(ref, 1, true);
+
                 },
                 child: Text(
                   buttonsText,

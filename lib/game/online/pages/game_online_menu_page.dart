@@ -29,18 +29,45 @@ class _GameOnlineMenuPageState extends ConsumerState<GameOnlineMenuPage> {
 
   @override
   void initState() {
+
     super.initState();
+
+    // Initialization of the socket connection (Connect with the Server)
     GameOnlineFunctions.initSocketConnection(ref);
+
+    // Getting the socket from the provider
+    final Map socketProvider = ref.read(gameOnlineSocketProvider);
+    final socket_io.Socket? socket = socketProvider["socket"];
+
+    // Listening to the CreateLobby event
+    socket?.on(GameOnlineSocketEvent.createLobby.text, (dynamic data) {
+
+      // Redirect the player to the lobby page as leader
+      GlobalFunctions.redirectAndClearRootTree(
+        context,
+        GameOnlineLobbyPage.route,
+        arguments: {
+          "is_leader": true,
+          "lobby_id": data.toString(),
+        },
+      );
+
+    });
+
   }
 
   @override
   Widget build(BuildContext context) {
 
+    // Getting the device's height
     final double deviceHeight = MediaQuery.of(context).size.height;
 
+    // Getting the socket and the socket's status from the provider
     final Map socketProvider = ref.watch(gameOnlineSocketProvider);
-
+    final socket_io.Socket? socket = socketProvider["socket"];
     final GameOnlineSocketStatus gameOnlineSocketStatus = socketProvider["status"];
+
+    // Managing socket's status
     GameOnlineFunctions.manageSocketStatusFromMenu(gameOnlineSocketStatus, context);
 
     return Scaffold(
@@ -57,23 +84,10 @@ class _GameOnlineMenuPageState extends ConsumerState<GameOnlineMenuPage> {
             ),
 
             GlobalAnimatedButton(
-              onTapUp: () async {
+              onTapUp: () {
 
-                final socket_io.Socket? socket = socketProvider["socket"];
-
-                if (socket != null) {
-                  socket.emit(GameOnlineSocketEvent.createLobby.text);
-                  socket.on(GameOnlineSocketEvent.createLobby.text, (dynamic data) {
-                    GlobalFunctions.redirectAndClearRootTree(
-                      context,
-                      GameOnlineLobbyPage.route,
-                      arguments: {
-                        "is_leader": true,
-                        "lobby_id": data.toString(),
-                      },
-                    );
-                  });
-                }
+                // Emitting the CreateLobby event to the server
+                socket?.emit(GameOnlineSocketEvent.createLobby.text);
 
               },
               child: AutoSizeText(
@@ -88,8 +102,9 @@ class _GameOnlineMenuPageState extends ConsumerState<GameOnlineMenuPage> {
             ),
 
             GlobalAnimatedButton(
-              onTapUp: () async {
+              onTapUp: () {
 
+                // Redirect the player to the Lobby page as NOT leader
                 GlobalFunctions.redirectAndClearRootTree(
                   context,
                   GameOnlineLobbyPage.route,
@@ -121,7 +136,15 @@ class _GameOnlineMenuPageState extends ConsumerState<GameOnlineMenuPage> {
                   size: 40,
                 ),
               ),
-              onTapUp: () => GlobalFunctions.redirectAndClearRootTree(context, MenuPage.route),
+              onTapUp: () {
+
+                // Redirecting the player to the Menu Page
+                GlobalFunctions.redirectAndClearRootTree(
+                  context,
+                  MenuPage.route,
+                );
+
+              },
             ),
 
           ],
