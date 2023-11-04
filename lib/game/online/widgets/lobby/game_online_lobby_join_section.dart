@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tapit/global/utils/global_functions.dart';
 
 import '../../../../menu/pages/menu_page.dart';
 import '../../enums/socket_enums.dart';
@@ -92,7 +93,12 @@ class _GameOnlineLobbyJoinSectionState extends ConsumerState<GameOnlineLobbyJoin
         ),
 
         TextButton(
-          onPressed: () => Navigator.of(context).pushReplacementNamed(MenuPage.route),
+          onPressed: () {
+            GlobalFunctions.redirectAndClearRootTree(
+              context,
+              MenuPage.route,
+            );
+          },
           child: const Text(
             "Go back to HomePage",
           ),

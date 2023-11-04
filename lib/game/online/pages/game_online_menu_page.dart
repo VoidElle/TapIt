@@ -64,7 +64,8 @@ class _GameOnlineMenuPageState extends ConsumerState<GameOnlineMenuPage> {
                 if (socket != null) {
                   socket.emit(GameOnlineSocketEvent.createLobby.text);
                   socket.on(GameOnlineSocketEvent.createLobby.text, (dynamic data) {
-                    Navigator.of(context).pushReplacementNamed(
+                    GlobalFunctions.redirectAndClearRootTree(
+                      context,
                       GameOnlineLobbyPage.route,
                       arguments: {
                         "is_leader": true,
@@ -89,33 +90,13 @@ class _GameOnlineMenuPageState extends ConsumerState<GameOnlineMenuPage> {
             GlobalAnimatedButton(
               onTapUp: () async {
 
-                Navigator.of(context).pushReplacementNamed(
+                GlobalFunctions.redirectAndClearRootTree(
+                  context,
                   GameOnlineLobbyPage.route,
                   arguments: {
                     "is_leader": false,
                   },
                 );
-
-                // Show the dialog for getting the input of the lobby id
-                /*final String? lobbyId = await showDialog(
-                  context: context,
-                  builder: (BuildContext _) => const GameOnlineJoinDialog(),
-                );
-
-                if (lobbyId != null && lobbyId.isNotEmpty) {
-                  final socket_io.Socket? socket = socketProvider["socket"];
-                  if (socket != null) {
-                    socket.emit(GameOnlineSocketEvent.joinLobby.text, lobbyId);
-                    socket.on(GameOnlineSocketEvent.joinSuccess.text, (_) {
-                      Navigator.of(context).pushReplacementNamed(
-                        GameOnlinePage.route,
-                        arguments: {
-                          "lobby_id": lobbyId,
-                        },
-                      );
-                    });
-                  }
-                }*/
 
               },
               child: AutoSizeText(

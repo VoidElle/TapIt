@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tapit/game/online/models/game_online_socket_model.dart';
 import 'package:tapit/game/online/providers/game_online_lobby_provider.dart';
+import 'package:tapit/global/utils/global_functions.dart';
 import 'package:tapit/global/utils/global_run_once.dart';
 import 'package:tapit/menu/pages/menu_page.dart';
 
@@ -160,7 +161,12 @@ class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCr
         ),
 
         TextButton(
-          onPressed: () => Navigator.of(context).pushReplacementNamed(MenuPage.route),
+          onPressed: () {
+            GlobalFunctions.redirectAndClearRootTree(
+              context,
+              MenuPage.route,
+            );
+          },
           child: const Text(
             "Go back to HomePage",
           ),

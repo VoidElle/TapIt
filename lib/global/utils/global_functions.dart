@@ -46,8 +46,8 @@ class GlobalFunctions {
     return MaterialPageRoute(builder: (_) => returnScreen);
   }
 
-  static void redirectAndClearRootTree(BuildContext context, String route) {
-    Navigator.of(context).pushNamedAndRemoveUntil(route, (Route<dynamic> route) => false);
+  static void redirectAndClearRootTree(BuildContext context, String route, {Map? arguments}) {
+    Navigator.of(context).pushNamedAndRemoveUntil(route, (Route<dynamic> route) => false, arguments: arguments);
   }
 
   static void popIfADialogIsShown(BuildContext context) {
