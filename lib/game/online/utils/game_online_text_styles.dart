@@ -21,4 +21,29 @@ class GameOnlineTextStyles {
     );
   }
 
+  static TextStyle lobbyInstructionTextStyle() {
+    return GoogleFonts.rubik(
+      textStyle: const TextStyle(
+        fontSize: 20,
+        color: GlobalColorConstants.kBlackColor,
+      ),
+    );
+  }
+
+  static TextStyle lobbyCodeTextStyle() {
+    return GoogleFonts.blackHanSans(
+      textStyle: TextStyle(
+        fontSize: 65,
+        color: GlobalColorConstants.kBlackColor,
+        shadows: [
+          Shadow(
+            blurRadius: 0,
+            color: GlobalColorConstants.kBlackColor.withOpacity(.4),
+            offset: const Offset(0, 10),
+          ),
+        ],
+      ),
+    );
+  }
+
 }

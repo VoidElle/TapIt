@@ -32,7 +32,7 @@ class GameOnlineLobbyPage extends StatelessWidget {
             const GameOnlineLobbyTitle(),
 
             SizedBox(
-              height: deviceHeight / 15,
+              height: deviceHeight / 25,
             ),
 
             isLeader

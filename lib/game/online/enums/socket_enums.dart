@@ -13,7 +13,8 @@ enum GameOnlineSocketEvent {
   joinLobby,
   joinSuccess,
   joinFail,
-  score
+  score,
+  getSocketsInfo
 }
 
 extension GameOnlineSocketEventExtension on GameOnlineSocketEvent {
@@ -34,6 +35,8 @@ extension GameOnlineSocketEventExtension on GameOnlineSocketEvent {
         return "join_success";
       case GameOnlineSocketEvent.joinFail:
         return "join_fail";
+      case GameOnlineSocketEvent.getSocketsInfo:
+        return "get_sockets_info";
     }
   }
 
