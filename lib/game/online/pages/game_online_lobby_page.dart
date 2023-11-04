@@ -4,7 +4,7 @@ import 'package:tapit/game/online/widgets/lobby/game_online_lobby_join_section.d
 import '../widgets/lobby/game_online_lobby_create_section.dart';
 import '../widgets/lobby/game_online_lobby_title.dart';
 
-class GameOnlineLobbyPage extends StatelessWidget {
+class GameOnlineLobbyPage extends StatefulWidget {
 
   static const String route = "/game-online-lobby-page";
 
@@ -16,6 +16,29 @@ class GameOnlineLobbyPage extends StatelessWidget {
     required this.lobbyId,
     super.key,
   });
+
+  @override
+  State<GameOnlineLobbyPage> createState() => _GameOnlineLobbyPageState();
+}
+
+class _GameOnlineLobbyPageState extends State<GameOnlineLobbyPage> {
+
+  late bool _isLeader;
+  late String _lobbyId;
+
+  @override
+  void initState() {
+    super.initState();
+    _isLeader = widget.isLeader;
+    _lobbyId = widget.lobbyId ?? "";
+  }
+
+  void _changeLeaderFunction(String lobbyId) {
+    setState(() {
+      _isLeader = true;
+      _lobbyId = lobbyId;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,16 +58,16 @@ class GameOnlineLobbyPage extends StatelessWidget {
               height: deviceHeight / 25,
             ),
 
-            isLeader
+            _isLeader
                 ? GameOnlineLobbyCreateSection(
-                    lobbyId: lobbyId!,
+                    lobbyId: _lobbyId,
                   )
-                : const GameOnlineLobbyJoinSection(),
-
+                : GameOnlineLobbyJoinSection(
+                    changeLeaderFunction: _changeLeaderFunction,
+                  ),
           ],
         ),
       ),
     );
   }
-
 }

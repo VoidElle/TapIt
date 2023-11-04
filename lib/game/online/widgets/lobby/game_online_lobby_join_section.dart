@@ -11,7 +11,12 @@ import 'package:socket_io_client/socket_io_client.dart' as socket_io;
 
 class GameOnlineLobbyJoinSection extends ConsumerStatefulWidget {
 
-  const GameOnlineLobbyJoinSection({super.key});
+  final Function(String lobbyId) changeLeaderFunction;
+
+  const GameOnlineLobbyJoinSection({
+    required this.changeLeaderFunction,
+    super.key,
+  });
 
   @override
   ConsumerState<GameOnlineLobbyJoinSection> createState() => _GameOnlineLobbyJoinSectionState();
@@ -30,6 +35,7 @@ class _GameOnlineLobbyJoinSectionState extends ConsumerState<GameOnlineLobbyJoin
     if (socket != null) {
       socket.on(GameOnlineSocketEvent.joinSuccess.text, (_) {
         debugPrint("JOIN LOBBY SUCCESS");
+        widget.changeLeaderFunction(_value!);
       });
 
       socket.on(GameOnlineSocketEvent.joinFail.text, (_) {

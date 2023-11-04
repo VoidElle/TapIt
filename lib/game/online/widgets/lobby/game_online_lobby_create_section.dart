@@ -98,8 +98,9 @@ class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCr
       });
 
       socket.on(GameOnlineSocketEvent.setReadyStatus.text, (dynamic data) {
+        final String socketIdToChangeReadyStatus = data as String;
         debugPrint("${GameOnlineSocketEvent.setReadyStatus.text} event received, handling it...");
-        onlineLobbyNotifier.setReadyStatus(socket.id!);
+        onlineLobbyNotifier.setReadyStatus(socketIdToChangeReadyStatus);
       });
 
     }
