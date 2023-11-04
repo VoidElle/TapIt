@@ -19,7 +19,6 @@ class GameOnlineSocketModel extends Equatable with _$GameOnlineSocketModel {
   @override
   List<Object?> get props => [
     socketId,
-    readyStatus,
   ];
 
 }
