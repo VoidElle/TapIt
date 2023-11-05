@@ -4,6 +4,7 @@ import '../widgets/game_local_gesture_detectors.dart';
 import '../widgets/game_local_player_containers.dart';
 import '../widgets/game_local_player_percentages.dart';
 import '../widgets/game_local_ready_buttons.dart';
+import '../widgets/game_local_win_confetti.dart';
 
 class GameLocalPage extends StatelessWidget {
 
@@ -25,11 +26,12 @@ class GameLocalPage extends StatelessWidget {
 
           // GameLocalCountDown(),
 
+          GameLocalWinConfetti(),
+
           GameLocalGestureDetectors(),
 
         ],
       ),
     );
   }
-
 }

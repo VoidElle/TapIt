@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tapit/game/local/providers/game_local_game_status_provider.dart';
 import 'package:tapit/game/local/utils/game_local_text_styles.dart';
 import 'package:tapit/global/utils/global_functions.dart';
 import 'package:tapit/menu/pages/menu_page.dart';
@@ -7,7 +8,7 @@ import 'package:tapit/menu/pages/menu_page.dart';
 import '../utils/game_local_enums.dart';
 import '../utils/game_local_functions.dart';
 
-class GameLocalWinDialog extends ConsumerWidget {
+class GameLocalWinDialog extends ConsumerStatefulWidget {
 
   final GameLocalPlayerEnum gameLocalPlayerEnum;
   final Color winnerColor;
@@ -19,7 +20,25 @@ class GameLocalWinDialog extends ConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<GameLocalWinDialog> createState() => _GameLocalWinDialogState();
+}
+
+class _GameLocalWinDialogState extends ConsumerState<GameLocalWinDialog> {
+
+  @override
+  void initState() {
+
+    super.initState();
+
+    // Set the player won state to true to show the confetti
+    GlobalFunctions.executeAfterBuild(() {
+      ref.read(gameLocalGameStatusProvider.notifier).setPlayerWon(true);
+    });
+
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
@@ -63,7 +82,7 @@ class GameLocalWinDialog extends ConsumerWidget {
                 ),
 
                 Text(
-                  "${gameLocalPlayerEnum.text} player won the game",
+                  "${widget.gameLocalPlayerEnum.text} player won the game",
                   style: GameLocalTextStyles.winDialogBodyTextStyle(),
                   textAlign: TextAlign.center,
                 ),
@@ -88,7 +107,7 @@ class GameLocalWinDialog extends ConsumerWidget {
                       },
                       child: Text(
                         "Menu",
-                        style: GameLocalTextStyles.actionButtonTextStyle(winnerColor),
+                        style: GameLocalTextStyles.actionButtonTextStyle(widget.winnerColor),
                       ),
                     ),
 
@@ -104,7 +123,7 @@ class GameLocalWinDialog extends ConsumerWidget {
                       },
                       child: Text(
                         "Rematch",
-                        style: GameLocalTextStyles.actionButtonTextStyle(winnerColor),
+                        style: GameLocalTextStyles.actionButtonTextStyle(widget.winnerColor),
                       ),
                     ),
 
@@ -126,7 +145,7 @@ class GameLocalWinDialog extends ConsumerWidget {
                   Radius.circular(45),
                 ),
                 child: Container(
-                  color: winnerColor,
+                  color: widget.winnerColor,
                   width: 90,
                 ),
               ),
