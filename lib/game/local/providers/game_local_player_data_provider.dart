@@ -1,9 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tapit/game/local/models/game_local_player_model.dart';
+import 'package:tapit/game/local/providers/game_local_count_down_provider.dart';
 import 'package:tapit/game/local/utils/game_local_enums.dart';
 import 'package:tapit/global/utils/global_color_constants.dart';
-
-import 'game_local_game_status_provider.dart';
 
 final gameLocalPlayerDataProvider = StateNotifierProvider.autoDispose<GameLocalPlayerDataNotifier, List<GameLocalPlayerModel>>(
     (ref) => GameLocalPlayerDataNotifier(),
@@ -97,7 +96,15 @@ class GameLocalPlayerDataNotifier extends StateNotifier<List<GameLocalPlayerMode
     // Check ready status of both players,
     // if they're both ready. start the game
     if (topPlayerReadyStatus && bottomPlayerReadyStatus) {
-      ref.read(gameLocalGameStatusProvider.notifier).startGame();
+
+      final Map gameLocalCountDownState = ref.read(gameLocalCountDownProvider);
+      final gameLocalCountDownNotifier = ref.read(gameLocalCountDownProvider.notifier);
+
+      // Set to true the visibility of the count down and
+      // start it with the start function inside the provider
+      gameLocalCountDownNotifier.setIsCountdownVisible(true);
+      gameLocalCountDownState["start_count_down_function"]();
+
     }
 
     // Update the state of the provider to the new one

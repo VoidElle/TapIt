@@ -5,6 +5,15 @@ import '../../../global/utils/global_color_constants.dart';
 
 class GameLocalTextStyles {
 
+  static TextStyle countDownTextStyle() {
+    return GoogleFonts.odibeeSans(
+      textStyle: const TextStyle(
+        fontSize: 56,
+        color: GlobalColorConstants.kWhiteColor,
+      ),
+    );
+  }
+
   static TextStyle percentageTextStyle() {
     return GoogleFonts.odibeeSans(
       textStyle: const TextStyle(
