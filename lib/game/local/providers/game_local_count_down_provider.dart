@@ -111,4 +111,14 @@ class GameLocalCountDownProvider extends StateNotifier<Map> {
     };
   }
 
+  @override
+  void dispose() {
+
+    // Dispose the AnimationController on widget's dispose
+    final AnimationController? gameLocalAnimationController = state["animation_controller"];
+    gameLocalAnimationController?.dispose();
+
+    super.dispose();
+  }
+
 }

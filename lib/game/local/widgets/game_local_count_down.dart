@@ -126,14 +126,4 @@ class _GameLocalCountDownState extends ConsumerState<GameLocalCountDown> with Ti
     );
   }
 
-  @override
-  void dispose() {
-
-    // Dispose the AnimationController on widget's dispose
-    final AnimationController? gameLocalAnimationController = ref.read(gameLocalCountDownProvider)["animation_controller"];
-    gameLocalAnimationController?.dispose();
-
-    super.dispose();
-  }
-
 }
