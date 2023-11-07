@@ -5,7 +5,7 @@ import 'package:tapit/global/utils/global_functions.dart';
 
 import '../../../../menu/pages/menu_page.dart';
 import '../../enums/socket_enums.dart';
-import '../../../../global/providers/global_socket_provider.dart';
+import '../../providers/game_online_socket_provider.dart';
 import '../../utils/game_online_text_styles.dart';
 
 import 'package:socket_io_client/socket_io_client.dart' as socket_io;
@@ -32,7 +32,7 @@ class _GameOnlineLobbyJoinSectionState extends ConsumerState<GameOnlineLobbyJoin
   void initState() {
 
     // Getting the socket from the provider
-    final Map socketProvider = ref.read(globalSocketProvider);
+    final Map socketProvider = ref.read(gameOnlineSocketProvider);
     final socket_io.Socket? socket = socketProvider["socket"];
 
     // Listening to the join success event from the server
@@ -62,7 +62,7 @@ class _GameOnlineLobbyJoinSectionState extends ConsumerState<GameOnlineLobbyJoin
   Widget build(BuildContext context) {
 
     // Getting the socket from the provider
-    final Map socketProvider = ref.watch(globalSocketProvider);
+    final Map socketProvider = ref.watch(gameOnlineSocketProvider);
     final socket_io.Socket? socket = socketProvider["socket"];
 
     return Column(

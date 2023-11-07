@@ -11,7 +11,7 @@ import 'package:tapit/global/utils/global_run_once.dart';
 import 'package:tapit/menu/pages/menu_page.dart';
 
 import '../../enums/socket_enums.dart';
-import '../../../../global/providers/global_socket_provider.dart';
+import '../../providers/game_online_socket_provider.dart';
 import '../../utils/game_online_text_styles.dart';
 
 import 'package:socket_io_client/socket_io_client.dart' as socket_io;
@@ -47,7 +47,7 @@ class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCr
     final List<GameOnlineSocketModel> onlineLobbyState = ref.read(gameOnlineLobbyProvider);
 
     // Getting the socket from the provider
-    final Map socketProvider = ref.read(globalSocketProvider);
+    final Map socketProvider = ref.read(gameOnlineSocketProvider);
     final socket_io.Socket? socket = socketProvider["socket"];
 
     // Listening the getSocketsInfo's event from the server
@@ -99,7 +99,7 @@ class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCr
   Widget build(BuildContext context) {
 
     // Getting the socket from the provider
-    final Map socketProvider = ref.watch(globalSocketProvider);
+    final Map socketProvider = ref.watch(gameOnlineSocketProvider);
     final socket_io.Socket? socket = socketProvider["socket"];
 
     // Use the GlobalRunOnce utils class to run the anonymous function only once

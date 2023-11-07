@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:socket_io_client/socket_io_client.dart' as socket_io;
 
-import '../../game/online/enums/socket_enums.dart';
+import '../enums/socket_enums.dart';
 
-final globalSocketProvider = StateNotifierProvider<GlobalSocketNotifier, Map>(
-      (ref) => GlobalSocketNotifier(),
+final gameOnlineSocketProvider = StateNotifierProvider.autoDispose<GameOnlineSocketNotifier, Map>(
+      (ref) => GameOnlineSocketNotifier(),
 );
 
-class GlobalSocketNotifier extends StateNotifier<Map> {
+class GameOnlineSocketNotifier extends StateNotifier<Map> {
 
   // Initial state of the Provider
   static final Map _initialState = {
@@ -17,7 +17,7 @@ class GlobalSocketNotifier extends StateNotifier<Map> {
   };
 
   // Constructor of the provider
-  GlobalSocketNotifier(): super(_initialState);
+  GameOnlineSocketNotifier(): super(_initialState);
 
   // Function to initialize the socket connection
   void init() {

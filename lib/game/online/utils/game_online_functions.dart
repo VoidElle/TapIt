@@ -5,13 +5,13 @@ import 'package:tapit/game/online/dialogs/game_online_loading_dialog.dart';
 import 'package:tapit/global/utils/global_functions.dart';
 
 import '../enums/socket_enums.dart';
-import '../../../global/providers/global_socket_provider.dart';
+import '../providers/game_online_socket_provider.dart';
 
 class GameOnlineFunctions {
 
   // Function to initialize the socket connection with the server
   static void initSocketConnection(WidgetRef ref) {
-    ref.read(globalSocketProvider.notifier).init();
+    ref.read(gameOnlineSocketProvider.notifier).init();
   }
 
   // Function to manage the Socket status from the Menu screen
