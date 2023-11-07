@@ -10,7 +10,7 @@ import '../../../global/utils/global_color_constants.dart';
 import '../../../global/utils/global_text_styles.dart';
 import '../../../global/widgets/global_animated_button.dart';
 import '../enums/socket_enums.dart';
-import '../providers/game_online_socket_provider.dart';
+import '../../../global/providers/global_socket_provider.dart';
 import '../widgets/menu/game_online_menu_title.dart';
 
 import 'package:socket_io_client/socket_io_client.dart' as socket_io;
@@ -32,11 +32,18 @@ class _GameOnlineMenuPageState extends ConsumerState<GameOnlineMenuPage> {
 
     super.initState();
 
-    // Initialization of the socket connection (Connect with the Server)
-    GameOnlineFunctions.initSocketConnection(ref);
+    // Getting the information hypothetically before the initialization of the socket
+    final Map preInitializationSocketProvider = ref.read(globalSocketProvider);
+    final socket_io.Socket? preInitializationSocket = preInitializationSocketProvider["socket"];
+    final GameOnlineSocketStatus preInitializationSocketStatus = preInitializationSocketProvider["status"];
+
+    // If the socket hasn't been initialized yet, initialize it
+    if (preInitializationSocket == null || preInitializationSocketStatus == GameOnlineSocketStatus.toInit || preInitializationSocketStatus == GameOnlineSocketStatus.error) {
+      GameOnlineFunctions.initSocketConnection(ref);
+    }
 
     // Getting the socket from the provider
-    final Map socketProvider = ref.read(gameOnlineSocketProvider);
+    final Map socketProvider = ref.read(globalSocketProvider);
     final socket_io.Socket? socket = socketProvider["socket"];
 
     // Listening to the CreateLobby event
@@ -63,7 +70,7 @@ class _GameOnlineMenuPageState extends ConsumerState<GameOnlineMenuPage> {
     final double deviceHeight = MediaQuery.of(context).size.height;
 
     // Getting the socket and the socket's status from the provider
-    final Map socketProvider = ref.watch(gameOnlineSocketProvider);
+    final Map socketProvider = ref.watch(globalSocketProvider);
     final socket_io.Socket? socket = socketProvider["socket"];
     final GameOnlineSocketStatus gameOnlineSocketStatus = socketProvider["status"];
 
