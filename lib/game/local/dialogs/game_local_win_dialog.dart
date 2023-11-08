@@ -5,6 +5,7 @@ import 'package:tapit/game/local/utils/game_local_text_styles.dart';
 import 'package:tapit/global/utils/global_functions.dart';
 import 'package:tapit/menu/pages/menu_page.dart';
 
+import '../../../global/utils/global_constants.dart';
 import '../utils/game_local_enums.dart';
 import '../utils/game_local_functions.dart';
 
@@ -115,7 +116,8 @@ class _GameLocalWinDialogState extends ConsumerState<GameLocalWinDialog> {
                       onPressed: () {
 
                         // Pop the dialog
-                        Navigator.of(context).pop();
+                        // Navigator.of(context).pop();
+                        GlobalConstants.navigatorKey.currentState?.pop();
 
                         // Reset the providers of the match
                         GameLocalFunctions.resetProviders(ref);

@@ -4,6 +4,7 @@ import 'package:tapit/game/local/pages/game_local_page.dart';
 import 'package:tapit/game/online/pages/game_online_lobby_page.dart';
 import 'package:tapit/game/online/pages/game_online_menu_page.dart';
 import 'package:tapit/game/online/pages/game_online_page.dart';
+import 'package:tapit/global/utils/global_constants.dart';
 import 'package:tapit/menu/pages/menu_page.dart';
 
 class GlobalFunctions {
@@ -50,18 +51,21 @@ class GlobalFunctions {
 
   // Function to redirect to a route
   static void redirect(BuildContext context, String route, {Map? arguments}) {
-    Navigator.of(context).pushReplacementNamed(route, arguments: arguments);
+    // Navigator.of(context).pushReplacementNamed(route, arguments: arguments);
+    GlobalConstants.navigatorKey.currentState?.pushReplacementNamed(route, arguments: arguments);
   }
 
   // Function to redirect to a route and remove all the pages below
   static void redirectAndClearRootTree(BuildContext context, String route, {Map? arguments}) {
-    Navigator.of(context).pushNamedAndRemoveUntil(route, (Route<dynamic> route) => false, arguments: arguments);
+    // Navigator.of(context).pushNamedAndRemoveUntil(route, (Route<dynamic> route) => false, arguments: arguments);
+    GlobalConstants.navigatorKey.currentState?.pushNamedAndRemoveUntil(route, (Route<dynamic> route) => false, arguments: arguments);;
   }
 
   // Function to pop a dialog if it's displayed
   static void popIfADialogIsShown(BuildContext context) {
     if (_isThereCurrentDialogShowing(context)) {
-      Navigator.of(context).pop();
+      // Navigator.of(context).pop();
+      GlobalConstants.navigatorKey.currentState?.pop();
     }
   }
 

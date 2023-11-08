@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tapit/global/utils/global_constants.dart';
 import 'package:tapit/global/utils/global_functions.dart';
 import 'package:tapit/menu/pages/menu_page.dart';
 
@@ -35,11 +36,12 @@ class TapIt extends StatelessWidget {
       ),
     );
 
-    return const MaterialApp(
+    return MaterialApp(
       title: "TapIt: Challenge your friends",
+      navigatorKey: GlobalConstants.navigatorKey,
       debugShowCheckedModeBanner: false,
       onGenerateRoute: GlobalFunctions.generateRoutes,
-      home: MenuPage(),
+      home: const MenuPage(),
     );
   }
 
