@@ -19,6 +19,7 @@ enum GameOnlineSocketEvent {
   score,
   getSocketsInfo,
   setReadyStatus,
+  quitLobby,
 }
 
 // Extension to transform the enum to String using .text
@@ -44,6 +45,8 @@ extension GameOnlineSocketEventExtension on GameOnlineSocketEvent {
         return "get_sockets_info";
       case GameOnlineSocketEvent.setReadyStatus:
         return "set_ready_status";
+      case GameOnlineSocketEvent.quitLobby:
+        return "quit_lobby";
     }
   }
 

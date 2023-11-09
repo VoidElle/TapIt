@@ -10,7 +10,7 @@ import '../../../global/utils/global_color_constants.dart';
 import '../../../global/utils/global_text_styles.dart';
 import '../../../global/widgets/global_animated_button.dart';
 import '../enums/socket_enums.dart';
-import '../providers/game_online_socket_provider.dart';
+import '../../../global/providers/global_socket_provider.dart';
 import '../widgets/menu/game_online_menu_title.dart';
 
 import 'package:socket_io_client/socket_io_client.dart' as socket_io;
@@ -32,11 +32,17 @@ class _GameOnlineMenuPageState extends ConsumerState<GameOnlineMenuPage> {
 
     super.initState();
 
-    // Initialization of the socket connection (Connect with the Server)
-    GameOnlineFunctions.initSocketConnection(ref);
+    // Getting the socket notifier pre initialization
+    final socketNotifierPreInitialization = ref.read(globalSocketProvider.notifier);
+
+    // Initialization of the socket connection if it hasn't been initialized yet
+    // (Connect with the Server)
+    if (!socketNotifierPreInitialization.isSocketInitialized()) {
+      GameOnlineFunctions.initSocketConnection(ref);
+    }
 
     // Getting the socket from the provider
-    final Map socketProvider = ref.read(gameOnlineSocketProvider);
+    final Map socketProvider = ref.read(globalSocketProvider);
     final socket_io.Socket? socket = socketProvider["socket"];
 
     // Listening to the CreateLobby event
@@ -44,7 +50,6 @@ class _GameOnlineMenuPageState extends ConsumerState<GameOnlineMenuPage> {
 
       // Redirect the player to the lobby page as leader
       GlobalFunctions.redirectAndClearRootTree(
-        context,
         GameOnlineLobbyPage.route,
         arguments: {
           "is_joined": true,
@@ -63,7 +68,7 @@ class _GameOnlineMenuPageState extends ConsumerState<GameOnlineMenuPage> {
     final double deviceHeight = MediaQuery.of(context).size.height;
 
     // Getting the socket and the socket's status from the provider
-    final Map socketProvider = ref.watch(gameOnlineSocketProvider);
+    final Map socketProvider = ref.watch(globalSocketProvider);
     final socket_io.Socket? socket = socketProvider["socket"];
     final GameOnlineSocketStatus gameOnlineSocketStatus = socketProvider["status"];
 
@@ -106,7 +111,6 @@ class _GameOnlineMenuPageState extends ConsumerState<GameOnlineMenuPage> {
 
                 // Redirect the player to the Lobby page as NOT leader
                 GlobalFunctions.redirectAndClearRootTree(
-                  context,
                   GameOnlineLobbyPage.route,
                   arguments: {
                     "is_joined": false,
@@ -140,7 +144,6 @@ class _GameOnlineMenuPageState extends ConsumerState<GameOnlineMenuPage> {
 
                 // Redirecting the player to the Menu Page
                 GlobalFunctions.redirectAndClearRootTree(
-                  context,
                   MenuPage.route,
                 );
 

@@ -52,7 +52,7 @@ class GameOnlineErrorDialog extends StatelessWidget {
             onPressed: () {
 
               // Redirect to MenuPage
-              GlobalFunctions.redirectAndClearRootTree(context, MenuPage.route);
+              GlobalFunctions.redirectAndClearRootTree(MenuPage.route);
 
             },
             child: const Text(

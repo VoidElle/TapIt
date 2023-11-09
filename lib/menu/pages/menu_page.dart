@@ -31,7 +31,7 @@ class MenuPage extends StatelessWidget {
 
           // Local game button
           GlobalAnimatedButton(
-            onTapUp: () => GlobalFunctions.redirectAndClearRootTree(context, GameLocalPage.route),
+            onTapUp: () => GlobalFunctions.redirectAndClearRootTree(GameLocalPage.route),
             child: AutoSizeText(
               "LOCAL",
               maxLines: 1,
@@ -44,7 +44,7 @@ class MenuPage extends StatelessWidget {
 
           // Online game button
           GlobalAnimatedButton(
-            onTapUp: () => GlobalFunctions.redirectAndClearRootTree(context, GameOnlineMenuPage.route),
+            onTapUp: () => GlobalFunctions.redirectAndClearRootTree(GameOnlineMenuPage.route),
             child: AutoSizeText(
               "ONLINE",
               maxLines: 1,

@@ -50,21 +50,18 @@ class GlobalFunctions {
   }
 
   // Function to redirect to a route
-  static void redirect(BuildContext context, String route, {Map? arguments}) {
-    // Navigator.of(context).pushReplacementNamed(route, arguments: arguments);
+  static void redirect(String route, {Map? arguments}) {
     GlobalConstants.navigatorKey.currentState?.pushReplacementNamed(route, arguments: arguments);
   }
 
   // Function to redirect to a route and remove all the pages below
-  static void redirectAndClearRootTree(BuildContext context, String route, {Map? arguments}) {
-    // Navigator.of(context).pushNamedAndRemoveUntil(route, (Route<dynamic> route) => false, arguments: arguments);
+  static void redirectAndClearRootTree(String route, {Map? arguments}) {
     GlobalConstants.navigatorKey.currentState?.pushNamedAndRemoveUntil(route, (Route<dynamic> route) => false, arguments: arguments);;
   }
 
   // Function to pop a dialog if it's displayed
   static void popIfADialogIsShown(BuildContext context) {
     if (_isThereCurrentDialogShowing(context)) {
-      // Navigator.of(context).pop();
       GlobalConstants.navigatorKey.currentState?.pop();
     }
   }

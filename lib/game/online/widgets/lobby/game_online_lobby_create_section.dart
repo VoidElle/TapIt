@@ -11,7 +11,7 @@ import 'package:tapit/global/utils/global_run_once.dart';
 import 'package:tapit/menu/pages/menu_page.dart';
 
 import '../../enums/socket_enums.dart';
-import '../../providers/game_online_socket_provider.dart';
+import '../../../../global/providers/global_socket_provider.dart';
 import '../../utils/game_online_text_styles.dart';
 
 import 'package:socket_io_client/socket_io_client.dart' as socket_io;
@@ -47,11 +47,11 @@ class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCr
     final List<GameOnlineSocketModel> onlineLobbyState = ref.read(gameOnlineLobbyProvider);
 
     // Getting the socket from the provider
-    final Map socketProvider = ref.read(gameOnlineSocketProvider);
+    final Map socketProvider = ref.read(globalSocketProvider);
     final socket_io.Socket? socket = socketProvider["socket"];
 
     // Listening the getSocketsInfo's event from the server
-    socket?.on(GameOnlineSocketEvent.getSocketsInfo.text, (dynamic data) {
+    /*socket?.on(GameOnlineSocketEvent.getSocketsInfo.text, (dynamic data) {
 
       // Logging the event
       debugPrint("${GameOnlineSocketEvent.getSocketsInfo.text} event received, handling it...");
@@ -68,7 +68,7 @@ class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCr
 
       }
 
-    });
+    });*/
 
     // Listening the setReadyStatus's event from the server
     socket?.on(GameOnlineSocketEvent.setReadyStatus.text, (dynamic data) {
@@ -84,13 +84,17 @@ class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCr
 
     });
 
+    socket?.on(GameOnlineSocketEvent.quitLobby.text, (dynamic data) {
+      debugPrint("Socket quitted: ${data.toString()}");
+    });
+
     // Declaration of the timer, execute the internal functions every 3 seconds
-    _timer = Timer.periodic(const Duration(seconds: 3), (_) {
+    /*_timer = Timer.periodic(const Duration(seconds: 3), (_) {
 
       // Emit the getSocketsInfo's event to the server with the lobbyId
       socket?.emit(GameOnlineSocketEvent.getSocketsInfo.text, widget.lobbyId);
 
-    });
+    });*/
 
     super.initState();
   }
@@ -99,17 +103,17 @@ class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCr
   Widget build(BuildContext context) {
 
     // Getting the socket from the provider
-    final Map socketProvider = ref.watch(gameOnlineSocketProvider);
+    final Map socketProvider = ref.watch(globalSocketProvider);
     final socket_io.Socket? socket = socketProvider["socket"];
 
     // Use the GlobalRunOnce utils class to run the anonymous function only once
-    _globalRunOnce.call(() {
+    /*_globalRunOnce.call(() {
 
       // Emit the initial getSocketsInfo's event before the timer start, so the player
       // doesn't see a 3 seconds long clear list of the sockets connected to the lobby
       socket?.emit(GameOnlineSocketEvent.getSocketsInfo.text, widget.lobbyId);
 
-    });
+    });*/
 
     return Column(
       children: [
@@ -156,9 +160,10 @@ class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCr
         TextButton(
           onPressed: () {
 
+            socket?.emit(GameOnlineSocketEvent.quitLobby.text, socket.id);
+
             // Redirect the player to the Home page
             GlobalFunctions.redirectAndClearRootTree(
-              context,
               MenuPage.route,
             );
 

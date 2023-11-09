@@ -103,7 +103,7 @@ class _GameLocalWinDialogState extends ConsumerState<GameLocalWinDialog> {
                         GameLocalFunctions.resetProviders(ref);
 
                         // Redirect to the Menu page
-                        GlobalFunctions.redirect(context, MenuPage.route);
+                        GlobalFunctions.redirect(MenuPage.route);
 
                       },
                       child: Text(
