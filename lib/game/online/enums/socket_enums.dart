@@ -12,14 +12,10 @@ enum GameOnlineSocketStatus {
 enum GameOnlineSocketEvent {
   connection,
   disconnect,
-  createLobby,
-  joinLobby,
-  joinSuccess,
-  joinFail,
-  score,
-  getSocketsInfo,
-  setReadyStatus,
-  quitLobby,
+
+  createLobbyRequest,
+  createLobbyResponseSuccess,
+  createLobbyResponseFail,
 }
 
 // Extension to transform the enum to String using .text
@@ -31,22 +27,14 @@ extension GameOnlineSocketEventExtension on GameOnlineSocketEvent {
         return "connection";
       case GameOnlineSocketEvent.disconnect:
         return "disconnect";
-      case GameOnlineSocketEvent.createLobby:
-        return "create_lobby";
-      case GameOnlineSocketEvent.joinLobby:
-        return "join_lobby";
-      case GameOnlineSocketEvent.score:
-        return "score";
-      case GameOnlineSocketEvent.joinSuccess:
-        return "join_success";
-      case GameOnlineSocketEvent.joinFail:
-        return "join_fail";
-      case GameOnlineSocketEvent.getSocketsInfo:
-        return "get_sockets_info";
-      case GameOnlineSocketEvent.setReadyStatus:
-        return "set_ready_status";
-      case GameOnlineSocketEvent.quitLobby:
-        return "quit_lobby";
+
+
+      case GameOnlineSocketEvent.createLobbyRequest:
+        return "CREATE_LOBBY_REQUEST";
+      case GameOnlineSocketEvent.createLobbyResponseSuccess:
+        return "CREATE_LOBBY_RESPONSE_SUCCESS";
+      case GameOnlineSocketEvent.createLobbyResponseFail:
+        return "CREATE_LOBBY_RESPONSE_FAIL";
     }
   }
 

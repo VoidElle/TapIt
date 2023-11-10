@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tapit/game/online/models/game_online_lobby_model.dart';
 import 'package:tapit/game/online/pages/game_online_lobby_page.dart';
 import 'package:tapit/game/online/utils/game_online_functions.dart';
 import 'package:tapit/global/utils/global_functions.dart';
@@ -45,15 +46,15 @@ class _GameOnlineMenuPageState extends ConsumerState<GameOnlineMenuPage> {
     final Map socketProvider = ref.read(globalSocketProvider);
     final socket_io.Socket? socket = socketProvider["socket"];
 
-    // Listening to the CreateLobby event
-    socket?.on(GameOnlineSocketEvent.createLobby.text, (dynamic data) {
+    socket?.on(GameOnlineSocketEvent.createLobbyResponseSuccess.text, (dynamic data) {
 
-      // Redirect the player to the lobby page as leader
+      debugPrint("Lobby created: ${data.toString()}");
+      final GameOnlineLobbyModel gameOnlineLobbyModel = GameOnlineLobbyModel.fromJson(data);
+
       GlobalFunctions.redirectAndClearRootTree(
         GameOnlineLobbyPage.route,
         arguments: {
-          "is_joined": true,
-          "lobby_id": data.toString(),
+          "data": gameOnlineLobbyModel,
         },
       );
 
@@ -92,7 +93,7 @@ class _GameOnlineMenuPageState extends ConsumerState<GameOnlineMenuPage> {
               onTapUp: () {
 
                 // Emitting the CreateLobby event to the server
-                socket?.emit(GameOnlineSocketEvent.createLobby.text);
+                socket?.emit(GameOnlineSocketEvent.createLobbyRequest.text);
 
               },
               child: AutoSizeText(

@@ -35,26 +35,6 @@ class _GameOnlineLobbyJoinSectionState extends ConsumerState<GameOnlineLobbyJoin
     final Map socketProvider = ref.read(globalSocketProvider);
     final socket_io.Socket? socket = socketProvider["socket"];
 
-    // Listening to the join success event from the server
-    socket?.on(GameOnlineSocketEvent.joinSuccess.text, (_) {
-
-      // Log the event
-      debugPrint("JOIN LOBBY SUCCESS");
-
-      // Invoke the function on the widget's father to change
-      // the visualization from the joining to the lobby
-      widget.changeJoinedStatus(_value!);
-
-    });
-
-    // Listening to the join fail event from the server
-    socket?.on(GameOnlineSocketEvent.joinFail.text, (_) {
-
-      // Log the event
-      debugPrint("JOIN LOBBY ERROR");
-
-    });
-
     super.initState();
   }
 
@@ -99,7 +79,7 @@ class _GameOnlineLobbyJoinSectionState extends ConsumerState<GameOnlineLobbyJoin
 
               // If the value is not null, send the event JoinLobby
               // to the server with the lobby id
-              socket?.emit(GameOnlineSocketEvent.joinLobby.text, _value);
+              // socket?.emit(GameOnlineSocketEvent.joinLobby.text, _value);
 
             }
           },

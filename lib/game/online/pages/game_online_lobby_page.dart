@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tapit/game/online/models/game_online_lobby_model.dart';
 import 'package:tapit/game/online/widgets/lobby/game_online_lobby_join_section.dart';
 
 import '../widgets/lobby/game_online_lobby_create_section.dart';
@@ -8,12 +9,10 @@ class GameOnlineLobbyPage extends StatefulWidget {
 
   static const String route = "/game-online-lobby-page";
 
-  final bool isJoined;
-  final String? lobbyId;
+  final GameOnlineLobbyModel? gameOnlineLobbyModel;
 
   const GameOnlineLobbyPage({
-    required this.isJoined,
-    required this.lobbyId,
+    required this.gameOnlineLobbyModel,
     super.key,
   });
 
@@ -24,20 +23,17 @@ class GameOnlineLobbyPage extends StatefulWidget {
 class _GameOnlineLobbyPageState extends State<GameOnlineLobbyPage> {
 
   late bool _isJoined;
-  late String _lobbyId;
 
   @override
   void initState() {
     super.initState();
-    _isJoined = widget.isJoined;
-    _lobbyId = widget.lobbyId ?? "";
+    _isJoined = widget.gameOnlineLobbyModel != null;
   }
 
   // Function to change the status of joining inside the lobby state
   void _changeJoinedStatus(String lobbyId) {
     setState(() {
       _isJoined = true;
-      _lobbyId = lobbyId;
     });
   }
 
@@ -61,7 +57,7 @@ class _GameOnlineLobbyPageState extends State<GameOnlineLobbyPage> {
 
             _isJoined
                 ? GameOnlineLobbyCreateSection(
-                    lobbyId: _lobbyId,
+                    gameOnlineLobbyModel: widget.gameOnlineLobbyModel!,
                   )
                 : GameOnlineLobbyJoinSection(
                     changeJoinedStatus: _changeJoinedStatus,

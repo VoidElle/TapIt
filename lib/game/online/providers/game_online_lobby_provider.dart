@@ -36,7 +36,7 @@ class GameOnlineLobbyNotifier extends StateNotifier<List<GameOnlineSocketModel>>
   }
 
   // Function to set a given list containing sockets' ids as the current state
-  void setSocketsList(List<String> socketsIdsList) {
+  void setSocketsList(List<String> socketsIdsList, {bool notify = true}) {
 
     final List<GameOnlineSocketModel> newState = [];
 
@@ -48,21 +48,37 @@ class GameOnlineLobbyNotifier extends StateNotifier<List<GameOnlineSocketModel>>
         // If so, to ensure that the state of this socket is maintained,
         // a deep copy is done using .fromJson and .toJson to recreate an object with the same properties
         final int positionOfSocketInState = _getPositionOfSocketIdInState(socketId);
-        newState.add(GameOnlineSocketModel.fromJson(state[positionOfSocketInState].toJson()));
+
+        if (notify) {
+          newState.add(GameOnlineSocketModel.fromJson(state[positionOfSocketInState].toJson()));
+        } else {
+          state.add(GameOnlineSocketModel.fromJson(state[positionOfSocketInState].toJson()));
+        }
 
       } else {
 
         // If not, create a new object and add to the new state
-        newState.add(
-          GameOnlineSocketModel(
-            socketId: socketId,
-          ),
-        );
+        if (notify) {
+          newState.add(
+            GameOnlineSocketModel(
+              socketId: socketId,
+            ),
+          );
+        } else {
+          state.add(
+            GameOnlineSocketModel(
+              socketId: socketId,
+            ),
+          );
+        }
 
       }
     }
 
-    state = [...newState];
+    if (notify) {
+      state = [...newState];
+    }
+
   }
 
   // Function to change the ready status of a given socket's id

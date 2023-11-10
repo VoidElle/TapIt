@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:tapit/game/local/pages/game_local_page.dart';
+import 'package:tapit/game/online/models/game_online_lobby_model.dart';
 import 'package:tapit/game/online/pages/game_online_lobby_page.dart';
 import 'package:tapit/game/online/pages/game_online_menu_page.dart';
 import 'package:tapit/game/online/pages/game_online_page.dart';
@@ -35,12 +36,10 @@ class GlobalFunctions {
         break;
       case GameOnlineLobbyPage.route:
 
-        final bool isJoined = arguments!["is_joined"] ?? false;
-        final String? lobbyId = arguments["lobby_id"];
+        final GameOnlineLobbyModel? gameOnlineLobbyModel = arguments!["data"];
 
         returnScreen = GameOnlineLobbyPage(
-          isJoined: isJoined,
-          lobbyId: lobbyId,
+          gameOnlineLobbyModel: gameOnlineLobbyModel,
         );
 
         break;
