@@ -35,6 +35,26 @@ class GameOnlineLobbyNotifier extends StateNotifier<List<GameOnlineSocketModel>>
     return -1;
   }
 
+  void removeSocketFromList(String socketId, { bool notify = true }) {
+    if (_doesStateContainsSocketId(socketId)) {
+
+      final int positionOfSocketInState = _getPositionOfSocketIdInState(socketId);
+
+      if (notify) {
+
+        final List<GameOnlineSocketModel> newState = [ ...state ];
+        newState.removeAt(positionOfSocketInState);
+
+        state = [ ...newState ];
+
+        return;
+      }
+
+      state.removeAt(positionOfSocketInState);
+
+    }
+  }
+
   // Function to set a given list containing sockets' ids as the current state
   void setSocketsList(List<String> socketsIdsList, {bool notify = true}) {
 

@@ -6,13 +6,14 @@ import 'package:tapit/global/utils/global_functions.dart';
 import '../../../../menu/pages/menu_page.dart';
 import '../../enums/socket_enums.dart';
 import '../../../../global/providers/global_socket_provider.dart';
+import '../../models/game_online_lobby_model.dart';
 import '../../utils/game_online_text_styles.dart';
 
 import 'package:socket_io_client/socket_io_client.dart' as socket_io;
 
 class GameOnlineLobbyJoinSection extends ConsumerStatefulWidget {
 
-  final Function(String lobbyId) changeJoinedStatus;
+  final Function(GameOnlineLobbyModel gameOnlineLobbyModel) changeJoinedStatus;
 
   const GameOnlineLobbyJoinSection({
     required this.changeJoinedStatus,
@@ -34,6 +35,11 @@ class _GameOnlineLobbyJoinSectionState extends ConsumerState<GameOnlineLobbyJoin
     // Getting the socket from the provider
     final Map socketProvider = ref.read(globalSocketProvider);
     final socket_io.Socket? socket = socketProvider["socket"];
+
+    socket?.on(GameOnlineSocketEvent.joinLobbyResponseSuccess.text, (dynamic data) {
+      final GameOnlineLobbyModel gameOnlineLobbyModel = GameOnlineLobbyModel.fromJson(data);
+      widget.changeJoinedStatus(gameOnlineLobbyModel);
+    });
 
     super.initState();
   }
@@ -79,7 +85,7 @@ class _GameOnlineLobbyJoinSectionState extends ConsumerState<GameOnlineLobbyJoin
 
               // If the value is not null, send the event JoinLobby
               // to the server with the lobby id
-              // socket?.emit(GameOnlineSocketEvent.joinLobby.text, _value);
+              socket?.emit(GameOnlineSocketEvent.joinLobbyRequest.text, _value);
 
             }
           },

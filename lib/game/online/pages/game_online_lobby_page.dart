@@ -22,18 +22,22 @@ class GameOnlineLobbyPage extends StatefulWidget {
 
 class _GameOnlineLobbyPageState extends State<GameOnlineLobbyPage> {
 
-  late bool _isJoined;
+  GameOnlineLobbyModel? _gameOnlineLobbyModel;
 
   @override
   void initState() {
+
+    if (widget.gameOnlineLobbyModel != null) {
+      _gameOnlineLobbyModel = widget.gameOnlineLobbyModel;
+    }
+
     super.initState();
-    _isJoined = widget.gameOnlineLobbyModel != null;
   }
 
   // Function to change the status of joining inside the lobby state
-  void _changeJoinedStatus(String lobbyId) {
+  void _changeJoinedStatus(GameOnlineLobbyModel gameOnlineLobbyModel) {
     setState(() {
-      _isJoined = true;
+      _gameOnlineLobbyModel = gameOnlineLobbyModel;
     });
   }
 
@@ -55,9 +59,9 @@ class _GameOnlineLobbyPageState extends State<GameOnlineLobbyPage> {
               height: deviceHeight / 25,
             ),
 
-            _isJoined
+            _gameOnlineLobbyModel != null
                 ? GameOnlineLobbyCreateSection(
-                    gameOnlineLobbyModel: widget.gameOnlineLobbyModel!,
+                    gameOnlineLobbyModel: _gameOnlineLobbyModel!,
                   )
                 : GameOnlineLobbyJoinSection(
                     changeJoinedStatus: _changeJoinedStatus,

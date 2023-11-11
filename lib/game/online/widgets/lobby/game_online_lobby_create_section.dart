@@ -1,14 +1,11 @@
 import 'dart:async';
 
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tapit/game/online/models/game_online_lobby_model.dart';
-import 'package:tapit/game/online/models/game_online_socket_model.dart';
 import 'package:tapit/game/online/providers/game_online_lobby_provider.dart';
 import 'package:tapit/global/utils/global_functions.dart';
-import 'package:tapit/global/utils/global_run_once.dart';
 import 'package:tapit/menu/pages/menu_page.dart';
 
 import '../../enums/socket_enums.dart';
@@ -37,15 +34,36 @@ class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCr
   // Declaration of timer to execute periodically the getSocketsInfo's event
   Timer? _timer;
 
-  // Initialization of utils class to execute a function only once
-  final GlobalRunOnce _globalRunOnce = GlobalRunOnce();
-
   @override
   void initState() {
 
     // Getting the gameOnlineLobby state and notifier
     final onlineLobbyNotifier = ref.read(gameOnlineLobbyProvider.notifier);
     onlineLobbyNotifier.setSocketsList(widget.gameOnlineLobbyModel.sockets, notify: false);
+
+    // Getting the socket from the provider
+    final Map socketProvider = ref.read(globalSocketProvider);
+    final socket_io.Socket? socket = socketProvider["socket"];
+
+    socket?.on(GameOnlineSocketEvent.joinLobbyResponseSuccess.text, (dynamic data) {
+      if (data != null) {
+
+        final GameOnlineLobbyModel gameOnlineLobbyModel = GameOnlineLobbyModel.fromJson(data);
+        onlineLobbyNotifier.setSocketsList(gameOnlineLobbyModel.sockets);
+
+      }
+    });
+
+    socket?.on(GameOnlineSocketEvent.quitLobbyResponseSuccess.text, (dynamic data) {
+      if (data != null) {
+
+        final Map<String, dynamic> json = data as Map<String, dynamic>;
+        final String socketId = json["quittedSocket"];
+
+        onlineLobbyNotifier.removeSocketFromList(socketId);
+
+      }
+    });
 
     super.initState();
   }
@@ -104,7 +122,8 @@ class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCr
 
             // socket?.emit(GameOnlineSocketEvent.quitLobby.text, socket.id);
 
-            // Redirect the player to the Home page
+            socket?.emit(GameOnlineSocketEvent.quitLobbyRequest.text, widget.gameOnlineLobbyModel.lobbyId);
+
             GlobalFunctions.redirectAndClearRootTree(
               MenuPage.route,
             );
