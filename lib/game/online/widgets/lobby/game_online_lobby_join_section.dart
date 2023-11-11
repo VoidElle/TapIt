@@ -7,18 +7,14 @@ import '../../../../menu/pages/menu_page.dart';
 import '../../enums/socket_enums.dart';
 import '../../../../global/providers/global_socket_provider.dart';
 import '../../models/game_online_lobby_model.dart';
+import '../../pages/game_online_lobby_page.dart';
 import '../../utils/game_online_text_styles.dart';
 
 import 'package:socket_io_client/socket_io_client.dart' as socket_io;
 
 class GameOnlineLobbyJoinSection extends ConsumerStatefulWidget {
 
-  final Function(GameOnlineLobbyModel gameOnlineLobbyModel) changeJoinedStatus;
-
-  const GameOnlineLobbyJoinSection({
-    required this.changeJoinedStatus,
-    super.key,
-  });
+  const GameOnlineLobbyJoinSection({super.key});
 
   @override
   ConsumerState<GameOnlineLobbyJoinSection> createState() => _GameOnlineLobbyJoinSectionState();
@@ -37,8 +33,18 @@ class _GameOnlineLobbyJoinSectionState extends ConsumerState<GameOnlineLobbyJoin
     final socket_io.Socket? socket = socketProvider["socket"];
 
     socket?.on(GameOnlineSocketEvent.joinLobbyResponseSuccess.text, (dynamic data) {
-      final GameOnlineLobbyModel gameOnlineLobbyModel = GameOnlineLobbyModel.fromJson(data);
-      widget.changeJoinedStatus(gameOnlineLobbyModel);
+      if (mounted && data != null) {
+
+        final GameOnlineLobbyModel gameOnlineLobbyModel = GameOnlineLobbyModel.fromJson(data);
+
+        GlobalFunctions.redirectAndClearRootTree(
+          GameOnlineLobbyPage.route,
+          arguments: {
+            "data": gameOnlineLobbyModel,
+          },
+        );
+
+      }
     });
 
     super.initState();

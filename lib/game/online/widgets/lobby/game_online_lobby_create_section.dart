@@ -46,7 +46,7 @@ class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCr
     final socket_io.Socket? socket = socketProvider["socket"];
 
     socket?.on(GameOnlineSocketEvent.joinLobbyResponseSuccess.text, (dynamic data) {
-      if (data != null) {
+      if (mounted && data != null) {
 
         final GameOnlineLobbyModel gameOnlineLobbyModel = GameOnlineLobbyModel.fromJson(data);
         onlineLobbyNotifier.setSocketsList(gameOnlineLobbyModel.sockets);
@@ -55,7 +55,7 @@ class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCr
     });
 
     socket?.on(GameOnlineSocketEvent.quitLobbyResponseSuccess.text, (dynamic data) {
-      if (data != null) {
+      if (mounted && data != null) {
 
         final Map<String, dynamic> json = data as Map<String, dynamic>;
         final String socketId = json["quittedSocket"];

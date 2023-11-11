@@ -7,6 +7,12 @@ final gameOnlineLobbyProvider = StateNotifierProvider.autoDispose<GameOnlineLobb
 
 class GameOnlineLobbyNotifier extends StateNotifier<List<GameOnlineSocketModel>> {
 
+  @override
+  void dispose() {
+    state = [];
+    super.dispose();
+  }
+
   // Initial state of the Provider
   static final List<GameOnlineSocketModel> _initialState = [];
 
@@ -57,6 +63,8 @@ class GameOnlineLobbyNotifier extends StateNotifier<List<GameOnlineSocketModel>>
 
   // Function to set a given list containing sockets' ids as the current state
   void setSocketsList(List<String> socketsIdsList, {bool notify = true}) {
+
+    state.clear();
 
     final List<GameOnlineSocketModel> newState = [];
 

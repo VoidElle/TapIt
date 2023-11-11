@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tapit/game/online/models/game_online_lobby_model.dart';
+import 'package:tapit/game/online/pages/game_online_join_lobby_page.dart';
 import 'package:tapit/game/online/pages/game_online_lobby_page.dart';
 import 'package:tapit/game/online/utils/game_online_functions.dart';
 import 'package:tapit/global/utils/global_functions.dart';
@@ -47,17 +48,19 @@ class _GameOnlineMenuPageState extends ConsumerState<GameOnlineMenuPage> {
     final socket_io.Socket? socket = socketProvider["socket"];
 
     socket?.on(GameOnlineSocketEvent.createLobbyResponseSuccess.text, (dynamic data) {
+      if (mounted && data != null) {
 
-      debugPrint("Lobby created: ${data.toString()}");
-      final GameOnlineLobbyModel gameOnlineLobbyModel = GameOnlineLobbyModel.fromJson(data);
+        debugPrint("Lobby created: ${data.toString()}");
+        final GameOnlineLobbyModel gameOnlineLobbyModel = GameOnlineLobbyModel.fromJson(data);
 
-      GlobalFunctions.redirectAndClearRootTree(
-        GameOnlineLobbyPage.route,
-        arguments: {
-          "data": gameOnlineLobbyModel,
-        },
-      );
+        GlobalFunctions.redirectAndClearRootTree(
+          GameOnlineLobbyPage.route,
+          arguments: {
+            "data": gameOnlineLobbyModel,
+          },
+        );
 
+      }
     });
 
   }
@@ -110,12 +113,8 @@ class _GameOnlineMenuPageState extends ConsumerState<GameOnlineMenuPage> {
             GlobalAnimatedButton(
               onTapUp: () {
 
-                // Redirect the player to the Lobby page as NOT leader
                 GlobalFunctions.redirectAndClearRootTree(
-                  GameOnlineLobbyPage.route,
-                  arguments: {
-                    "is_joined": false,
-                  },
+                  GameOnlineJoinLobbyPage.route,
                 );
 
               },
