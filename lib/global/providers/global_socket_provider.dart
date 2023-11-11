@@ -46,7 +46,7 @@ class GlobalSocketNotifier extends StateNotifier<Map> {
     // the socket state to Disconnected
     socket.onDisconnect((_) {
       debugPrint('SOCKET_INFO: Connection Disconnection');
-      _setStatus(GameOnlineSocketStatus.disconnected);
+      _setStatus(GameOnlineSocketStatus.error);
     });
 
     // If an error is occurred, set the status of the socket to Error
