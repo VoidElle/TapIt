@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -31,9 +29,6 @@ class GameOnlineLobbyCreateSection extends ConsumerStatefulWidget {
 
 class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCreateSection> {
 
-  // Declaration of timer to execute periodically the getSocketsInfo's event
-  Timer? _timer;
-
   @override
   void initState() {
 
@@ -45,21 +40,27 @@ class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCr
     final Map socketProvider = ref.read(globalSocketProvider);
     final socket_io.Socket? socket = socketProvider["socket"];
 
+    // Listening to the join success event
     socket?.on(GameOnlineSocketEvent.joinLobbyResponseSuccess.text, (dynamic data) {
       if (mounted && data != null) {
 
+        // Creating a GameOnlineLobby model and setting the list using the notifier
         final GameOnlineLobbyModel gameOnlineLobbyModel = GameOnlineLobbyModel.fromJson(data);
         onlineLobbyNotifier.setSocketsList(gameOnlineLobbyModel.sockets);
 
       }
     });
 
+    // Listening to the quit lobby success event
+    // when a socket quits the lobby
     socket?.on(GameOnlineSocketEvent.quitLobbyResponseSuccess.text, (dynamic data) {
       if (mounted && data != null) {
 
+        // Get the id of the left socket
         final Map<String, dynamic> json = data as Map<String, dynamic>;
         final String socketId = json["quittedSocket"];
 
+        // Remove the left socket from the list
         onlineLobbyNotifier.removeSocketFromList(socketId);
 
       }
@@ -100,7 +101,7 @@ class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCr
         // Show the connected sockets' ids list
         if (socket != null)
           GameOnlineLobbySocketsList(
-            leaderSocket: socket.id!,
+            leaderSocket: socket.id ?? "",
           ),
 
         // Button to change the status of the socket
@@ -120,13 +121,11 @@ class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCr
         TextButton(
           onPressed: () {
 
-            // socket?.emit(GameOnlineSocketEvent.quitLobby.text, socket.id);
-
+            // Emit the quit lobby event
             socket?.emit(GameOnlineSocketEvent.quitLobbyRequest.text, widget.gameOnlineLobbyModel.lobbyId);
 
-            GlobalFunctions.redirectAndClearRootTree(
-              MenuPage.route,
-            );
+            // Redirect the user to the MenuPage
+            GlobalFunctions.redirectAndClearRootTree(MenuPage.route);
 
           },
           child: const Text(
@@ -136,15 +135,6 @@ class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCr
 
       ],
     );
-  }
-
-  @override
-  void dispose() {
-
-    // Cancel the timer on the widget's dispose
-    _timer?.cancel();
-
-    super.dispose();
   }
 
 }

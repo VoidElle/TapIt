@@ -47,12 +47,16 @@ class _GameOnlineMenuPageState extends ConsumerState<GameOnlineMenuPage> {
     final Map socketProvider = ref.read(globalSocketProvider);
     final socket_io.Socket? socket = socketProvider["socket"];
 
+    // Listening to the create lobby success event
     socket?.on(GameOnlineSocketEvent.createLobbyResponseSuccess.text, (dynamic data) {
       if (mounted && data != null) {
 
+        // Create the GameOnlineLobby model from the data received
         debugPrint("Lobby created: ${data.toString()}");
         final GameOnlineLobbyModel gameOnlineLobbyModel = GameOnlineLobbyModel.fromJson(data);
 
+        // Redirect the use to the Lobby page with the
+        // GameOnlineLobby model as an argument
         GlobalFunctions.redirectAndClearRootTree(
           GameOnlineLobbyPage.route,
           arguments: {
@@ -113,9 +117,8 @@ class _GameOnlineMenuPageState extends ConsumerState<GameOnlineMenuPage> {
             GlobalAnimatedButton(
               onTapUp: () {
 
-                GlobalFunctions.redirectAndClearRootTree(
-                  GameOnlineJoinLobbyPage.route,
-                );
+                // Redirecting the user to the Join lobby page
+                GlobalFunctions.redirectAndClearRootTree(GameOnlineJoinLobbyPage.route);
 
               },
               child: AutoSizeText(
@@ -143,9 +146,7 @@ class _GameOnlineMenuPageState extends ConsumerState<GameOnlineMenuPage> {
               onTapUp: () {
 
                 // Redirecting the player to the Menu Page
-                GlobalFunctions.redirectAndClearRootTree(
-                  MenuPage.route,
-                );
+                GlobalFunctions.redirectAndClearRootTree(MenuPage.route);
 
               },
             ),

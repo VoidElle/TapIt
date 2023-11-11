@@ -32,11 +32,15 @@ class _GameOnlineLobbyJoinSectionState extends ConsumerState<GameOnlineLobbyJoin
     final Map socketProvider = ref.read(globalSocketProvider);
     final socket_io.Socket? socket = socketProvider["socket"];
 
+    // Listening to the join success event
     socket?.on(GameOnlineSocketEvent.joinLobbyResponseSuccess.text, (dynamic data) {
       if (mounted && data != null) {
 
+        // Create the GameOnlineLobby model from the json data received from the request
         final GameOnlineLobbyModel gameOnlineLobbyModel = GameOnlineLobbyModel.fromJson(data);
 
+        // Redirect the user to the main lobby page with
+        // the GameOnlineLobby model as data
         GlobalFunctions.redirectAndClearRootTree(
           GameOnlineLobbyPage.route,
           arguments: {
