@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tapit/game/online/dialogs/game_online_leader_left_dialog.dart';
 import 'package:tapit/game/online/models/game_online_lobby_model.dart';
 import 'package:tapit/game/online/providers/game_online_lobby_provider.dart';
 import 'package:tapit/global/utils/global_functions.dart';
@@ -63,6 +64,17 @@ class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCr
         // Remove the left socket from the list
         onlineLobbyNotifier.removeSocketFromList(socketId);
 
+      }
+    });
+
+    // Listening to the leader left lobby event
+    socket?.on(GameOnlineSocketEvent.leaderLeftLobby.text, (dynamic data) {
+      if (mounted) {
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext _) => const GameOnlineLeaderLeftDialog(),
+        );
       }
     });
 

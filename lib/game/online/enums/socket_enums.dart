@@ -24,6 +24,8 @@ enum GameOnlineSocketEvent {
   quitLobbyRequest,
   quitLobbyResponseSuccess,
   quitLobbyResponseFail,
+
+  leaderLeftLobby,
 }
 
 // Extension to transform the enum to String using .text
@@ -61,6 +63,10 @@ extension GameOnlineSocketEventExtension on GameOnlineSocketEvent {
         return "QUIT_LOBBY_RESPONSE_SUCCESS";
       case GameOnlineSocketEvent.quitLobbyResponseFail:
         return "QUIT_LOBBY_RESPONSE_FAIL";
+
+      // Lobby utils events
+      case GameOnlineSocketEvent.leaderLeftLobby:
+        return "LEADER_LEFT_LOBBY";
     }
   }
 
