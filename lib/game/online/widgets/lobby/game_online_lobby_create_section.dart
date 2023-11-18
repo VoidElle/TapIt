@@ -132,13 +132,8 @@ class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCr
         TextButton(
           onPressed: () {
 
-            final Map<String, dynamic> jsonToSend = {
-              "newReadyStatus": true,
-              "lobbyId": widget.gameOnlineLobbyModel.lobbyId
-            };
-
             // Emit the setReadyStatus' event to the server with the lobby id
-            socket?.emit(GameOnlineSocketEvent.playerChangeReadyStatus.text, jsonToSend);
+            socket?.emit(GameOnlineSocketEvent.playerChangeReadyStatus.text, widget.gameOnlineLobbyModel.lobbyId);
 
           },
           child: const Text(
