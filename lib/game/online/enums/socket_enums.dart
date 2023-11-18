@@ -26,6 +26,7 @@ enum GameOnlineSocketEvent {
   quitLobbyResponseFail,
 
   leaderLeftLobby,
+  playerChangeReadyStatus,
 }
 
 // Extension to transform the enum to String using .text
@@ -67,6 +68,8 @@ extension GameOnlineSocketEventExtension on GameOnlineSocketEvent {
       // Lobby utils events
       case GameOnlineSocketEvent.leaderLeftLobby:
         return "LEADER_LEFT_LOBBY";
+      case GameOnlineSocketEvent.playerChangeReadyStatus:
+        return "PLAYER_CHANGE_READY_STATUS";
     }
   }
 

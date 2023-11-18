@@ -63,6 +63,17 @@ class GameOnlineLobbyNotifier extends StateNotifier<List<GameOnlineSocketModel>>
     }
   }
 
+  void resetReadyStatus(){
+
+    final List<GameOnlineSocketModel> newState = [];
+    for (GameOnlineSocketModel gameOnlineSocketModel in state) {
+      gameOnlineSocketModel.readyStatus = false;
+      newState.add(gameOnlineSocketModel);
+    }
+
+    state = newState;
+  }
+
   // Function to set a given list containing sockets' ids as the current state
   void setSocketsList(List<String> socketsIdsList, {bool notify = true}) {
 
@@ -114,7 +125,7 @@ class GameOnlineLobbyNotifier extends StateNotifier<List<GameOnlineSocketModel>>
   }
 
   // Function to change the ready status of a given socket's id
-  void setReadyStatus(String socketId) {
+  void changeReadyStatus(String socketId) {
 
     final List<GameOnlineSocketModel> newState = [...state];
 

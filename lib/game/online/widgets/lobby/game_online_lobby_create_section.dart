@@ -63,6 +63,7 @@ class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCr
 
         // Remove the left socket from the list
         onlineLobbyNotifier.removeSocketFromList(socketId);
+        onlineLobbyNotifier.resetReadyStatus();
 
       }
     });
@@ -75,6 +76,17 @@ class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCr
           barrierDismissible: false,
           builder: (BuildContext _) => const GameOnlineLeaderLeftDialog(),
         );
+      }
+    });
+
+    socket?.on(GameOnlineSocketEvent.playerChangeReadyStatus.text, (dynamic data) {
+      if (mounted) {
+
+        final Map<String, dynamic> json = data as Map<String, dynamic>;
+        final String socketId = json["socket"];
+
+        onlineLobbyNotifier.changeReadyStatus(socketId);
+
       }
     });
 
@@ -120,8 +132,13 @@ class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCr
         TextButton(
           onPressed: () {
 
+            final Map<String, dynamic> jsonToSend = {
+              "newReadyStatus": true,
+              "lobbyId": widget.gameOnlineLobbyModel.lobbyId
+            };
+
             // Emit the setReadyStatus' event to the server with the lobby id
-            // socket?.emit(GameOnlineSocketEvent.setReadyStatus.text, widget.lobbyId);
+            socket?.emit(GameOnlineSocketEvent.playerChangeReadyStatus.text, jsonToSend);
 
           },
           child: const Text(
