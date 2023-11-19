@@ -112,7 +112,7 @@ class __$$_GameOnlineLobbyModelCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_GameOnlineLobbyModel extends _GameOnlineLobbyModel {
-  _$_GameOnlineLobbyModel({required this.lobbyId, this.sockets = const []})
+  _$_GameOnlineLobbyModel({required this.lobbyId, required this.sockets})
       : super._();
 
   factory _$_GameOnlineLobbyModel.fromJson(Map<String, dynamic> json) =>
@@ -121,7 +121,6 @@ class _$_GameOnlineLobbyModel extends _GameOnlineLobbyModel {
   @override
   String lobbyId;
   @override
-  @JsonKey()
   List<GameOnlineSocketModel> sockets;
 
   @override
@@ -147,7 +146,7 @@ class _$_GameOnlineLobbyModel extends _GameOnlineLobbyModel {
 abstract class _GameOnlineLobbyModel extends GameOnlineLobbyModel {
   factory _GameOnlineLobbyModel(
       {required String lobbyId,
-      List<GameOnlineSocketModel> sockets}) = _$_GameOnlineLobbyModel;
+      required List<GameOnlineSocketModel> sockets}) = _$_GameOnlineLobbyModel;
   _GameOnlineLobbyModel._() : super._();
 
   factory _GameOnlineLobbyModel.fromJson(Map<String, dynamic> json) =

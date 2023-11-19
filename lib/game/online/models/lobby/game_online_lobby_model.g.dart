@@ -10,11 +10,9 @@ _$_GameOnlineLobbyModel _$$_GameOnlineLobbyModelFromJson(
         Map<String, dynamic> json) =>
     _$_GameOnlineLobbyModel(
       lobbyId: json['lobbyId'] as String,
-      sockets: (json['sockets'] as List<dynamic>?)
-              ?.map((e) =>
-                  GameOnlineSocketModel.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          const [],
+      sockets: (json['sockets'] as List<dynamic>)
+          .map((e) => GameOnlineSocketModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$$_GameOnlineLobbyModelToJson(

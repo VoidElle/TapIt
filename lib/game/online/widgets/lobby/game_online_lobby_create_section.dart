@@ -22,10 +22,7 @@ import 'game_online_lobby_sockets_list.dart';
 
 class GameOnlineLobbyCreateSection extends ConsumerStatefulWidget {
 
-  final GameOnlineLobbyModel gameOnlineLobbyModel;
-
   const GameOnlineLobbyCreateSection({
-    required this.gameOnlineLobbyModel,
     super.key,
   });
 
@@ -39,8 +36,8 @@ class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCr
   void initState() {
 
     // Getting the gameOnlineLobby state and notifier
+    final onlineLobbyState = ref.read(gameOnlineLobbyProvider);
     final onlineLobbyNotifier = ref.read(gameOnlineLobbyProvider.notifier);
-    onlineLobbyNotifier.setSocketsList(widget.gameOnlineLobbyModel.sockets, notify: false);
 
     // Getting the socket from the provider
     final Map socketProvider = ref.read(globalSocketProvider);
@@ -98,10 +95,10 @@ class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCr
     socket?.on(GameOnlineSocketEvent.startLobbyResponseSuccess.text, (dynamic data) {
       if (mounted) {
 
-        final String lobbyId = widget.gameOnlineLobbyModel.lobbyId;
+        final String lobbyId = onlineLobbyState.lobbyId;
         final List<GameOnlinePlayerModel> playersList = [];
 
-        for (GameOnlineSocketModel gameOnlineSocketModel in widget.gameOnlineLobbyModel.sockets) {
+        for (GameOnlineSocketModel gameOnlineSocketModel in onlineLobbyState.sockets) {
 
           final GameOnlinePlayerModel gameOnlinePlayerModel = GameOnlinePlayerModel(
             gameOnlineSocketModel: gameOnlineSocketModel,
@@ -131,7 +128,7 @@ class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCr
   Widget build(BuildContext context) {
 
     // Getting the state of the lobby from the provider
-    final onlineLobbyState = ref.watch(gameOnlineLobbyProvider);
+    final GameOnlineLobbyModel onlineLobbyState = ref.watch(gameOnlineLobbyProvider);
     final onlineLobbyNotifier = ref.read(gameOnlineLobbyProvider.notifier);
 
     // Getting the socket from the provider
@@ -142,7 +139,7 @@ class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCr
     final GameOnlineSocketModel? gameOnlineSocketModel = onlineLobbyNotifier.getSocket(socket?.id);
 
     // Check if all the sockets are ready
-    final bool areAllSocketsReady = GameOnlineFunctions.areAllSocketsReady(onlineLobbyState);
+    final bool areAllSocketsReady = GameOnlineFunctions.areAllSocketsReady(onlineLobbyState.sockets);
 
     return Column(
       children: [
@@ -162,7 +159,7 @@ class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCr
 
         // Lobby id text
         Text(
-          widget.gameOnlineLobbyModel.lobbyId,
+          onlineLobbyState.lobbyId,
           style: GameOnlineTextStyles.lobbyCodeTextStyle(),
         ),
 
@@ -175,7 +172,7 @@ class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCr
         if (areAllSocketsReady && sizeOfConnectedSockets > 1 && gameOnlineSocketModel != null && gameOnlineSocketModel.isLeader)
           TextButton(
             onPressed: () {
-              socket?.emit(GameOnlineSocketEvent.startLobbyRequest.text, widget.gameOnlineLobbyModel.lobbyId);
+              socket?.emit(GameOnlineSocketEvent.startLobbyRequest.text, onlineLobbyState.lobbyId);
             },
             child: const Text(
               "Start the Game",
@@ -187,7 +184,7 @@ class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCr
           onPressed: () {
 
             // Emit the setReadyStatus' event to the server with the lobby id
-            socket?.emit(GameOnlineSocketEvent.playerChangeReadyStatus.text, widget.gameOnlineLobbyModel.lobbyId);
+            socket?.emit(GameOnlineSocketEvent.playerChangeReadyStatus.text, onlineLobbyState.lobbyId);
 
           },
           child: const Text(
@@ -200,7 +197,7 @@ class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCr
           onPressed: () {
 
             // Emit the quit lobby event
-            socket?.emit(GameOnlineSocketEvent.quitLobbyRequest.text, widget.gameOnlineLobbyModel.lobbyId);
+            socket?.emit(GameOnlineSocketEvent.quitLobbyRequest.text, onlineLobbyState.lobbyId);
 
             // Redirect the user to the MenuPage
             GlobalFunctions.redirectAndClearRootTree(MenuPage.route);

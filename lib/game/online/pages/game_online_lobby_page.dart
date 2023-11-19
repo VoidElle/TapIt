@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tapit/game/online/models/lobby/game_online_lobby_model.dart';
 
+import '../providers/game_online_lobby_provider.dart';
 import '../widgets/lobby/game_online_lobby_create_section.dart';
 import '../widgets/lobby/game_online_lobby_title.dart';
 
-class GameOnlineLobbyPage extends StatefulWidget {
+class GameOnlineLobbyPage extends ConsumerStatefulWidget {
 
   static const String route = "/game-online-lobby-page";
 
@@ -16,10 +18,20 @@ class GameOnlineLobbyPage extends StatefulWidget {
   });
 
   @override
-  State<GameOnlineLobbyPage> createState() => _GameOnlineLobbyPageState();
+  ConsumerState<GameOnlineLobbyPage> createState() => _GameOnlineLobbyPageState();
 }
 
-class _GameOnlineLobbyPageState extends State<GameOnlineLobbyPage> {
+class _GameOnlineLobbyPageState extends ConsumerState<GameOnlineLobbyPage> {
+
+  @override
+  void initState() {
+
+    // Set the lobby model to the provider
+    final onlineLobbyNotifier = ref.read(gameOnlineLobbyProvider.notifier);
+    onlineLobbyNotifier.setStateSilent(widget.gameOnlineLobbyModel);
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,9 +51,7 @@ class _GameOnlineLobbyPageState extends State<GameOnlineLobbyPage> {
               height: deviceHeight / 25,
             ),
 
-            GameOnlineLobbyCreateSection(
-              gameOnlineLobbyModel: widget.gameOnlineLobbyModel,
-            )
+            const GameOnlineLobbyCreateSection(),
 
           ],
         ),

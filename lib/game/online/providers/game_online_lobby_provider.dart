@@ -1,27 +1,25 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tapit/game/online/models/lobby/game_online_lobby_model.dart';
 import 'package:tapit/game/online/models/socket/game_online_socket_model.dart';
 
-final gameOnlineLobbyProvider = StateNotifierProvider.autoDispose<GameOnlineLobbyNotifier, List<GameOnlineSocketModel>>(
+final gameOnlineLobbyProvider = StateNotifierProvider.autoDispose<GameOnlineLobbyNotifier, GameOnlineLobbyModel>(
       (ref) => GameOnlineLobbyNotifier(),
 );
 
-class GameOnlineLobbyNotifier extends StateNotifier<List<GameOnlineSocketModel>> {
-
-  @override
-  void dispose() {
-    state = [];
-    super.dispose();
-  }
+class GameOnlineLobbyNotifier extends StateNotifier<GameOnlineLobbyModel> {
 
   // Initial state of the Provider
-  static final List<GameOnlineSocketModel> _initialState = [];
+  static final GameOnlineLobbyModel _initialState = GameOnlineLobbyModel(
+    lobbyId: "",
+    sockets: [],
+  );
 
   // Constructor of the provider
   GameOnlineLobbyNotifier(): super(_initialState);
 
   // Function to check if the current state contains a given socket's id
   bool _doesStateContainsSocketId(String socketId) {
-    for (GameOnlineSocketModel gameOnlineSocketModel in state) {
+    for (GameOnlineSocketModel gameOnlineSocketModel in state.sockets) {
       if (gameOnlineSocketModel.socketId == socketId) {
         return true;
       }
@@ -29,14 +27,15 @@ class GameOnlineLobbyNotifier extends StateNotifier<List<GameOnlineSocketModel>>
     return false;
   }
 
+  // Function to get the number of connected socket to the lobby
   int getNumberOfConnectedSockets() {
-    return state.length;
+    return state.sockets.length;
   }
 
   // Function to get the position inside the state's array of a given socket's id inside the current state
   int _getPositionOfSocketIdInState(String socketId) {
     int i = 0;
-    for (GameOnlineSocketModel gameOnlineSocketModel in state) {
+    for (GameOnlineSocketModel gameOnlineSocketModel in state.sockets) {
       if (gameOnlineSocketModel.socketId == socketId) {
         return i;
       }
@@ -45,6 +44,13 @@ class GameOnlineLobbyNotifier extends StateNotifier<List<GameOnlineSocketModel>>
     return -1;
   }
 
+  // Function to set a new state silently
+  void setStateSilent(GameOnlineLobbyModel gameOnlineLobbyModel) {
+    state.lobbyId = gameOnlineLobbyModel.lobbyId;
+    state.sockets = gameOnlineLobbyModel.sockets;
+  }
+
+  // Function to get the socket model from the socket id
   GameOnlineSocketModel? getSocket(String? socketId) {
 
     if (socketId == null) {
@@ -57,7 +63,7 @@ class GameOnlineLobbyNotifier extends StateNotifier<List<GameOnlineSocketModel>>
       return null;
     }
 
-    return state[position];
+    return state.sockets[position];
   }
 
   // Function to remove a socket using an id
@@ -69,15 +75,20 @@ class GameOnlineLobbyNotifier extends StateNotifier<List<GameOnlineSocketModel>>
 
       if (notify) {
 
-        final List<GameOnlineSocketModel> newState = [ ...state ];
-        newState.removeAt(positionOfSocketInState);
+        final List<GameOnlineSocketModel> newSocketsList = [ ...state.sockets ];
+        newSocketsList.removeAt(positionOfSocketInState);
 
-        state = [ ...newState ];
+        final GameOnlineLobbyModel newState = GameOnlineLobbyModel(
+          lobbyId: state.lobbyId,
+          sockets: newSocketsList,
+        );
+
+        state = newState;
 
         return;
       }
 
-      state.removeAt(positionOfSocketInState);
+      state.sockets.removeAt(positionOfSocketInState);
 
     }
   }
@@ -85,7 +96,7 @@ class GameOnlineLobbyNotifier extends StateNotifier<List<GameOnlineSocketModel>>
   // Function to get if all the sockets are ready
   bool areAllPlayersReady() {
 
-    for (GameOnlineSocketModel gameOnlineSocketModel in state) {
+    for (GameOnlineSocketModel gameOnlineSocketModel in state.sockets) {
       if (!gameOnlineSocketModel.readyStatus) {
         return false;
       }
@@ -97,13 +108,23 @@ class GameOnlineLobbyNotifier extends StateNotifier<List<GameOnlineSocketModel>>
   // Function to reset all the ready status of the sockets
   void resetReadyStatus(){
 
-    final List<GameOnlineSocketModel> newState = [];
-    for (GameOnlineSocketModel gameOnlineSocketModel in state) {
+    final List<GameOnlineSocketModel> newSocketsList = [];
+    for (GameOnlineSocketModel gameOnlineSocketModel in state.sockets) {
       gameOnlineSocketModel.readyStatus = false;
-      newState.add(gameOnlineSocketModel);
+      newSocketsList.add(gameOnlineSocketModel);
     }
 
+    final GameOnlineLobbyModel newState = GameOnlineLobbyModel(
+      lobbyId: state.lobbyId,
+      sockets: newSocketsList,
+    );
+
     state = newState;
+  }
+
+  // Function to set the lobby id of the provider silently
+  void setLobbyIdSilent(String lobbyId) {
+    state.lobbyId = lobbyId;
   }
 
   // Function to set a given list containing sockets' ids as the current state
@@ -111,9 +132,9 @@ class GameOnlineLobbyNotifier extends StateNotifier<List<GameOnlineSocketModel>>
 
     // Clear the state for not having multiple
     // entries with the same ids
-    state.clear();
+    state.sockets.clear();
 
-    final List<GameOnlineSocketModel> newState = [];
+    final List<GameOnlineSocketModel> newSocketsList = [];
 
     for (GameOnlineSocketModel gameOnlineSocketModel in socketsList) {
 
@@ -128,23 +149,23 @@ class GameOnlineLobbyNotifier extends StateNotifier<List<GameOnlineSocketModel>>
         final int positionOfSocketInState = _getPositionOfSocketIdInState(socketId);
 
         if (notify) {
-          newState.add(GameOnlineSocketModel.fromJson(state[positionOfSocketInState].toJson()));
+          newSocketsList.add(GameOnlineSocketModel.fromJson(state.sockets[positionOfSocketInState].toJson()));
         } else {
-          state.add(GameOnlineSocketModel.fromJson(state[positionOfSocketInState].toJson()));
+          state.sockets.add(GameOnlineSocketModel.fromJson(state.sockets[positionOfSocketInState].toJson()));
         }
 
       } else {
 
         // If not, create a new object and add to the new state
         if (notify) {
-          newState.add(
+          newSocketsList.add(
             GameOnlineSocketModel(
               socketId: socketId,
               isLeader: isLeader,
             ),
           );
         } else {
-          state.add(
+          state.sockets.add(
             GameOnlineSocketModel(
               socketId: socketId,
               isLeader: isLeader,
@@ -156,7 +177,14 @@ class GameOnlineLobbyNotifier extends StateNotifier<List<GameOnlineSocketModel>>
     }
 
     if (notify) {
-      state = [...newState];
+
+      final GameOnlineLobbyModel newState = GameOnlineLobbyModel(
+        lobbyId: state.lobbyId,
+        sockets: newSocketsList,
+      );
+
+      state = newState;
+
     }
 
   }
@@ -164,16 +192,22 @@ class GameOnlineLobbyNotifier extends StateNotifier<List<GameOnlineSocketModel>>
   // Function to change the ready status of a given socket's id
   void changeReadyStatus(String socketId) {
 
-    final List<GameOnlineSocketModel> newState = [...state];
+    final List<GameOnlineSocketModel> newSocketsList = [...state.sockets];
 
-    for (GameOnlineSocketModel socketModel in newState) {
+    for (GameOnlineSocketModel socketModel in newSocketsList) {
       if (socketModel.socketId == socketId) {
         socketModel.readyStatus = !socketModel.readyStatus;
         break;
       }
     }
 
-    state = [...newState];
+    final GameOnlineLobbyModel newState = GameOnlineLobbyModel(
+      lobbyId: state.lobbyId,
+      sockets: newSocketsList,
+    );
+
+    state = newState;
+
   }
 
 }

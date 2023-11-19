@@ -12,7 +12,7 @@ class GameOnlineLobbyModel with _$GameOnlineLobbyModel {
 
   factory GameOnlineLobbyModel({
     required String lobbyId,
-    @Default([]) List<GameOnlineSocketModel> sockets,
+    required List<GameOnlineSocketModel> sockets,
   }) = _GameOnlineLobbyModel;
 
   factory GameOnlineLobbyModel.fromJson(Map<String, Object?> json) => _$GameOnlineLobbyModelFromJson(json);
