@@ -11,6 +11,7 @@ class GameOnlineSocketModel extends Equatable with _$GameOnlineSocketModel {
 
   factory GameOnlineSocketModel({
     required String socketId,
+    required bool isLeader,
     @Default(false) bool readyStatus,
   }) = _GameOnlineSocketModel;
 

@@ -23,6 +23,8 @@ GameOnlineSocketModel _$GameOnlineSocketModelFromJson(
 mixin _$GameOnlineSocketModel {
   String get socketId => throw _privateConstructorUsedError;
   set socketId(String value) => throw _privateConstructorUsedError;
+  bool get isLeader => throw _privateConstructorUsedError;
+  set isLeader(bool value) => throw _privateConstructorUsedError;
   bool get readyStatus => throw _privateConstructorUsedError;
   set readyStatus(bool value) => throw _privateConstructorUsedError;
 
@@ -38,7 +40,7 @@ abstract class $GameOnlineSocketModelCopyWith<$Res> {
           $Res Function(GameOnlineSocketModel) then) =
       _$GameOnlineSocketModelCopyWithImpl<$Res, GameOnlineSocketModel>;
   @useResult
-  $Res call({String socketId, bool readyStatus});
+  $Res call({String socketId, bool isLeader, bool readyStatus});
 }
 
 /// @nodoc
@@ -56,6 +58,7 @@ class _$GameOnlineSocketModelCopyWithImpl<$Res,
   @override
   $Res call({
     Object? socketId = null,
+    Object? isLeader = null,
     Object? readyStatus = null,
   }) {
     return _then(_value.copyWith(
@@ -63,6 +66,10 @@ class _$GameOnlineSocketModelCopyWithImpl<$Res,
           ? _value.socketId
           : socketId // ignore: cast_nullable_to_non_nullable
               as String,
+      isLeader: null == isLeader
+          ? _value.isLeader
+          : isLeader // ignore: cast_nullable_to_non_nullable
+              as bool,
       readyStatus: null == readyStatus
           ? _value.readyStatus
           : readyStatus // ignore: cast_nullable_to_non_nullable
@@ -79,7 +86,7 @@ abstract class _$$_GameOnlineSocketModelCopyWith<$Res>
       __$$_GameOnlineSocketModelCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String socketId, bool readyStatus});
+  $Res call({String socketId, bool isLeader, bool readyStatus});
 }
 
 /// @nodoc
@@ -94,6 +101,7 @@ class __$$_GameOnlineSocketModelCopyWithImpl<$Res>
   @override
   $Res call({
     Object? socketId = null,
+    Object? isLeader = null,
     Object? readyStatus = null,
   }) {
     return _then(_$_GameOnlineSocketModel(
@@ -101,6 +109,10 @@ class __$$_GameOnlineSocketModelCopyWithImpl<$Res>
           ? _value.socketId
           : socketId // ignore: cast_nullable_to_non_nullable
               as String,
+      isLeader: null == isLeader
+          ? _value.isLeader
+          : isLeader // ignore: cast_nullable_to_non_nullable
+              as bool,
       readyStatus: null == readyStatus
           ? _value.readyStatus
           : readyStatus // ignore: cast_nullable_to_non_nullable
@@ -112,7 +124,10 @@ class __$$_GameOnlineSocketModelCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_GameOnlineSocketModel extends _GameOnlineSocketModel {
-  _$_GameOnlineSocketModel({required this.socketId, this.readyStatus = false})
+  _$_GameOnlineSocketModel(
+      {required this.socketId,
+      required this.isLeader,
+      this.readyStatus = false})
       : super._();
 
   factory _$_GameOnlineSocketModel.fromJson(Map<String, dynamic> json) =>
@@ -120,6 +135,8 @@ class _$_GameOnlineSocketModel extends _GameOnlineSocketModel {
 
   @override
   String socketId;
+  @override
+  bool isLeader;
   @override
   @JsonKey()
   bool readyStatus;
@@ -140,8 +157,10 @@ class _$_GameOnlineSocketModel extends _GameOnlineSocketModel {
 }
 
 abstract class _GameOnlineSocketModel extends GameOnlineSocketModel {
-  factory _GameOnlineSocketModel({required String socketId, bool readyStatus}) =
-      _$_GameOnlineSocketModel;
+  factory _GameOnlineSocketModel(
+      {required String socketId,
+      required bool isLeader,
+      bool readyStatus}) = _$_GameOnlineSocketModel;
   _GameOnlineSocketModel._() : super._();
 
   factory _GameOnlineSocketModel.fromJson(Map<String, dynamic> json) =
@@ -150,6 +169,9 @@ abstract class _GameOnlineSocketModel extends GameOnlineSocketModel {
   @override
   String get socketId;
   set socketId(String value);
+  @override
+  bool get isLeader;
+  set isLeader(bool value);
   @override
   bool get readyStatus;
   set readyStatus(bool value);

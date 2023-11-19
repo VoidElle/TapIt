@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tapit/game/online/dialogs/game_online_leader_left_dialog.dart';
 import 'package:tapit/game/online/models/game_online_lobby_model.dart';
+import 'package:tapit/game/online/models/game_online_socket_model.dart';
 import 'package:tapit/game/online/pages/game_online_page.dart';
 import 'package:tapit/game/online/providers/game_online_lobby_provider.dart';
 import 'package:tapit/game/online/utils/game_online_functions.dart';
@@ -106,10 +107,14 @@ class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCr
 
     // Getting the state of the lobby from the provider
     final onlineLobbyState = ref.watch(gameOnlineLobbyProvider);
+    final onlineLobbyNotifier = ref.read(gameOnlineLobbyProvider.notifier);
 
     // Getting the socket from the provider
     final Map socketProvider = ref.watch(globalSocketProvider);
     final socket_io.Socket? socket = socketProvider["socket"];
+
+    final int sizeOfConnectedSockets = onlineLobbyNotifier.getNumberOfConnectedSockets();
+    final GameOnlineSocketModel? gameOnlineSocketModel = onlineLobbyNotifier.getSocket(socket?.id);
 
     // Check if all the sockets are ready
     final bool areAllSocketsReady = GameOnlineFunctions.areAllSocketsReady(onlineLobbyState);
@@ -142,7 +147,7 @@ class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCr
             leaderSocket: socket.id ?? "",
           ),
 
-        if (areAllSocketsReady)
+        if (areAllSocketsReady && sizeOfConnectedSockets > 1 && gameOnlineSocketModel != null && gameOnlineSocketModel.isLeader)
           TextButton(
             onPressed: () {
               socket?.emit(GameOnlineSocketEvent.startLobbyRequest.text, widget.gameOnlineLobbyModel.lobbyId);

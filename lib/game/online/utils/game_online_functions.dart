@@ -77,11 +77,9 @@ class GameOnlineFunctions {
         return false;
       }
 
-      return true;
     }
 
-    // If the list is empty, we return false
-    return false;
+    return gameOnlineSocketModelList.isNotEmpty;
   }
 
 }

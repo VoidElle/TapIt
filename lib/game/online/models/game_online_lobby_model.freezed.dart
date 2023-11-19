@@ -22,8 +22,9 @@ GameOnlineLobbyModel _$GameOnlineLobbyModelFromJson(Map<String, dynamic> json) {
 mixin _$GameOnlineLobbyModel {
   String get lobbyId => throw _privateConstructorUsedError;
   set lobbyId(String value) => throw _privateConstructorUsedError;
-  List<String> get sockets => throw _privateConstructorUsedError;
-  set sockets(List<String> value) => throw _privateConstructorUsedError;
+  List<GameOnlineSocketModel> get sockets => throw _privateConstructorUsedError;
+  set sockets(List<GameOnlineSocketModel> value) =>
+      throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -37,7 +38,7 @@ abstract class $GameOnlineLobbyModelCopyWith<$Res> {
           $Res Function(GameOnlineLobbyModel) then) =
       _$GameOnlineLobbyModelCopyWithImpl<$Res, GameOnlineLobbyModel>;
   @useResult
-  $Res call({String lobbyId, List<String> sockets});
+  $Res call({String lobbyId, List<GameOnlineSocketModel> sockets});
 }
 
 /// @nodoc
@@ -65,7 +66,7 @@ class _$GameOnlineLobbyModelCopyWithImpl<$Res,
       sockets: null == sockets
           ? _value.sockets
           : sockets // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<GameOnlineSocketModel>,
     ) as $Val);
   }
 }
@@ -78,7 +79,7 @@ abstract class _$$_GameOnlineLobbyModelCopyWith<$Res>
       __$$_GameOnlineLobbyModelCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String lobbyId, List<String> sockets});
+  $Res call({String lobbyId, List<GameOnlineSocketModel> sockets});
 }
 
 /// @nodoc
@@ -103,7 +104,7 @@ class __$$_GameOnlineLobbyModelCopyWithImpl<$Res>
       sockets: null == sockets
           ? _value.sockets
           : sockets // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<GameOnlineSocketModel>,
     ));
   }
 }
@@ -121,7 +122,7 @@ class _$_GameOnlineLobbyModel extends _GameOnlineLobbyModel {
   String lobbyId;
   @override
   @JsonKey()
-  List<String> sockets;
+  List<GameOnlineSocketModel> sockets;
 
   @override
   String toString() {
@@ -146,7 +147,7 @@ class _$_GameOnlineLobbyModel extends _GameOnlineLobbyModel {
 abstract class _GameOnlineLobbyModel extends GameOnlineLobbyModel {
   factory _GameOnlineLobbyModel(
       {required String lobbyId,
-      List<String> sockets}) = _$_GameOnlineLobbyModel;
+      List<GameOnlineSocketModel> sockets}) = _$_GameOnlineLobbyModel;
   _GameOnlineLobbyModel._() : super._();
 
   factory _GameOnlineLobbyModel.fromJson(Map<String, dynamic> json) =
@@ -156,8 +157,8 @@ abstract class _GameOnlineLobbyModel extends GameOnlineLobbyModel {
   String get lobbyId;
   set lobbyId(String value);
   @override
-  List<String> get sockets;
-  set sockets(List<String> value);
+  List<GameOnlineSocketModel> get sockets;
+  set sockets(List<GameOnlineSocketModel> value);
   @override
   @JsonKey(ignore: true)
   _$$_GameOnlineLobbyModelCopyWith<_$_GameOnlineLobbyModel> get copyWith =>

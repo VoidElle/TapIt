@@ -29,6 +29,10 @@ class GameOnlineLobbyNotifier extends StateNotifier<List<GameOnlineSocketModel>>
     return false;
   }
 
+  int getNumberOfConnectedSockets() {
+    return state.length;
+  }
+
   // Function to get the position inside the state's array of a given socket's id inside the current state
   int _getPositionOfSocketIdInState(String socketId) {
     int i = 0;
@@ -39,6 +43,21 @@ class GameOnlineLobbyNotifier extends StateNotifier<List<GameOnlineSocketModel>>
       i++;
     }
     return -1;
+  }
+
+  GameOnlineSocketModel? getSocket(String? socketId) {
+
+    if (socketId == null) {
+      return null;
+    }
+
+    final int position = _getPositionOfSocketIdInState(socketId);
+
+    if (position == -1) {
+      return null;
+    }
+
+    return state[position];
   }
 
   // Function to remove a socket using an id
@@ -88,7 +107,7 @@ class GameOnlineLobbyNotifier extends StateNotifier<List<GameOnlineSocketModel>>
   }
 
   // Function to set a given list containing sockets' ids as the current state
-  void setSocketsList(List<String> socketsIdsList, {bool notify = true}) {
+  void setSocketsList(List<GameOnlineSocketModel> socketsList, {bool notify = true}) {
 
     // Clear the state for not having multiple
     // entries with the same ids
@@ -96,7 +115,10 @@ class GameOnlineLobbyNotifier extends StateNotifier<List<GameOnlineSocketModel>>
 
     final List<GameOnlineSocketModel> newState = [];
 
-    for (String socketId in socketsIdsList) {
+    for (GameOnlineSocketModel gameOnlineSocketModel in socketsList) {
+
+      final String socketId = gameOnlineSocketModel.socketId;
+      final bool isLeader = gameOnlineSocketModel.isLeader;
 
       // Check if the current state already contains this socket id
       if (_doesStateContainsSocketId(socketId)) {
@@ -118,12 +140,14 @@ class GameOnlineLobbyNotifier extends StateNotifier<List<GameOnlineSocketModel>>
           newState.add(
             GameOnlineSocketModel(
               socketId: socketId,
+              isLeader: isLeader,
             ),
           );
         } else {
           state.add(
             GameOnlineSocketModel(
               socketId: socketId,
+              isLeader: isLeader,
             ),
           );
         }
