@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:tapit/game/local/pages/game_local_page.dart';
+import 'package:tapit/game/online/models/game/game_online_game_model.dart';
 import 'package:tapit/game/online/models/lobby/game_online_lobby_model.dart';
 import 'package:tapit/game/online/pages/game_online_join_lobby_page.dart';
 import 'package:tapit/game/online/pages/game_online_lobby_page.dart';
@@ -27,7 +28,13 @@ class GlobalFunctions {
         returnScreen = const MenuPage();
         break;
       case GameOnlinePage.route:
-        returnScreen = const GameOnlinePage();
+
+        final GameOnlineGameModel gameModel = arguments!["game_model"];
+
+        returnScreen = GameOnlinePage(
+          gameModel: gameModel,
+        );
+
         break;
       case GameOnlineMenuPage.route:
         returnScreen = const GameOnlineMenuPage();

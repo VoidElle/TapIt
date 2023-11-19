@@ -22,8 +22,8 @@ GameOnlineGameModel _$GameOnlineGameModelFromJson(Map<String, dynamic> json) {
 mixin _$GameOnlineGameModel {
   String get lobbyId => throw _privateConstructorUsedError;
   set lobbyId(String value) => throw _privateConstructorUsedError;
-  List<GameOnlineSocketModel> get sockets => throw _privateConstructorUsedError;
-  set sockets(List<GameOnlineSocketModel> value) =>
+  List<GameOnlinePlayerModel> get players => throw _privateConstructorUsedError;
+  set players(List<GameOnlinePlayerModel> value) =>
       throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -38,7 +38,7 @@ abstract class $GameOnlineGameModelCopyWith<$Res> {
           GameOnlineGameModel value, $Res Function(GameOnlineGameModel) then) =
       _$GameOnlineGameModelCopyWithImpl<$Res, GameOnlineGameModel>;
   @useResult
-  $Res call({String lobbyId, List<GameOnlineSocketModel> sockets});
+  $Res call({String lobbyId, List<GameOnlinePlayerModel> players});
 }
 
 /// @nodoc
@@ -55,17 +55,17 @@ class _$GameOnlineGameModelCopyWithImpl<$Res, $Val extends GameOnlineGameModel>
   @override
   $Res call({
     Object? lobbyId = null,
-    Object? sockets = null,
+    Object? players = null,
   }) {
     return _then(_value.copyWith(
       lobbyId: null == lobbyId
           ? _value.lobbyId
           : lobbyId // ignore: cast_nullable_to_non_nullable
               as String,
-      sockets: null == sockets
-          ? _value.sockets
-          : sockets // ignore: cast_nullable_to_non_nullable
-              as List<GameOnlineSocketModel>,
+      players: null == players
+          ? _value.players
+          : players // ignore: cast_nullable_to_non_nullable
+              as List<GameOnlinePlayerModel>,
     ) as $Val);
   }
 }
@@ -78,7 +78,7 @@ abstract class _$$_GameOnlineGameModelCopyWith<$Res>
       __$$_GameOnlineGameModelCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String lobbyId, List<GameOnlineSocketModel> sockets});
+  $Res call({String lobbyId, List<GameOnlinePlayerModel> players});
 }
 
 /// @nodoc
@@ -93,17 +93,17 @@ class __$$_GameOnlineGameModelCopyWithImpl<$Res>
   @override
   $Res call({
     Object? lobbyId = null,
-    Object? sockets = null,
+    Object? players = null,
   }) {
     return _then(_$_GameOnlineGameModel(
       lobbyId: null == lobbyId
           ? _value.lobbyId
           : lobbyId // ignore: cast_nullable_to_non_nullable
               as String,
-      sockets: null == sockets
-          ? _value.sockets
-          : sockets // ignore: cast_nullable_to_non_nullable
-              as List<GameOnlineSocketModel>,
+      players: null == players
+          ? _value.players
+          : players // ignore: cast_nullable_to_non_nullable
+              as List<GameOnlinePlayerModel>,
     ));
   }
 }
@@ -111,7 +111,7 @@ class __$$_GameOnlineGameModelCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_GameOnlineGameModel extends _GameOnlineGameModel {
-  _$_GameOnlineGameModel({required this.lobbyId, this.sockets = const []})
+  _$_GameOnlineGameModel({required this.lobbyId, this.players = const []})
       : super._();
 
   factory _$_GameOnlineGameModel.fromJson(Map<String, dynamic> json) =>
@@ -121,11 +121,11 @@ class _$_GameOnlineGameModel extends _GameOnlineGameModel {
   String lobbyId;
   @override
   @JsonKey()
-  List<GameOnlineSocketModel> sockets;
+  List<GameOnlinePlayerModel> players;
 
   @override
   String toString() {
-    return 'GameOnlineGameModel(lobbyId: $lobbyId, sockets: $sockets)';
+    return 'GameOnlineGameModel(lobbyId: $lobbyId, players: $players)';
   }
 
   @JsonKey(ignore: true)
@@ -146,7 +146,7 @@ class _$_GameOnlineGameModel extends _GameOnlineGameModel {
 abstract class _GameOnlineGameModel extends GameOnlineGameModel {
   factory _GameOnlineGameModel(
       {required String lobbyId,
-      List<GameOnlineSocketModel> sockets}) = _$_GameOnlineGameModel;
+      List<GameOnlinePlayerModel> players}) = _$_GameOnlineGameModel;
   _GameOnlineGameModel._() : super._();
 
   factory _GameOnlineGameModel.fromJson(Map<String, dynamic> json) =
@@ -156,8 +156,8 @@ abstract class _GameOnlineGameModel extends GameOnlineGameModel {
   String get lobbyId;
   set lobbyId(String value);
   @override
-  List<GameOnlineSocketModel> get sockets;
-  set sockets(List<GameOnlineSocketModel> value);
+  List<GameOnlinePlayerModel> get players;
+  set players(List<GameOnlinePlayerModel> value);
   @override
   @JsonKey(ignore: true)
   _$$_GameOnlineGameModelCopyWith<_$_GameOnlineGameModel> get copyWith =>

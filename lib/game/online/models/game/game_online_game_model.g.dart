@@ -10,9 +10,9 @@ _$_GameOnlineGameModel _$$_GameOnlineGameModelFromJson(
         Map<String, dynamic> json) =>
     _$_GameOnlineGameModel(
       lobbyId: json['lobbyId'] as String,
-      sockets: (json['sockets'] as List<dynamic>?)
+      players: (json['players'] as List<dynamic>?)
               ?.map((e) =>
-                  GameOnlineSocketModel.fromJson(e as Map<String, dynamic>))
+                  GameOnlinePlayerModel.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
     );
@@ -21,5 +21,5 @@ Map<String, dynamic> _$$_GameOnlineGameModelToJson(
         _$_GameOnlineGameModel instance) =>
     <String, dynamic>{
       'lobbyId': instance.lobbyId,
-      'sockets': instance.sockets,
+      'players': instance.players,
     };

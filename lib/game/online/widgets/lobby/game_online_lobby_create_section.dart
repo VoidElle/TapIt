@@ -2,7 +2,9 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tapit/game/online/dialogs/game_online_leader_left_dialog.dart';
+import 'package:tapit/game/online/models/game/game_online_game_model.dart';
 import 'package:tapit/game/online/models/lobby/game_online_lobby_model.dart';
+import 'package:tapit/game/online/models/player/game_online_player_model.dart';
 import 'package:tapit/game/online/models/socket/game_online_socket_model.dart';
 import 'package:tapit/game/online/pages/game_online_page.dart';
 import 'package:tapit/game/online/providers/game_online_lobby_provider.dart';
@@ -95,7 +97,30 @@ class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCr
 
     socket?.on(GameOnlineSocketEvent.startLobbyResponseSuccess.text, (dynamic data) {
       if (mounted) {
-        GlobalFunctions.redirectAndClearRootTree(GameOnlinePage.route);
+
+        final String lobbyId = widget.gameOnlineLobbyModel.lobbyId;
+        final List<GameOnlinePlayerModel> playersList = [];
+
+        for (GameOnlineSocketModel gameOnlineSocketModel in widget.gameOnlineLobbyModel.sockets) {
+
+          final GameOnlinePlayerModel gameOnlinePlayerModel = GameOnlinePlayerModel(
+            gameOnlineSocketModel: gameOnlineSocketModel,
+            colorValue: Colors.blue.value,
+          );
+
+          playersList.add(gameOnlinePlayerModel);
+        }
+
+        final GameOnlineGameModel gameModel = GameOnlineGameModel(lobbyId: lobbyId);
+        gameModel.players = playersList;
+
+        GlobalFunctions.redirectAndClearRootTree(
+          GameOnlinePage.route,
+          arguments: {
+            "game_model": gameModel,
+          },
+        );
+
       }
     });
 
