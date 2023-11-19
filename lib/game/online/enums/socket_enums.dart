@@ -25,6 +25,10 @@ enum GameOnlineSocketEvent {
   quitLobbyResponseSuccess,
   quitLobbyResponseFail,
 
+  startLobbyRequest,
+  startLobbyResponseSuccess,
+  startLobbyResponseFail,
+
   leaderLeftLobby,
   playerChangeReadyStatus,
 }
@@ -64,6 +68,14 @@ extension GameOnlineSocketEventExtension on GameOnlineSocketEvent {
         return "QUIT_LOBBY_RESPONSE_SUCCESS";
       case GameOnlineSocketEvent.quitLobbyResponseFail:
         return "QUIT_LOBBY_RESPONSE_FAIL";
+
+      // Start lobby events
+      case GameOnlineSocketEvent.startLobbyRequest:
+        return "START_LOBBY_REQUEST";
+      case GameOnlineSocketEvent.startLobbyResponseSuccess:
+        return "START_LOBBY_RESPONSE_SUCCESS";
+      case GameOnlineSocketEvent.startLobbyResponseFail:
+        return "START_LOBBY_RESPONSE_FAIL";
 
       // Lobby utils events
       case GameOnlineSocketEvent.leaderLeftLobby:

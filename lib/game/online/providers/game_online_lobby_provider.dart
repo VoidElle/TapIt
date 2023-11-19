@@ -63,6 +63,19 @@ class GameOnlineLobbyNotifier extends StateNotifier<List<GameOnlineSocketModel>>
     }
   }
 
+  // Function to get if all the sockets are ready
+  bool areAllPlayersReady() {
+
+    for (GameOnlineSocketModel gameOnlineSocketModel in state) {
+      if (!gameOnlineSocketModel.readyStatus) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  // Function to reset all the ready status of the sockets
   void resetReadyStatus(){
 
     final List<GameOnlineSocketModel> newState = [];

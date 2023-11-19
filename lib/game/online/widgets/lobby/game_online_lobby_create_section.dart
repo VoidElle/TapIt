@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tapit/game/online/dialogs/game_online_leader_left_dialog.dart';
 import 'package:tapit/game/online/models/game_online_lobby_model.dart';
+import 'package:tapit/game/online/pages/game_online_page.dart';
 import 'package:tapit/game/online/providers/game_online_lobby_provider.dart';
+import 'package:tapit/game/online/utils/game_online_functions.dart';
 import 'package:tapit/global/utils/global_functions.dart';
 import 'package:tapit/menu/pages/menu_page.dart';
 
@@ -80,7 +82,7 @@ class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCr
     });
 
     socket?.on(GameOnlineSocketEvent.playerChangeReadyStatus.text, (dynamic data) {
-      if (mounted) {
+      if (mounted && data != null) {
 
         final Map<String, dynamic> json = data as Map<String, dynamic>;
         final String socketId = json["socket"];
@@ -90,15 +92,27 @@ class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCr
       }
     });
 
+    socket?.on(GameOnlineSocketEvent.startLobbyResponseSuccess.text, (dynamic data) {
+      if (mounted) {
+        GlobalFunctions.redirectAndClearRootTree(GameOnlinePage.route);
+      }
+    });
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
 
+    // Getting the state of the lobby from the provider
+    final onlineLobbyState = ref.watch(gameOnlineLobbyProvider);
+
     // Getting the socket from the provider
     final Map socketProvider = ref.watch(globalSocketProvider);
     final socket_io.Socket? socket = socketProvider["socket"];
+
+    // Check if all the sockets are ready
+    final bool areAllSocketsReady = GameOnlineFunctions.areAllSocketsReady(onlineLobbyState);
 
     return Column(
       children: [
@@ -126,6 +140,16 @@ class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCr
         if (socket != null)
           GameOnlineLobbySocketsList(
             leaderSocket: socket.id ?? "",
+          ),
+
+        if (areAllSocketsReady)
+          TextButton(
+            onPressed: () {
+              socket?.emit(GameOnlineSocketEvent.startLobbyRequest.text, widget.gameOnlineLobbyModel.lobbyId);
+            },
+            child: const Text(
+              "Start the Game",
+            ),
           ),
 
         // Button to change the status of the socket

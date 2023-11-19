@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tapit/game/online/dialogs/game_online_error_dialog.dart';
 import 'package:tapit/game/online/dialogs/game_online_loading_dialog.dart';
+import 'package:tapit/game/online/models/game_online_socket_model.dart';
 import 'package:tapit/global/utils/global_functions.dart';
 
 import '../enums/socket_enums.dart';
@@ -65,5 +66,22 @@ class GameOnlineFunctions {
   }
 
   static void manageSocketStatusFromGame() {}
+
+  // Function to get if all the sockets are ready
+  static bool areAllSocketsReady(List<GameOnlineSocketModel> gameOnlineSocketModelList) {
+
+    for (GameOnlineSocketModel gameOnlineSocketModel in gameOnlineSocketModelList) {
+
+      // If we find a socket that is not ready, we return false
+      if (!gameOnlineSocketModel.readyStatus) {
+        return false;
+      }
+
+      return true;
+    }
+
+    // If the list is empty, we return false
+    return false;
+  }
 
 }
