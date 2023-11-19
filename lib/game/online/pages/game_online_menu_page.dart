@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tapit/game/online/models/game_online_lobby_model.dart';
+import 'package:tapit/game/online/models/lobby/game_online_lobby_model.dart';
 import 'package:tapit/game/online/pages/game_online_join_lobby_page.dart';
 import 'package:tapit/game/online/pages/game_online_lobby_page.dart';
 import 'package:tapit/game/online/utils/game_online_functions.dart';

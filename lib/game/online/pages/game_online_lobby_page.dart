@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tapit/game/online/models/game_online_lobby_model.dart';
+import 'package:tapit/game/online/models/lobby/game_online_lobby_model.dart';
 
 import '../widgets/lobby/game_online_lobby_create_section.dart';
 import '../widgets/lobby/game_online_lobby_title.dart';

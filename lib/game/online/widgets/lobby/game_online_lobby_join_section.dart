@@ -7,7 +7,7 @@ import 'package:tapit/global/utils/global_functions.dart';
 import '../../../../menu/pages/menu_page.dart';
 import '../../enums/socket_enums.dart';
 import '../../../../global/providers/global_socket_provider.dart';
-import '../../models/game_online_lobby_model.dart';
+import '../../models/lobby/game_online_lobby_model.dart';
 import '../../pages/game_online_lobby_page.dart';
 import '../../utils/game_online_text_styles.dart';
 

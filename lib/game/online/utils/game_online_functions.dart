@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tapit/game/online/dialogs/game_online_error_dialog.dart';
 import 'package:tapit/game/online/dialogs/game_online_loading_dialog.dart';
-import 'package:tapit/game/online/models/game_online_socket_model.dart';
+import 'package:tapit/game/online/models/socket/game_online_socket_model.dart';
 import 'package:tapit/global/utils/global_functions.dart';
 
 import '../enums/socket_enums.dart';

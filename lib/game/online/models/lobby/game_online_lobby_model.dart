@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'game_online_socket_model.dart';
+import '../socket/game_online_socket_model.dart';
 
 part 'game_online_lobby_model.freezed.dart';
 part 'game_online_lobby_model.g.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../models/game_online_socket_model.dart';
+import '../../models/socket/game_online_socket_model.dart';
 import '../../providers/game_online_lobby_provider.dart';
 import 'game_online_lobby_ready_status_circular.dart';
 
