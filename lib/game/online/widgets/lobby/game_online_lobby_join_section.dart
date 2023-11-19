@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tapit/game/online/dialogs/game_online_error_joining_lobby_dialog.dart';
+import 'package:tapit/global/models/global_socket_model.dart';
 import 'package:tapit/global/utils/global_functions.dart';
 
 import '../../../../menu/pages/menu_page.dart';
@@ -30,8 +31,8 @@ class _GameOnlineLobbyJoinSectionState extends ConsumerState<GameOnlineLobbyJoin
   void initState() {
 
     // Getting the socket from the provider
-    final Map socketProvider = ref.read(globalSocketProvider);
-    final socket_io.Socket? socket = socketProvider["socket"];
+    final GlobalSocketModel socketProvider = ref.read(globalSocketProvider);
+    final socket_io.Socket? socket = socketProvider.socket;
 
     // Listening to the join success event
     socket?.on(GameOnlineSocketEvent.joinLobbyResponseSuccess.text, (dynamic data) {
@@ -79,8 +80,8 @@ class _GameOnlineLobbyJoinSectionState extends ConsumerState<GameOnlineLobbyJoin
   Widget build(BuildContext context) {
 
     // Getting the socket from the provider
-    final Map socketProvider = ref.watch(globalSocketProvider);
-    final socket_io.Socket? socket = socketProvider["socket"];
+    final GlobalSocketModel socketProvider = ref.watch(globalSocketProvider);
+    final socket_io.Socket? socket = socketProvider.socket;
 
     return Column(
       children: [

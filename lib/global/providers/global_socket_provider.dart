@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:socket_io_client/socket_io_client.dart' as socket_io;
+import 'package:tapit/global/models/global_socket_model.dart';
 
 import '../../game/online/enums/socket_enums.dart';
 
-final globalSocketProvider = StateNotifierProvider<GlobalSocketNotifier, Map>(
+final globalSocketProvider = StateNotifierProvider<GlobalSocketNotifier, GlobalSocketModel>(
       (ref) => GlobalSocketNotifier(),
 );
 
-class GlobalSocketNotifier extends StateNotifier<Map> {
+class GlobalSocketNotifier extends StateNotifier<GlobalSocketModel> {
 
   // Initial state of the Provider
-  static final Map _initialState = {
-    "socket": null,
-    "status": GameOnlineSocketStatus.toInit,
-  };
+  static final GlobalSocketModel _initialState = GlobalSocketModel();
 
   // Constructor of the provider
   GlobalSocketNotifier(): super(_initialState);
@@ -62,7 +60,7 @@ class GlobalSocketNotifier extends StateNotifier<Map> {
     });
 
     // Set the socket in the state to the one created
-    state["socket"] = socket;
+    state.socket = socket;
   }
 
   // Function to change the current socket's state variable, the notification
@@ -70,7 +68,7 @@ class GlobalSocketNotifier extends StateNotifier<Map> {
   void _setStatus(GameOnlineSocketStatus gameOnlineSocketStatus, {bool notify = true}) {
 
     // Get the current status of the socket
-    final GameOnlineSocketStatus currentStatus = state["status"];
+    final GameOnlineSocketStatus currentStatus = state.gameOnlineSocketStatus;
 
     // Check if the current is different with the one we're changing
     if (currentStatus != gameOnlineSocketStatus) {
@@ -78,24 +76,28 @@ class GlobalSocketNotifier extends StateNotifier<Map> {
 
         // If we need to notify the watchers,
         // we set the classic state replacement syntax
-        state = {
-          ...state,
-          "status": gameOnlineSocketStatus,
-        };
+        final GlobalSocketModel newGlobalSocketModel = GlobalSocketModel(
+          socket: state.socket,
+          gameOnlineSocketStatus: gameOnlineSocketStatus,
+        );
+
+        state = newGlobalSocketModel;
 
       } else {
 
         // If not, we simply change the status like the state was a normal map
-        state["status"] = gameOnlineSocketStatus;
+        state.gameOnlineSocketStatus = gameOnlineSocketStatus;
 
       }
     }
   }
 
+  // Function to check if the socket is initialized
   bool isSocketInitialized() {
 
-    final socket_io.Socket? socket = state["socket"];
-    final GameOnlineSocketStatus gameOnlineSocketStatus = state["status"];
+    // Get the socket and the status
+    final socket_io.Socket? socket = state.socket;
+    final GameOnlineSocketStatus gameOnlineSocketStatus = state.gameOnlineSocketStatus;
 
     return !(socket == null ||
         gameOnlineSocketStatus == GameOnlineSocketStatus.error ||
@@ -108,7 +110,7 @@ class GlobalSocketNotifier extends StateNotifier<Map> {
 
     // On disposing the provider, dispose the socket
     // ensuring that the connection with the server will be closed
-    final socket_io.Socket? socket = state["socket"];
+    final socket_io.Socket? socket = state.socket;
     socket?.dispose();
 
     super.dispose();

@@ -5,6 +5,7 @@ import 'package:tapit/game/online/models/lobby/game_online_lobby_model.dart';
 import 'package:tapit/game/online/pages/game_online_join_lobby_page.dart';
 import 'package:tapit/game/online/pages/game_online_lobby_page.dart';
 import 'package:tapit/game/online/utils/game_online_functions.dart';
+import 'package:tapit/global/models/global_socket_model.dart';
 import 'package:tapit/global/utils/global_functions.dart';
 import 'package:tapit/menu/pages/menu_page.dart';
 
@@ -44,8 +45,8 @@ class _GameOnlineMenuPageState extends ConsumerState<GameOnlineMenuPage> {
     }
 
     // Getting the socket from the provider
-    final Map socketProvider = ref.read(globalSocketProvider);
-    final socket_io.Socket? socket = socketProvider["socket"];
+    final GlobalSocketModel socketProvider = ref.read(globalSocketProvider);
+    final socket_io.Socket? socket = socketProvider.socket;
 
     // Listening to the create lobby success event
     socket?.on(GameOnlineSocketEvent.createLobbyResponseSuccess.text, (dynamic data) {
@@ -76,9 +77,9 @@ class _GameOnlineMenuPageState extends ConsumerState<GameOnlineMenuPage> {
     final double deviceHeight = MediaQuery.of(context).size.height;
 
     // Getting the socket and the socket's status from the provider
-    final Map socketProvider = ref.watch(globalSocketProvider);
-    final socket_io.Socket? socket = socketProvider["socket"];
-    final GameOnlineSocketStatus gameOnlineSocketStatus = socketProvider["status"];
+    final GlobalSocketModel socketProvider = ref.watch(globalSocketProvider);
+    final socket_io.Socket? socket = socketProvider.socket;
+    final GameOnlineSocketStatus gameOnlineSocketStatus = socketProvider.gameOnlineSocketStatus;
 
     // Managing socket's status
     GameOnlineFunctions.manageSocketStatusFromMenu(gameOnlineSocketStatus, context);

@@ -9,6 +9,7 @@ import 'package:tapit/game/online/models/socket/game_online_socket_model.dart';
 import 'package:tapit/game/online/pages/game_online_page.dart';
 import 'package:tapit/game/online/providers/game_online_lobby_provider.dart';
 import 'package:tapit/game/online/utils/game_online_functions.dart';
+import 'package:tapit/global/models/global_socket_model.dart';
 import 'package:tapit/global/utils/global_functions.dart';
 import 'package:tapit/menu/pages/menu_page.dart';
 
@@ -40,8 +41,8 @@ class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCr
     final onlineLobbyNotifier = ref.read(gameOnlineLobbyProvider.notifier);
 
     // Getting the socket from the provider
-    final Map socketProvider = ref.read(globalSocketProvider);
-    final socket_io.Socket? socket = socketProvider["socket"];
+    final GlobalSocketModel socketProvider = ref.read(globalSocketProvider);
+    final socket_io.Socket? socket = socketProvider.socket;
 
     // Listening to the join success event
     socket?.on(GameOnlineSocketEvent.joinLobbyResponseSuccess.text, (dynamic data) {
@@ -132,8 +133,8 @@ class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCr
     final onlineLobbyNotifier = ref.read(gameOnlineLobbyProvider.notifier);
 
     // Getting the socket from the provider
-    final Map socketProvider = ref.watch(globalSocketProvider);
-    final socket_io.Socket? socket = socketProvider["socket"];
+    final GlobalSocketModel socketProvider = ref.watch(globalSocketProvider);
+    final socket_io.Socket? socket = socketProvider.socket;
 
     final int sizeOfConnectedSockets = onlineLobbyNotifier.getNumberOfConnectedSockets();
     final GameOnlineSocketModel? gameOnlineSocketModel = onlineLobbyNotifier.getSocket(socket?.id);
