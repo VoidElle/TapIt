@@ -46,8 +46,10 @@ class GameOnlineLobbyNotifier extends StateNotifier<GameOnlineLobbyModel> {
 
   // Function to set a new state silently
   void setStateSilent(GameOnlineLobbyModel gameOnlineLobbyModel) {
+
     state.lobbyId = gameOnlineLobbyModel.lobbyId;
     state.sockets = gameOnlineLobbyModel.sockets;
+
   }
 
   // Function to get the socket model from the socket id
@@ -207,7 +209,6 @@ class GameOnlineLobbyNotifier extends StateNotifier<GameOnlineLobbyModel> {
     );
 
     state = newState;
-
   }
 
 }

@@ -16,5 +16,4 @@ class GameOnlineGameModel with _$GameOnlineGameModel {
 
   factory GameOnlineGameModel.fromJson(Map<String, Object?> json) => _$GameOnlineGameModelFromJson(json);
 
-
 }

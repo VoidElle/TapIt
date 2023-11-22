@@ -37,7 +37,6 @@ class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCr
   void initState() {
 
     // Getting the gameOnlineLobby state and notifier
-    final onlineLobbyState = ref.read(gameOnlineLobbyProvider);
     final onlineLobbyNotifier = ref.read(gameOnlineLobbyProvider.notifier);
 
     // Getting the socket from the provider
@@ -96,15 +95,23 @@ class _GameOnlineLobbyCreateSectionState extends ConsumerState<GameOnlineLobbyCr
     socket?.on(GameOnlineSocketEvent.startLobbyResponseSuccess.text, (dynamic data) {
       if (mounted) {
 
-        final String lobbyId = onlineLobbyState.lobbyId;
+        final onlineLobbyState2 = ref.read(gameOnlineLobbyProvider);
+        final String lobbyId = onlineLobbyState2.lobbyId;
         final List<GameOnlinePlayerModel> playersList = [];
 
-        for (GameOnlineSocketModel gameOnlineSocketModel in onlineLobbyState.sockets) {
+        final List<GameOnlineSocketModel> sockets = onlineLobbyState2.sockets;
+
+        bool topPlayer = true;
+        for (GameOnlineSocketModel gameOnlineSocketModel in sockets) {
 
           final GameOnlinePlayerModel gameOnlinePlayerModel = GameOnlinePlayerModel(
             gameOnlineSocketModel: gameOnlineSocketModel,
-            colorValue: Colors.blue.value,
+            colorValue: topPlayer
+                ? Colors.blue.value
+                : Colors.redAccent.value,
           );
+
+          topPlayer = false;
 
           playersList.add(gameOnlinePlayerModel);
         }
