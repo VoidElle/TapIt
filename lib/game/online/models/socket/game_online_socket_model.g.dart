@@ -12,6 +12,7 @@ _$_GameOnlineSocketModel _$$_GameOnlineSocketModelFromJson(
       socketId: json['socketId'] as String,
       isLeader: json['isLeader'] as bool,
       readyStatus: json['readyStatus'] as bool? ?? false,
+      order: json['order'] as int,
     );
 
 Map<String, dynamic> _$$_GameOnlineSocketModelToJson(
@@ -20,4 +21,5 @@ Map<String, dynamic> _$$_GameOnlineSocketModelToJson(
       'socketId': instance.socketId,
       'isLeader': instance.isLeader,
       'readyStatus': instance.readyStatus,
+      'order': instance.order,
     };

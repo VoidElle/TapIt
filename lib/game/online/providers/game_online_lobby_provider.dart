@@ -142,6 +142,7 @@ class GameOnlineLobbyNotifier extends StateNotifier<GameOnlineLobbyModel> {
 
       final String socketId = gameOnlineSocketModel.socketId;
       final bool isLeader = gameOnlineSocketModel.isLeader;
+      final int order = gameOnlineSocketModel.order;
 
       // Check if the current state already contains this socket id
       if (_doesStateContainsSocketId(socketId)) {
@@ -164,6 +165,7 @@ class GameOnlineLobbyNotifier extends StateNotifier<GameOnlineLobbyModel> {
             GameOnlineSocketModel(
               socketId: socketId,
               isLeader: isLeader,
+              order: order,
             ),
           );
         } else {
@@ -171,6 +173,7 @@ class GameOnlineLobbyNotifier extends StateNotifier<GameOnlineLobbyModel> {
             GameOnlineSocketModel(
               socketId: socketId,
               isLeader: isLeader,
+              order: order,
             ),
           );
         }
@@ -188,6 +191,10 @@ class GameOnlineLobbyNotifier extends StateNotifier<GameOnlineLobbyModel> {
       state = newState;
 
     }
+
+    // Sorting of the sockets list alphabetically from the ids
+    // to have the same order in leader and guest
+    state.sockets.sort((a, b) => a.order.compareTo(b.order));
 
   }
 

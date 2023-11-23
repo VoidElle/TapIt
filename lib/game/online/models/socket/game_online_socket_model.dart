@@ -13,6 +13,7 @@ class GameOnlineSocketModel extends Equatable with _$GameOnlineSocketModel {
     required String socketId,
     required bool isLeader,
     @Default(false) bool readyStatus,
+    required int order,
   }) = _GameOnlineSocketModel;
 
   factory GameOnlineSocketModel.fromJson(Map<String, Object?> json) => _$GameOnlineSocketModelFromJson(json);

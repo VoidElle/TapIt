@@ -5,16 +5,16 @@ import '../../../global/utils/global_color_constants.dart';
 
 class GameOnlineTextStyles {
 
-  static TextStyle titleTextStyle() {
+  static TextStyle titleTextStyle({ Color shadowColor = GlobalColorConstants.kDarkYellowColor }) {
     return GoogleFonts.blackHanSans(
-      textStyle: const TextStyle(
+      textStyle: TextStyle(
         fontSize: 85,
         color: GlobalColorConstants.kBlackColor,
         shadows: [
           Shadow(
             blurRadius: 0,
-            color: GlobalColorConstants.kDarkYellowColor,
-            offset: Offset(0, 10),
+            color: shadowColor,
+            offset: const Offset(0, 10),
           ),
         ],
       ),
