@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:stroke_text/stroke_text.dart';
 import 'package:tapit/game/local/providers/game_local_count_down_provider.dart';
 import 'package:tapit/game/local/providers/game_local_game_status_provider.dart';
-
-import '../utils/game_local_text_styles.dart';
 
 class GameLocalCountDown extends ConsumerStatefulWidget {
 
@@ -116,10 +115,18 @@ class _GameLocalCountDownState extends ConsumerState<GameLocalCountDown> with Ti
           visible: isCountdownVisible,
           child: ScaleTransition(
             scale: countDownAnimation,
-            child: Text(
-              countDownTexts[currentTextPosition],
-              style: GameLocalTextStyles.countDownTextStyle(),
-            ),
+            child: StrokeText(
+              text: countDownTexts[currentTextPosition],
+              textColor: const Color(0xFFFFFFFF),
+              textStyle: const TextStyle(
+                fontFamily: "CircularStd",
+                fontWeight: FontWeight.w900,
+                fontSize: 60,
+                letterSpacing: 0,
+              ),
+              strokeColor: const Color(0xFF000000),
+              strokeWidth: 5,
+            )
           ),
         ),
       ),

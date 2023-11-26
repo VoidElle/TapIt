@@ -9,7 +9,7 @@ class GameLocalCountDownProvider extends StateNotifier<Map> {
 
   // Initial state of the provider
   static final Map _initialState = {
-    "countdown_texts": ["3", "2", "1", "TAP-IT", ""],
+    "countdown_texts": ["3", "2", "1", "TAP IT", ""],
     "current_text_position": 0,
     "animation_controller": null,
     "animation": null,
