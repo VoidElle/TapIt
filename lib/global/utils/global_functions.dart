@@ -90,7 +90,7 @@ class GlobalFunctions {
       case GlobalComplexButtonType.online:
         return GlobalPaths.svgMenuOnlineButtonPath;
       case GlobalComplexButtonType.shop:
-        return GlobalPaths.svgMenuShopButtonPath;
+        return GlobalPaths.jpgMenuShopButtonPath;
       case GlobalComplexButtonType.createGame:
         return "";
       case GlobalComplexButtonType.joinGame:

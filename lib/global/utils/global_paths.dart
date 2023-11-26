@@ -10,5 +10,7 @@ class GlobalPaths {
   static const String svgMenuLocalButtonPath = "${svgMenuButtonsDir}menu_local_button.svg";
   static const String svgMenuOnlineButtonPath = "${svgMenuButtonsDir}menu_online_button.svg";
   static const String svgMenuShopButtonPath = "${svgMenuButtonsDir}menu_shop_button.svg";
+  static const String jpgMenuShopButtonPath = "${svgMenuButtonsDir}menu_shop_button.jpg";
+
 
 }

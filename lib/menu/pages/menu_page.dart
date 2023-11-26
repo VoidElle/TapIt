@@ -19,13 +19,14 @@ class MenuPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final double deviceHeight = MediaQuery.of(context).size.height;
+    final MediaQueryData mediaQuery = MediaQuery.of(context);
+    final double usableScreenHeight = mediaQuery.size.height - mediaQuery.padding.top;
 
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
           child: SizedBox(
-            height: deviceHeight,
+            height: usableScreenHeight,
             width: double.infinity,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -51,6 +52,7 @@ class MenuPage extends StatelessWidget {
 
                     GlobalComplexButton(
                       globalComplexButtonType: GlobalComplexButtonType.shop,
+                      bypassSvgUseJpg: true,
                       onTapCallback: () {
                         // Todo
                       },

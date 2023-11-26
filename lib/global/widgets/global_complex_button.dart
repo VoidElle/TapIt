@@ -9,11 +9,13 @@ class GlobalComplexButton extends StatefulWidget {
   final GlobalComplexButtonType globalComplexButtonType;
   final Function onTapCallback;
   final EdgeInsets padding;
+  final bool bypassSvgUseJpg;
 
   const GlobalComplexButton({
     required this.globalComplexButtonType,
     required this.onTapCallback,
     this.padding = EdgeInsets.zero,
+    this.bypassSvgUseJpg = false,
     super.key,
   });
 
@@ -51,15 +53,19 @@ class _GlobalComplexButtonState extends State<GlobalComplexButton> {
       );
     }
 
-    // Return the SvgPicture
+    // Return the button
     return Padding(
       padding: widget.padding,
       child: GestureDetector(
         onTapUp: (_) => widget.onTapCallback(),
-        child: SvgPicture.asset(
-          _path!,
-          semanticsLabel: _label,
-        ),
+        child: widget.bypassSvgUseJpg
+            ? Image.asset(
+                _path!,
+              )
+            : SvgPicture.asset(
+                _path!,
+                semanticsLabel: _label,
+              ),
       ),
     );
   }
