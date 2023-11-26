@@ -47,14 +47,12 @@ class TapIt extends StatelessWidget {
             fontFamily: "CircularStd",
             color: Color(0xFFFFFFFF),
             fontSize: 20,
-            letterSpacing: -2,
           ),
           displayMedium: TextStyle(
             fontFamily: "CircularStd",
             color: Color(0xFF000000),
             fontWeight: FontWeight.w900,
             fontSize: 20,
-            letterSpacing: -2,
           ),
           displaySmall: TextStyle(
             fontFamily: "CircularStd",

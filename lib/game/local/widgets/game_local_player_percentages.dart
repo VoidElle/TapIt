@@ -2,10 +2,10 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tapit/game/local/utils/game_local_text_styles.dart';
 
 import '../models/game_local_player_model.dart';
 import '../providers/game_local_player_data_provider.dart';
+import 'game_local_player_percentage.dart';
 
 class GameLocalPlayersPercentages extends ConsumerWidget {
 
@@ -33,9 +33,8 @@ class GameLocalPlayersPercentages extends ConsumerWidget {
                 alignment: Alignment.topRight,
                 child: Transform.rotate(
                   angle: pi,
-                  child: Text(
-                    "${topPlayer.percentageValue}%",
-                    style: GameLocalTextStyles.percentageTextStyle(),
+                  child: GameLocalPlayersPercentage(
+                    value: topPlayer.percentageValue,
                   ),
                 ),
               ),
@@ -45,9 +44,8 @@ class GameLocalPlayersPercentages extends ConsumerWidget {
             Expanded(
               child: Align(
                 alignment: Alignment.bottomLeft,
-                child: Text(
-                  "${bottomPlayer.percentageValue}%",
-                  style: GameLocalTextStyles.percentageTextStyle(),
+                child: GameLocalPlayersPercentage(
+                  value: bottomPlayer.percentageValue,
                 ),
               ),
             ),
