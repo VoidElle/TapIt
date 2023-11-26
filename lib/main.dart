@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tapit/global/providers/global_sounds_manager_provider.dart';
 import 'package:tapit/global/utils/global_constants.dart';
 import 'package:tapit/global/utils/global_functions.dart';
+import 'package:tapit/global/utils/global_sounds_manager.dart';
 
 import 'menu/pages/menu_page.dart';
 
@@ -15,12 +17,16 @@ void main() {
   );
 }
 
-class TapIt extends StatelessWidget {
+class TapIt extends ConsumerWidget {
 
   const TapIt({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+
+    // Get the sound manager and play the music
+    final GlobalSoundsManager globalSoundsManager = ref.read(globalSoundsManagerProvider);
+    globalSoundsManager.playMusic();
 
     /// Set the orientation to portrait
     SystemChrome.setPreferredOrientations([

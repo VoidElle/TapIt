@@ -61,7 +61,6 @@ class MenuPage extends StatelessWidget {
                   ],
                 ),
 
-
                 const NewMenuAudioControlsButton(),
 
               ],

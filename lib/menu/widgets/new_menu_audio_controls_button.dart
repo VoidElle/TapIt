@@ -1,25 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:tapit/global/providers/global_sounds_manager_provider.dart';
+import 'package:tapit/global/utils/global_sounds_manager.dart';
 
-class NewMenuAudioControlsButton extends StatefulWidget {
+class NewMenuAudioControlsButton extends ConsumerStatefulWidget {
 
   const NewMenuAudioControlsButton({super.key});
 
   @override
-  State<NewMenuAudioControlsButton> createState() => _NewMenuAudioControlsButtonState();
+  ConsumerState<NewMenuAudioControlsButton> createState() => _NewMenuAudioControlsButtonState();
 }
 
-class _NewMenuAudioControlsButtonState extends State<NewMenuAudioControlsButton> {
+class _NewMenuAudioControlsButtonState extends ConsumerState<NewMenuAudioControlsButton> {
 
   bool _isVolumeEnabled = true;
   bool _isMusicEnabled = true;
 
-  void _changeVolumeEnabled() {
+  Future<void> _changeVolumeEnabled() async {
+
+    final GlobalSoundsManager globalSoundsManager = ref.read(globalSoundsManagerProvider);
+
     setState(() => _isVolumeEnabled = !_isVolumeEnabled);
+
+    _isVolumeEnabled
+        ? globalSoundsManager.enableFxSounds()
+        : globalSoundsManager.disableFxSounds();
   }
 
-  void _changeMusicEnabled() {
+  Future<void> _changeMusicEnabled() async {
+
+    final GlobalSoundsManager globalSoundsManager = ref.read(globalSoundsManagerProvider);
+
     setState(() => _isMusicEnabled = !_isMusicEnabled);
+
+    _isMusicEnabled
+        ? await globalSoundsManager.resumeMusic()
+        : await globalSoundsManager.stopMusic();
   }
 
   @override
