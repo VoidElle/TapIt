@@ -15,6 +15,9 @@ dependencies:
   google_fonts: ^6.0.0
   auto_size_text: ^3.0.0
   lottie: ^2.7.0
+  flutter_svg: ^2.0.9
+  confetti: ^0.7.0
+  material_design_icons_flutter: 7.0.7296
 
   # State management
   flutter_riverpod: ^2.4.0
@@ -23,7 +26,8 @@ dependencies:
 
   socket_io_client: ^2.0.2
   equatable: ^2.0.5
-  confetti: ^0.7.0
+
+  logger: ^2.0.2+1
 
 dev_dependencies:
   flutter_test:
@@ -35,5 +39,19 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  fonts:
+    - family: CircularStd
+      fonts:
+        - asset: assets/fonts/circular_std/black.ttf
+          weight: 900
+        - asset: assets/fonts/circular_std/bold.ttf
+          weight: 700
+        - asset: assets/fonts/circular_std/book.ttf
+          weight: 400
+        - asset: assets/fonts/circular_std/medium.ttf
+          weight: 500
   assets:
     - assets/lotties/
+    - assets/svgs/buttons/lobby/
+    - assets/svgs/buttons/menu/
+    - assets/jpgs/global/

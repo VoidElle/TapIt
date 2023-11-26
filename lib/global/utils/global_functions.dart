@@ -8,7 +8,10 @@ import 'package:tapit/game/online/pages/game_online_lobby_page.dart';
 import 'package:tapit/game/online/pages/game_online_menu_page.dart';
 import 'package:tapit/game/online/pages/game_online_page.dart';
 import 'package:tapit/global/utils/global_constants.dart';
+import 'package:tapit/global/utils/global_enums.dart';
 import 'package:tapit/menu/pages/menu_page.dart';
+
+import 'global_paths.dart';
 
 class GlobalFunctions {
 
@@ -78,5 +81,37 @@ class GlobalFunctions {
 
   // Function to check if a dialog is displayed
   static bool _isThereCurrentDialogShowing(BuildContext context) => ModalRoute.of(context)?.isCurrent != true;
+
+  // Function to get the path image from the GlobalComplexButtonType
+  static String getComplexButtonPathImageFromType(GlobalComplexButtonType globalComplexButtonType) {
+    switch(globalComplexButtonType) {
+      case GlobalComplexButtonType.local:
+        return GlobalPaths.svgMenuLocalButtonPath;
+      case GlobalComplexButtonType.online:
+        return GlobalPaths.svgMenuOnlineButtonPath;
+      case GlobalComplexButtonType.shop:
+        return GlobalPaths.svgMenuShopButtonPath;
+      case GlobalComplexButtonType.createGame:
+        return "";
+      case GlobalComplexButtonType.joinGame:
+        return "";
+    }
+  }
+
+  // Function to get the label from the GlobalComplexButtonType
+  static String getComplexButtonLabelFromType(GlobalComplexButtonType globalComplexButtonType) {
+    switch(globalComplexButtonType) {
+      case GlobalComplexButtonType.local:
+        return "Local button";
+      case GlobalComplexButtonType.online:
+        return "Online button";
+      case GlobalComplexButtonType.shop:
+        return "Shop button";
+      case GlobalComplexButtonType.createGame:
+        return "Create lobby button";
+      case GlobalComplexButtonType.joinGame:
+        return "Join lobby button";
+    }
+  }
 
 }

@@ -1,105 +1,71 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:tapit/game/local/pages/game_local_page.dart';
-import 'package:tapit/global/utils/global_color_constants.dart';
-import 'package:tapit/global/widgets/global_dynamic_spacer.dart';
-import 'package:tapit/menu/widgets/menu_title.dart';
+import 'package:tapit/global/utils/global_enums.dart';
+import 'package:tapit/global/utils/global_functions.dart';
 
+import '../../game/local/pages/game_local_page.dart';
 import '../../game/online/pages/game_online_menu_page.dart';
-import '../../global/utils/global_functions.dart';
-import '../../global/utils/global_text_styles.dart';
-import '../../global/widgets/global_animated_button.dart';
+import '../../global/widgets/global_complex_button.dart';
+import '../../global/widgets/global_user_header.dart';
+import '../widgets/new_menu_audio_controls_button.dart';
 
 class MenuPage extends StatelessWidget {
 
-  static const String route = "/menu-page";
+  static const route = "/menu-page";
 
-  const MenuPage({super.key});
+  const MenuPage({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
+
+    final double deviceHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: SizedBox(
+            height: deviceHeight,
+            width: double.infinity,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
 
-          // The title section
-          const MenuTitle(),
+                const GlobalUserHeader(),
 
-          // Spacer
-          const GlobalDynamicSpacer(),
+                Column(
+                  children: [
 
-          // Local game button
-          GlobalAnimatedButton(
-            onTapUp: () => GlobalFunctions.redirectAndClearRootTree(GameLocalPage.route),
-            child: AutoSizeText(
-              "LOCAL",
-              maxLines: 1,
-              style: GlobalTextStyles.buttonTextStyle(),
-            ),
-          ),
+                    GlobalComplexButton(
+                      globalComplexButtonType: GlobalComplexButtonType.local,
+                      onTapCallback: () => GlobalFunctions.redirectAndClearRootTree(GameLocalPage.route),
+                    ),
 
-          // Spacer
-          const GlobalDynamicSpacer(),
+                    GlobalComplexButton(
+                      globalComplexButtonType: GlobalComplexButtonType.online,
+                      onTapCallback: () => GlobalFunctions.redirectAndClearRootTree(GameOnlineMenuPage.route),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 15,
+                      ),
+                    ),
 
-          // Online game button
-          GlobalAnimatedButton(
-            onTapUp: () => GlobalFunctions.redirectAndClearRootTree(GameOnlineMenuPage.route),
-            child: AutoSizeText(
-              "ONLINE",
-              maxLines: 1,
-              style: GlobalTextStyles.buttonTextStyle(),
-            ),
-          ),
+                    GlobalComplexButton(
+                      globalComplexButtonType: GlobalComplexButtonType.shop,
+                      onTapCallback: () {
+                        // Todo
+                      },
+                    ),
 
-          // Spacer
-          const GlobalDynamicSpacer(),
-
-          // Tutorial button
-          GlobalAnimatedButton(
-            color: GlobalColorConstants.kRedColor,
-            shadowColor: GlobalColorConstants.kDarkRedColor,
-            onTapUp: () {
-              // Todo
-            },
-            child: AutoSizeText(
-              "SHOP",
-              maxLines: 1,
-              style: GlobalTextStyles.buttonTextStyle(),
-            ),
-          ),
-
-          // Spacer
-          const GlobalDynamicSpacer(),
-
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-
-              // Settings button
-              GlobalAnimatedButton.circular(
-                child: const Padding(
-                  padding: EdgeInsets.only(
-                    bottom: 10,
-                  ),
-                  child: Icon(
-                    Icons.settings,
-                    color: GlobalColorConstants.kBlackColor,
-                    size: 40,
-                  ),
+                  ],
                 ),
-                onTapUp: () {
-                  // Todo
-                },
-              ),
 
-            ],
+
+                const NewMenuAudioControlsButton(),
+
+              ],
+            ),
           ),
-
-          // Spacer
-          const GlobalDynamicSpacer(),
-
-        ],
+        ),
       ),
     );
   }

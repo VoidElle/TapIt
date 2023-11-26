@@ -3,7 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tapit/global/utils/global_constants.dart';
 import 'package:tapit/global/utils/global_functions.dart';
-import 'package:tapit/menu/pages/menu_page.dart';
+
+import 'menu/pages/menu_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,6 +41,25 @@ class TapIt extends StatelessWidget {
       title: "TapIt: Challenge your friends",
       navigatorKey: GlobalConstants.navigatorKey,
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        textTheme: const TextTheme(
+          displayLarge: TextStyle(
+            fontFamily: "CircularStd",
+            color: Color(0xFF000000),
+          ),
+          displayMedium: TextStyle(
+            fontFamily: "CircularStd",
+            color: Color(0xFF000000),
+            fontWeight: FontWeight.w900,
+            fontSize: 20,
+            letterSpacing: -2,
+          ),
+          displaySmall: TextStyle(
+            fontFamily: "CircularStd",
+            color: Color(0xFF000000),
+          ),
+        ),
+      ),
       onGenerateRoute: GlobalFunctions.generateRoutes,
       home: const MenuPage(),
     );
