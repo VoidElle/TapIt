@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tapit/global/providers/global_sounds_manager_provider.dart';
+import 'package:tapit/global/pages/global_loading_page.dart';
 import 'package:tapit/global/utils/global_constants.dart';
 import 'package:tapit/global/utils/global_functions.dart';
-import 'package:tapit/global/utils/global_sounds_manager.dart';
 
 import 'menu/pages/menu_page.dart';
 
-void main() {
+void main() async {
+
   WidgetsFlutterBinding.ensureInitialized();
+
   runApp(
     const ProviderScope(
       child: TapIt(),
@@ -17,16 +18,14 @@ void main() {
   );
 }
 
-class TapIt extends ConsumerWidget {
+class TapIt extends StatelessWidget {
 
-  const TapIt({super.key});
+  const TapIt({
+    super.key,
+  });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-
-    // Get the sound manager and play the music
-    final GlobalSoundsManager globalSoundsManager = ref.read(globalSoundsManagerProvider);
-    globalSoundsManager.playMusic();
+  Widget build(BuildContext context) {
 
     /// Set the orientation to portrait
     SystemChrome.setPreferredOrientations([
@@ -67,8 +66,17 @@ class TapIt extends ConsumerWidget {
         ),
       ),
       onGenerateRoute: GlobalFunctions.generateRoutes,
-      home: const MenuPage(),
+      home: FutureBuilder(
+        future: GlobalConstants.globalSharedPreferencesManager.init(),
+        builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+
+          if (snapshot.connectionState != ConnectionState.done) {
+            return const GlobalLoadingPage();
+          }
+
+          return const MenuPage();
+        }
+      ),
     );
   }
-
 }

@@ -9,6 +9,10 @@ class GlobalSoundsManager {
   bool _isFxEnabled = true;
   final AudioPlayer _fxAudioPlayer = AudioPlayer();
 
+  PlayerState getMusicAudioPlayerState() {
+    return _musicAudioPlayer.state;
+  }
+
   Future<void> resumeMusic() async {
     await _musicAudioPlayer.resume();
   }

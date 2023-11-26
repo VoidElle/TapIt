@@ -1,8 +1,10 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:tapit/global/providers/global_sounds_manager_provider.dart';
-import 'package:tapit/global/utils/global_sounds_manager.dart';
+import 'package:tapit/global/utils/global_constants.dart';
+import 'package:tapit/global/utils/managers/global_shared_preferences_manager.dart';
+import 'package:tapit/global/utils/managers/global_sounds_manager.dart';
 
 class NewMenuAudioControlsButton extends ConsumerStatefulWidget {
 
@@ -14,29 +16,36 @@ class NewMenuAudioControlsButton extends ConsumerStatefulWidget {
 
 class _NewMenuAudioControlsButtonState extends ConsumerState<NewMenuAudioControlsButton> {
 
-  bool _isVolumeEnabled = true;
-  bool _isMusicEnabled = true;
+  final GlobalSharedPreferencesManager _globalSharedPreferencesManager = GlobalConstants.globalSharedPreferencesManager;
+  final GlobalSoundsManager _globalSoundsManager = GlobalConstants.globalSoundsManager;
 
-  Future<void> _changeVolumeEnabled() async {
+  late bool _isMusicEnabled;
+  late bool _isFxEnabled;
 
-    final GlobalSoundsManager globalSoundsManager = ref.read(globalSoundsManagerProvider);
-
-    setState(() => _isVolumeEnabled = !_isVolumeEnabled);
-
-    _isVolumeEnabled
-        ? globalSoundsManager.enableFxSounds()
-        : globalSoundsManager.disableFxSounds();
-  }
+  Future<void> _changeFxSoundsEnabled() async {}
 
   Future<void> _changeMusicEnabled() async {
 
-    final GlobalSoundsManager globalSoundsManager = ref.read(globalSoundsManagerProvider);
-
     setState(() => _isMusicEnabled = !_isMusicEnabled);
+    _globalSharedPreferencesManager.setMusicEnabled(_isMusicEnabled);
+
+    if (_globalSoundsManager.getMusicAudioPlayerState() == PlayerState.stopped) {
+      await _globalSoundsManager.playMusic();
+      return;
+    }
 
     _isMusicEnabled
-        ? await globalSoundsManager.resumeMusic()
-        : await globalSoundsManager.stopMusic();
+        ? await _globalSoundsManager.resumeMusic()
+        : await _globalSoundsManager.stopMusic();
+  }
+
+  @override
+  void initState() {
+
+    _isMusicEnabled = _globalSharedPreferencesManager.getMusicEnabled();
+    _isFxEnabled = _globalSharedPreferencesManager.getFxSoundsEnabled();
+
+    super.initState();
   }
 
   @override
@@ -65,9 +74,9 @@ class _NewMenuAudioControlsButtonState extends ConsumerState<NewMenuAudioControl
             children: [
 
               GestureDetector(
-                onTapUp: (TapUpDetails _) => _changeVolumeEnabled(),
+                onTapUp: (TapUpDetails _) => _changeFxSoundsEnabled(),
                 child: Icon(
-                  _isVolumeEnabled
+                  _isFxEnabled
                       ? MdiIcons.volumeHigh
                       : MdiIcons.volumeOff,
                   color: const Color(0xFF000000),

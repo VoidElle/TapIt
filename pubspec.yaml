@@ -30,6 +30,7 @@ dependencies:
   # Utils
   logger: ^2.0.2+1
   equatable: ^2.0.5
+  shared_preferences: ^2.2.2
 
   # Sound
   audioplayers: ^5.2.1
