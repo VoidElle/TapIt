@@ -45,7 +45,9 @@ class TapIt extends StatelessWidget {
         textTheme: const TextTheme(
           displayLarge: TextStyle(
             fontFamily: "CircularStd",
-            color: Color(0xFF000000),
+            color: Color(0xFFFFFFFF),
+            fontSize: 20,
+            letterSpacing: -2,
           ),
           displayMedium: TextStyle(
             fontFamily: "CircularStd",
