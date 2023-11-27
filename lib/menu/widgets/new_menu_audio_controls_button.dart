@@ -22,7 +22,16 @@ class _NewMenuAudioControlsButtonState extends ConsumerState<NewMenuAudioControl
   late bool _isMusicEnabled;
   late bool _isFxEnabled;
 
-  Future<void> _changeFxSoundsEnabled() async {}
+  Future<void> _changeFxSoundsEnabled() async {
+
+    setState(() => _isFxEnabled = !_isFxEnabled);
+    _globalSharedPreferencesManager.setFxSoundsEnabled(_isFxEnabled);
+
+    if (_isFxEnabled) {
+      await _globalSoundsManager.playMenuTapFx();
+    }
+
+  }
 
   Future<void> _changeMusicEnabled() async {
 

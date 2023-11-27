@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:logger/logger.dart';
+import 'package:tapit/global/utils/global_constants.dart';
 import 'package:tapit/global/utils/global_enums.dart';
 import 'package:tapit/global/utils/global_functions.dart';
+import 'package:tapit/global/utils/managers/global_shared_preferences_manager.dart';
+import 'package:tapit/global/utils/managers/global_sounds_manager.dart';
 
 class GlobalComplexButton extends StatefulWidget {
 
@@ -10,12 +13,14 @@ class GlobalComplexButton extends StatefulWidget {
   final Function onTapCallback;
   final EdgeInsets padding;
   final bool bypassSvgUseJpg;
+  final bool makeSound;
 
   const GlobalComplexButton({
     required this.globalComplexButtonType,
     required this.onTapCallback,
     this.padding = EdgeInsets.zero,
     this.bypassSvgUseJpg = false,
+    this.makeSound = true,
     super.key,
   });
 
@@ -57,7 +62,17 @@ class _GlobalComplexButtonState extends State<GlobalComplexButton> {
     return Padding(
       padding: widget.padding,
       child: GestureDetector(
-        onTapUp: (_) => widget.onTapCallback(),
+        onTapUp: (_) async {
+
+          final GlobalSharedPreferencesManager globalSharedPreferencesManager = GlobalConstants.globalSharedPreferencesManager;
+          final GlobalSoundsManager globalSoundsManager = GlobalConstants.globalSoundsManager;
+
+          if (globalSharedPreferencesManager.getFxSoundsEnabled()) {
+            await globalSoundsManager.playMenuTapFx();
+          }
+
+          widget.onTapCallback();
+        },
         child: widget.bypassSvgUseJpg
             ? Image.asset(
                 _path!,

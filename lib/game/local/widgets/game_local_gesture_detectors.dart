@@ -4,11 +4,25 @@ import 'package:tapit/game/local/dialogs/game_local_win_dialog.dart';
 import 'package:tapit/game/local/providers/game_local_game_status_provider.dart';
 import 'package:tapit/game/local/utils/game_local_enums.dart';
 
+import '../../../global/utils/global_constants.dart';
+import '../../../global/utils/managers/global_shared_preferences_manager.dart';
+import '../../../global/utils/managers/global_sounds_manager.dart';
 import '../providers/game_local_player_data_provider.dart';
 
 class GameLocalGestureDetectors extends ConsumerWidget {
 
   const GameLocalGestureDetectors({super.key});
+
+  Future<void> checkAndPlaySound() async {
+
+    final GlobalSharedPreferencesManager globalSharedPreferencesManager = GlobalConstants.globalSharedPreferencesManager;
+    final GlobalSoundsManager globalSoundsManager = GlobalConstants.globalSoundsManager;
+
+    if (globalSharedPreferencesManager.getFxSoundsEnabled()) {
+      await globalSoundsManager.playGameTapFx();
+    }
+
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -26,15 +40,17 @@ class GameLocalGestureDetectors extends ConsumerWidget {
         // Top tap detector
         Expanded(
           child: GestureDetector(
-            onTapUp: (TapUpDetails _) {
+            onTapUp: (TapUpDetails _) async {
               debugPrint("Top tap $gameStatus");
               if (gameStarted) {
+
+                await checkAndPlaySound();
 
                 // Score TOP player and store if it has won
                 final bool playerWon = gameLocalPlayerDataNotifier.score(GameLocalPlayerEnum.top);
 
                 // If the TOP player has won, show the win dialog
-                if (playerWon) {
+                if (playerWon && context.mounted) {
                   showDialog(
                     context: context,
                     barrierDismissible: false,
@@ -53,15 +69,17 @@ class GameLocalGestureDetectors extends ConsumerWidget {
         // Bottom tap detector
         Expanded(
           child: GestureDetector(
-            onTapUp: (TapUpDetails _) {
+            onTapUp: (TapUpDetails _) async {
               debugPrint("Bottom tap $gameStatus");
               if (gameStarted) {
+
+                await checkAndPlaySound();
 
                 // Score BOTTOM player and store if it has won
                 final bool playerWon = gameLocalPlayerDataNotifier.score(GameLocalPlayerEnum.bottom);
 
                 // If the BOTTOM player has won, show the win dialog
-                if (playerWon) {
+                if (playerWon && context.mounted) {
                   showDialog(
                     context: context,
                     barrierDismissible: false,

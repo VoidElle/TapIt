@@ -68,7 +68,7 @@ class TapIt extends StatelessWidget {
       onGenerateRoute: GlobalFunctions.generateRoutes,
       home: FutureBuilder(
         future: GlobalConstants.globalSharedPreferencesManager.init(),
-        builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+        builder: (BuildContext _, AsyncSnapshot<void> snapshot) {
 
           if (snapshot.connectionState != ConnectionState.done) {
             return const GlobalLoadingPage();

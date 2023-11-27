@@ -2,12 +2,15 @@ import 'package:audioplayers/audioplayers.dart';
 
 class GlobalSoundsManager {
 
-  static const String musicPath = "sounds/music.mp3";
+  static const String soundsPath = "sounds/";
+
+  static const String musicPath = "${soundsPath}music.mp3";
+  static const String gameTapPath = "${soundsPath}game_tap.wav";
+  static const String menuButtonClickPath = "${soundsPath}menu_button_click.wav";
 
   final AudioPlayer _musicAudioPlayer = AudioPlayer();
-
-  bool _isFxEnabled = true;
-  final AudioPlayer _fxAudioPlayer = AudioPlayer();
+  final AudioPlayer _fxMenuTapAudioPlayer = AudioPlayer();
+  final AudioPlayer _fxGameTapAudioPlayer = AudioPlayer();
 
   PlayerState getMusicAudioPlayerState() {
     return _musicAudioPlayer.state;
@@ -29,30 +32,36 @@ class GlobalSoundsManager {
     await _musicAudioPlayer.pause();
   }
 
-  Future<void> resumeFx() async {
-    await _musicAudioPlayer.resume();
+  Future<void> resumeMenuTapFx() async {
+    await _fxMenuTapAudioPlayer.resume();
   }
 
-  Future<void> playFx() async {
-    await _musicAudioPlayer.play(
+  Future<void> playMenuTapFx() async {
+    await _fxMenuTapAudioPlayer.play(
       AssetSource(
-        musicPath,
+        menuButtonClickPath,
       ),
     );
   }
 
-  Future<void> stopFx() async {
-    await _musicAudioPlayer.stop();
+  Future<void> stopMenuTapFx() async {
+    await _fxMenuTapAudioPlayer.stop();
   }
 
-  void disableFxSounds() {
-    _isFxEnabled = false;
+  Future<void> resumeGameTapFx() async {
+    await _fxGameTapAudioPlayer.resume();
   }
 
-  void enableFxSounds() {
-    _isFxEnabled = true;
+  Future<void> playGameTapFx() async {
+    await _fxGameTapAudioPlayer.play(
+      AssetSource(
+        gameTapPath,
+      ),
+    );
   }
 
-  bool get isFxEnabled => _isFxEnabled;
+  Future<void> stopGameTapFx() async {
+    await _fxGameTapAudioPlayer.stop();
+  }
 
 }
