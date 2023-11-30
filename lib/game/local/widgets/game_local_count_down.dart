@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:stroke_text/stroke_text.dart';
 import 'package:tapit/game/local/providers/game_local_count_down_provider.dart';
 import 'package:tapit/game/local/providers/game_local_game_status_provider.dart';
+
+import '../../../global/widgets/stroke_text.dart';
 
 class GameLocalCountDown extends ConsumerStatefulWidget {
 

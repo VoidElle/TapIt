@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tapit/game/local/providers/game_local_ready_buttons_visibility_provider.dart';
+import 'package:tapit/game/local/utils/game_local_enums.dart';
 import 'package:tapit/game/local/widgets/game_local_ready_button.dart';
 
 import '../models/game_local_player_model.dart';
@@ -17,11 +19,11 @@ class GameLocalReadyButtons extends ConsumerStatefulWidget {
 
 class _GameLocalNewReadyButtonsState extends ConsumerState<GameLocalReadyButtons> {
 
-  bool _topReadyButtonVisible = true;
-  bool _bottomReadyButtonVisible = true;
-
   @override
   Widget build(BuildContext context) {
+
+    final gameLocalReadyButtonsVisibility = ref.watch(gameLocalReadyButtonsVisibilityProvider);
+    final gameLocalReadyButtonsVisibilityNotifier = ref.read(gameLocalReadyButtonsVisibilityProvider.notifier);
 
     final gameLocalPlayerData = ref.watch(gameLocalPlayerDataProvider);
     final gameLocalPlayerDataNotifier = ref.read(gameLocalPlayerDataProvider.notifier);
@@ -31,15 +33,15 @@ class _GameLocalNewReadyButtonsState extends ConsumerState<GameLocalReadyButtons
 
     final double deviceHeight = MediaQuery.of(context).size.height;
 
-    if (_topReadyButtonVisible && topPlayer.readyStatus) {
+    if (gameLocalReadyButtonsVisibility["top_ready_button_visible"] && topPlayer.readyStatus) {
       Future.delayed(const Duration(milliseconds: 250), () {
-        setState(() => _topReadyButtonVisible = false);
+        gameLocalReadyButtonsVisibilityNotifier.setReadyButtonVisibility(GameLocalPlayerEnum.top, false);
       });
     }
 
-    if (_bottomReadyButtonVisible && bottomPlayer.readyStatus) {
+    if (gameLocalReadyButtonsVisibility["bottom_ready_button_visible"] && bottomPlayer.readyStatus) {
       Future.delayed(const Duration(milliseconds: 250), () {
-        setState(() => _bottomReadyButtonVisible = false);
+        gameLocalReadyButtonsVisibilityNotifier.setReadyButtonVisibility(GameLocalPlayerEnum.bottom, false);
       });
     }
 
@@ -51,7 +53,7 @@ class _GameLocalNewReadyButtonsState extends ConsumerState<GameLocalReadyButtons
           height: deviceHeight / 2,
           width: double.infinity,
           child: Visibility(
-            visible: _topReadyButtonVisible,
+            visible: gameLocalReadyButtonsVisibility["top_ready_button_visible"],
             child: Center(
               child: AnimatedOpacity(
                 duration: const Duration(milliseconds: 250),
@@ -77,7 +79,7 @@ class _GameLocalNewReadyButtonsState extends ConsumerState<GameLocalReadyButtons
           height: deviceHeight / 2,
           width: double.infinity,
           child: Visibility(
-            visible: _bottomReadyButtonVisible,
+            visible: gameLocalReadyButtonsVisibility["bottom_ready_button_visible"],
             child: Center(
               child: AnimatedOpacity(
                 duration: const Duration(milliseconds: 250),

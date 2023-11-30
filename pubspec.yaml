@@ -17,7 +17,6 @@ dependencies:
   flutter_svg: ^2.0.9
   confetti: ^0.7.0
   material_design_icons_flutter: 7.0.7296
-  stroke_text: ^0.0.2
 
   # State management
   flutter_riverpod: ^2.4.0

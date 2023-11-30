@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:stroke_text/stroke_text.dart';
+
+import '../../../global/widgets/stroke_text.dart';
 
 class GameLocalReadyButton extends StatelessWidget {
 

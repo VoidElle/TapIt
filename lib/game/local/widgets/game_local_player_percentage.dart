@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:stroke_text/stroke_text.dart';
+
+import '../../../global/widgets/stroke_text.dart';
 
 class GameLocalPlayersPercentage extends ConsumerWidget {
 
