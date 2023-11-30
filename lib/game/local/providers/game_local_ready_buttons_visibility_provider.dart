@@ -21,10 +21,10 @@ class GameLocalReadyButtonsVisibilityNotifier extends StateNotifier<Map> {
 
     switch(gameLocalPlayerEnum) {
       case GameLocalPlayerEnum.top:
-        newState["top_ready_button_visible"] = true;
+        newState["top_ready_button_visible"] = false;
         break;
       case GameLocalPlayerEnum.bottom:
-        newState["bottom_ready_button_visible"] = true;
+        newState["bottom_ready_button_visible"] = false;
         break;
     }
 
