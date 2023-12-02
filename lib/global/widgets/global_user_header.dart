@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:tapit/menu/dialogs/menu_change_language_dialog.dart';
 
 class GlobalUserHeader extends StatelessWidget {
 
@@ -53,8 +54,16 @@ class GlobalUserHeader extends StatelessWidget {
                 ],
               ),
 
-              Image.asset(
-                "assets/jpgs/global/global_uk_flag.jpg",
+              GestureDetector(
+                onTapUp: (TapUpDetails _) {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext _) => const MenuChangeLanguageDialog(),
+                  );
+                },
+                child: Image.asset(
+                  "assets/jpgs/global/global_uk_flag.jpg",
+                ),
               ),
 
             ],

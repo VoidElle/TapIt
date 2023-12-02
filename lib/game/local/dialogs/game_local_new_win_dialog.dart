@@ -108,7 +108,7 @@ class _GameLocalNewWinDialogState extends ConsumerState<GameLocalNewWinDialog> {
                     vertical: 15,
                   ),
                   child: StrokeText(
-                    text: "${widget.gameLocalPlayerEnum.text} player won".toUpperCase(),
+                    text: "${widget.gameLocalPlayerEnum.text} won!".toUpperCase(),
                     textAlign: TextAlign.center,
                     textColor: const Color(0xFFFFFFFF),
                     textStyle: const TextStyle(
