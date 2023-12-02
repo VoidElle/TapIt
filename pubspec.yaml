@@ -39,6 +39,7 @@ dependencies:
 
   # Ads
   admob_flutter: ^3.0.0
+  firebase_core: ^2.24.0
 
 dev_dependencies:
   flutter_test:

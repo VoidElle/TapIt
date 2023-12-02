@@ -29,3 +29,9 @@ doc/api/
 .metadata
 tapit.iml
 .idea/
+/ios/firebase_app_id_file.json
+/macos/firebase_app_id_file.json
+/lib/firebase_options.dart
+/android/app/google-services.json
+/ios/Runner/GoogleService-Info.plist
+/macos/Runner/GoogleService-Info.plist

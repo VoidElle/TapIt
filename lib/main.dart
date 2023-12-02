@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,6 +8,7 @@ import 'package:tapit/global/utils/global_constants.dart';
 import 'package:tapit/global/utils/global_functions.dart';
 import 'package:admob_flutter/admob_flutter.dart';
 
+import 'firebase_options.dart';
 import 'menu/pages/menu_page.dart';
 
 void main() async {
@@ -15,6 +17,11 @@ void main() async {
 
   // Localizations
   await EasyLocalization.ensureInitialized();
+
+  // Firebase
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   // Ads
   Admob.initialize();
