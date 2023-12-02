@@ -61,7 +61,8 @@ flutter:
   assets:
     - assets/lotties/
     - assets/svgs/buttons/lobby/
-    - assets/svgs/buttons/menu/
+    - assets/svgs/buttons/menu/en/
+    - assets/svgs/buttons/menu/it/
     - assets/jpgs/global/
     - assets/sounds/
     - assets/translations/

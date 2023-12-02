@@ -86,13 +86,26 @@ class GlobalFunctions {
 
   // Function to get the path image from the GlobalComplexButtonType
   static String getComplexButtonPathImageFromType(GlobalComplexButtonType globalComplexButtonType) {
+
+    final Locale currentLocale = GlobalFunctions.getCurrentLocale();
+
+    String? dir = "";
+    switch(currentLocale) {
+      case GlobalConstants.englishLocale:
+        dir = "en";
+        break;
+      case GlobalConstants.italianLocale:
+        dir = "it";
+        break;
+    }
+
     switch(globalComplexButtonType) {
       case GlobalComplexButtonType.local:
-        return GlobalPaths.svgMenuLocalButtonPath;
+        return GlobalPaths.svgMenuLocalButtonPath.replaceAll("%language%", dir);
       case GlobalComplexButtonType.online:
-        return GlobalPaths.svgMenuOnlineButtonPath;
+        return GlobalPaths.svgMenuOnlineButtonPath.replaceAll("%language%", dir);
       case GlobalComplexButtonType.shop:
-        return GlobalPaths.jpgMenuShopButtonPath;
+        return GlobalPaths.jpgMenuShopButtonPath.replaceAll("%language%", dir);
       case GlobalComplexButtonType.createGame:
         return "";
       case GlobalComplexButtonType.joinGame:
