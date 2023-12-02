@@ -3,6 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tapit/game/local/providers/game_local_count_down_provider.dart';
 import 'package:tapit/game/local/providers/game_local_game_status_provider.dart';
 
+import '../../../global/utils/global_constants.dart';
+import '../../../global/utils/managers/global_shared_preferences_manager.dart';
+import '../../../global/utils/managers/global_sounds_manager.dart';
 import '../../../global/widgets/stroke_text.dart';
 
 class GameLocalCountDown extends ConsumerStatefulWidget {
@@ -17,6 +20,13 @@ class _GameLocalCountDownState extends ConsumerState<GameLocalCountDown> with Ti
 
   // Function to start the countdown
   Future<void> _startCountdown() async {
+
+    final GlobalSharedPreferencesManager globalSharedPreferencesManager = GlobalConstants.globalSharedPreferencesManager;
+    final GlobalSoundsManager globalSoundsManager = GlobalConstants.globalSoundsManager;
+
+    if (globalSharedPreferencesManager.getFxSoundsEnabled()) {
+      await globalSoundsManager.playCountdownSound();
+    }
 
     // Get the state and the notifier
     final Map gameLocalCountDownState = ref.watch(gameLocalCountDownProvider);

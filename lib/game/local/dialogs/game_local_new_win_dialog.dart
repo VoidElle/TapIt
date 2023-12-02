@@ -7,6 +7,8 @@ import 'package:tapit/global/widgets/global_action_button.dart';
 import 'package:tapit/menu/pages/menu_page.dart';
 
 import '../../../global/utils/global_constants.dart';
+import '../../../global/utils/managers/global_shared_preferences_manager.dart';
+import '../../../global/utils/managers/global_sounds_manager.dart';
 import '../../../global/widgets/global_bordered_box.dart';
 import '../../../global/widgets/stroke_text.dart';
 import '../utils/game_local_enums.dart';
@@ -29,6 +31,9 @@ class GameLocalNewWinDialog extends ConsumerStatefulWidget {
 
 class _GameLocalNewWinDialogState extends ConsumerState<GameLocalNewWinDialog> {
 
+  final GlobalSharedPreferencesManager globalSharedPreferencesManager = GlobalConstants.globalSharedPreferencesManager;
+  final GlobalSoundsManager globalSoundsManager = GlobalConstants.globalSoundsManager;
+
   @override
   void initState() {
 
@@ -38,6 +43,10 @@ class _GameLocalNewWinDialogState extends ConsumerState<GameLocalNewWinDialog> {
     GlobalFunctions.executeAfterBuild(() {
       ref.read(gameLocalGameStatusProvider.notifier).setPlayerWon(true);
     });
+
+    if (globalSharedPreferencesManager.getFxSoundsEnabled()) {
+      globalSoundsManager.playWinSound();
+    }
 
   }
 

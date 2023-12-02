@@ -5,7 +5,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tapit/game/local/providers/game_local_ready_buttons_visibility_provider.dart';
 import 'package:tapit/game/local/utils/game_local_enums.dart';
 import 'package:tapit/game/local/widgets/game_local_ready_button.dart';
+import 'package:tapit/global/utils/managers/global_sounds_manager.dart';
 
+import '../../../global/utils/global_constants.dart';
+import '../../../global/utils/managers/global_shared_preferences_manager.dart';
 import '../models/game_local_player_model.dart';
 import '../providers/game_local_player_data_provider.dart';
 
@@ -18,6 +21,9 @@ class GameLocalReadyButtons extends ConsumerStatefulWidget {
 }
 
 class _GameLocalNewReadyButtonsState extends ConsumerState<GameLocalReadyButtons> {
+
+  final GlobalSharedPreferencesManager globalSharedPreferencesManager = GlobalConstants.globalSharedPreferencesManager;
+  final GlobalSoundsManager globalSoundsManager = GlobalConstants.globalSoundsManager;
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +67,11 @@ class _GameLocalNewReadyButtonsState extends ConsumerState<GameLocalReadyButtons
                 child: Transform.rotate(
                   angle: pi,
                   child: GameLocalReadyButton(
-                    onTapCallback: () {
+                    onTapCallback: () async {
+
+                      if (globalSharedPreferencesManager.getFxSoundsEnabled()) {
+                        await globalSoundsManager.playMenuTapFx();
+                      }
 
                       // Update the ready status of the TOP player setting it to true
                       gameLocalPlayerDataNotifier.updateReadyStatus(ref, 0, true);
@@ -85,7 +95,11 @@ class _GameLocalNewReadyButtonsState extends ConsumerState<GameLocalReadyButtons
                 duration: const Duration(milliseconds: 250),
                 opacity: bottomPlayer.readyStatus ? 0 : 1,
                 child: GameLocalReadyButton(
-                  onTapCallback: () {
+                  onTapCallback: () async {
+
+                    if (globalSharedPreferencesManager.getFxSoundsEnabled()) {
+                      await globalSoundsManager.playMenuTapFx();
+                    }
 
                     // Update the ready status of the BOTTOM player setting it to true
                     gameLocalPlayerDataNotifier.updateReadyStatus(ref, 1, true);

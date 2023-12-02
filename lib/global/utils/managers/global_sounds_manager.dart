@@ -7,10 +7,15 @@ class GlobalSoundsManager {
   static const String musicPath = "${soundsPath}music.mp3";
   static const String gameTapPath = "${soundsPath}game_tap.wav";
   static const String menuButtonClickPath = "${soundsPath}menu_button_click.wav";
+  static const String countdownSoundPath = "${soundsPath}countdown_sound.mp3";
+  static const String winSoundPath = "${soundsPath}win_sound.wav";
 
   final AudioPlayer _musicAudioPlayer = AudioPlayer();
   final AudioPlayer _fxMenuTapAudioPlayer = AudioPlayer();
   final AudioPlayer _fxGameTapAudioPlayer = AudioPlayer();
+
+  final AudioPlayer _winSoundAudioPlayer = AudioPlayer();
+  final AudioPlayer _countdownSoundAudioPlayer = AudioPlayer();
 
   PlayerState getMusicAudioPlayerState() {
     return _musicAudioPlayer.state;
@@ -32,24 +37,12 @@ class GlobalSoundsManager {
     await _musicAudioPlayer.pause();
   }
 
-  Future<void> resumeMenuTapFx() async {
-    await _fxMenuTapAudioPlayer.resume();
-  }
-
   Future<void> playMenuTapFx() async {
     await _fxMenuTapAudioPlayer.play(
       AssetSource(
         menuButtonClickPath,
       ),
     );
-  }
-
-  Future<void> stopMenuTapFx() async {
-    await _fxMenuTapAudioPlayer.stop();
-  }
-
-  Future<void> resumeGameTapFx() async {
-    await _fxGameTapAudioPlayer.resume();
   }
 
   Future<void> playGameTapFx() async {
@@ -60,8 +53,20 @@ class GlobalSoundsManager {
     );
   }
 
-  Future<void> stopGameTapFx() async {
-    await _fxGameTapAudioPlayer.stop();
+  Future<void> playWinSound() async {
+    await _winSoundAudioPlayer.play(
+      AssetSource(
+        winSoundPath,
+      ),
+    );
+  }
+
+  Future<void> playCountdownSound() async {
+    await _countdownSoundAudioPlayer.play(
+      AssetSource(
+        countdownSoundPath,
+      ),
+    );
   }
 
 }
