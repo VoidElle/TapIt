@@ -1,3 +1,4 @@
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -35,10 +36,24 @@ class _GameLocalNewWinDialogState extends ConsumerState<GameLocalNewWinDialog> {
   final GlobalSharedPreferencesManager globalSharedPreferencesManager = GlobalConstants.globalSharedPreferencesManager;
   final GlobalSoundsManager globalSoundsManager = GlobalConstants.globalSoundsManager;
 
+  AdmobBannerSize? bannerSize;
+  late AdmobInterstitial interstitialAd;
+
   @override
   void initState() {
 
     super.initState();
+
+    bannerSize = AdmobBannerSize.BANNER;
+
+    interstitialAd = AdmobInterstitial(
+      adUnitId: GlobalConstants.localWinDialogAdId,
+      listener: (AdmobAdEvent event, Map<String, dynamic>? args) {
+        if (event == AdmobAdEvent.closed) interstitialAd.load();
+      },
+    );
+
+    interstitialAd.load();
 
     // Set the player won state to true to show the confetti
     GlobalFunctions.executeAfterBuild(() {

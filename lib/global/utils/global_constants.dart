@@ -46,4 +46,6 @@ class GlobalConstants {
     ),
   );
 
+  static const String localWinDialogAdId = "ca-app-pub-1371572580052524/6961924787";
+
 }

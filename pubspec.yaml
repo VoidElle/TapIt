@@ -37,6 +37,9 @@ dependencies:
   # Localization
   easy_localization: ^3.0.3
 
+  # Ads
+  admob_flutter: ^3.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

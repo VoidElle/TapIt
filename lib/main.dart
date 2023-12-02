@@ -5,13 +5,20 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tapit/global/pages/global_loading_page.dart';
 import 'package:tapit/global/utils/global_constants.dart';
 import 'package:tapit/global/utils/global_functions.dart';
+import 'package:admob_flutter/admob_flutter.dart';
 
 import 'menu/pages/menu_page.dart';
 
 void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Localizations
   await EasyLocalization.ensureInitialized();
+
+  // Ads
+  Admob.initialize();
+  await Admob.requestTrackingAuthorization();
 
   runApp(
     EasyLocalization(
