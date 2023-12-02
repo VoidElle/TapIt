@@ -11,6 +11,9 @@
   "dialog_local_game_over_title": "GIOCO\nFINITO",
   "dialog_local_game_over_won": "%s HA VINTO!",
   "dialog_local_game_home_button_tooltip": "Torna al menù",
-  "dialog_local_game_rematch_button_tooltip": "Rivincita"
+  "dialog_local_game_rematch_button_tooltip": "Rivincita",
+
+  "global_color_red": "ROSSO",
+  "global_color_blue": "BLU"
 
 }

@@ -11,6 +11,9 @@
   "dialog_local_game_over_title": "GAME\nOVER",
   "dialog_local_game_over_won": "%s WON!",
   "dialog_local_game_home_button_tooltip": "Back to Home",
-  "dialog_local_game_rematch_button_tooltip": "Rematch"
+  "dialog_local_game_rematch_button_tooltip": "Rematch",
+
+  "global_color_red": "RED",
+  "global_color_blue": "BLUE"
 
 }
