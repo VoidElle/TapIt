@@ -34,6 +34,9 @@ dependencies:
   # Sound
   audioplayers: ^5.2.1
 
+  # Localization
+  easy_localization: ^3.0.3
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -61,3 +64,4 @@ flutter:
     - assets/svgs/buttons/menu/
     - assets/jpgs/global/
     - assets/sounds/
+    - assets/translations/

@@ -1,0 +1,16 @@
+{
+
+  "menu_default_nickname": "Nome",
+
+  "dialog_change_language_title": "SELEZIONA LA TUA LINGUA",
+  "dialog_change_language_english": "INGLESE",
+  "dialog_change_language_italian": "ITALIANO",
+
+  "game_local_ready_button": "PRONTO",
+
+  "dialog_local_game_over_title": "GIOCO\nFINITO",
+  "dialog_local_game_over_won": "%s HA VINTO!",
+  "dialog_local_game_home_button_tooltip": "Torna al menù",
+  "dialog_local_game_rematch_button_tooltip": "Rivincita"
+
+}

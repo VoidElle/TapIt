@@ -1,4 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:tapit/global/utils/global_constants.dart';
+import 'package:tapit/global/utils/global_functions.dart';
 
 import '../../global/utils/global_color_constants.dart';
 import '../../global/widgets/stroke_text.dart';
@@ -14,7 +17,7 @@ class MenuChangeLanguageDialog extends StatelessWidget {
     bool selected = false,
   }) {
     return GestureDetector(
-      onTapUp: (TapUpDetails _) => callback(),
+      onTapUp: (TapUpDetails _) async => await callback(),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -60,6 +63,19 @@ class MenuChangeLanguageDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final Locale currentLocale = GlobalFunctions.getCurrentLocale();
+
+    String? flagPath;
+    switch(currentLocale) {
+      case GlobalConstants.englishLocale:
+        flagPath = "assets/jpgs/global/global_uk_flag_big.jpg";
+        break;
+      case GlobalConstants.italianLocale:
+        flagPath = "assets/jpgs/global/global_it_flag_big.jpg";
+        break;
+    }
+
     return Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
@@ -91,36 +107,38 @@ class MenuChangeLanguageDialog extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
 
-              Image.asset(
-                "assets/jpgs/global/global_uk_flag_big.jpg",
-              ),
+              if (flagPath != null)
+                Image.asset(
+                  flagPath,
+                ),
 
-              const Padding(
-                padding: EdgeInsets.symmetric(
+              Padding(
+                padding: const EdgeInsets.symmetric(
                   vertical: 50,
                 ),
                 child: StrokeText(
-                  text: "SELECT THE\nLANGUAGE",
+                  text: tr("dialog_change_language_title"),
                   textAlign: TextAlign.center,
-                  textColor: Color(0xFFFFFFFF),
-                  textStyle: TextStyle(
+                  textColor: const Color(0xFFFFFFFF),
+                  textStyle: const TextStyle(
                     height: 0.95,
                     fontFamily: "CircularStd",
                     fontWeight: FontWeight.w900,
                     fontSize: 35,
                   ),
-                  strokeColor: Color(0xFF000000),
+                  strokeColor: const Color(0xFF000000),
                   strokeWidth: 6,
                 ),
               ),
 
               _buildLanguageRow(
-                callback: () {
-
+                callback: () async {
+                  GlobalFunctions.popIfADialogIsShown();
+                  await context.setLocale(GlobalConstants.englishLocale);
                 },
                 flagImagePath: "assets/jpgs/global/global_selector_uk_flag.jpg",
-                label: "English".toUpperCase(),
-                selected: true,
+                label: tr("dialog_change_language_english"),
+                selected: currentLocale == GlobalConstants.englishLocale,
               ),
 
               const SizedBox(
@@ -128,12 +146,13 @@ class MenuChangeLanguageDialog extends StatelessWidget {
               ),
 
               _buildLanguageRow(
-                callback: () {
-
+                callback: () async {
+                  GlobalFunctions.popIfADialogIsShown();
+                  await context.setLocale(GlobalConstants.italianLocale);
                 },
                 flagImagePath: "assets/jpgs/global/global_selector_it_flag.jpg",
-                label: "Italian".toUpperCase(),
-                selected: false,
+                label: tr("dialog_change_language_italian"),
+                selected: currentLocale == GlobalConstants.italianLocale,
               ),
 
               const SizedBox(

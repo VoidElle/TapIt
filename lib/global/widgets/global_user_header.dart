@@ -1,6 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:tapit/menu/dialogs/menu_change_language_dialog.dart';
+
+import '../utils/global_constants.dart';
+import '../utils/global_functions.dart';
 
 class GlobalUserHeader extends StatelessWidget {
 
@@ -10,6 +14,19 @@ class GlobalUserHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final Locale currentLocale = GlobalFunctions.getCurrentLocale();
+
+    String? flagPath;
+    switch(currentLocale) {
+      case GlobalConstants.englishLocale:
+        flagPath = "assets/jpgs/global/global_uk_flag.jpg";
+        break;
+      case GlobalConstants.italianLocale:
+        flagPath = "assets/jpgs/global/global_it_flag.jpg";
+        break;
+    }
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(50, 30, 50, 25),
       child: Container(
@@ -46,7 +63,7 @@ class GlobalUserHeader extends StatelessWidget {
                       left: 10,
                     ),
                     child: Text(
-                      "Nickname",
+                      tr("menu_default_nickname"),
                       style: Theme.of(context).textTheme.displayMedium,
                     ),
                   ),
@@ -54,17 +71,19 @@ class GlobalUserHeader extends StatelessWidget {
                 ],
               ),
 
-              GestureDetector(
-                onTapUp: (TapUpDetails _) {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext _) => const MenuChangeLanguageDialog(),
-                  );
-                },
-                child: Image.asset(
-                  "assets/jpgs/global/global_uk_flag.jpg",
+              if (flagPath != null)
+                GestureDetector(
+                  onTapUp: (TapUpDetails _) {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext _) =>
+                          const MenuChangeLanguageDialog(),
+                    );
+                  },
+                  child: Image.asset(
+                    flagPath,
+                  ),
                 ),
-              ),
 
             ],
           ),

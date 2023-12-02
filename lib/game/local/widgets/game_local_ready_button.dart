@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../global/widgets/stroke_text.dart';
@@ -28,17 +29,17 @@ class GameLocalReadyButton extends StatelessWidget {
             color: const Color(0xFF000000),
           ),
         ),
-        child: const Center(
+        child: Center(
           child: StrokeText(
-            text: "READY",
-            textColor: Color(0xFFFFFFFF),
-            textStyle: TextStyle(
+            text: tr("game_local_ready_button"),
+            textColor: const Color(0xFFFFFFFF),
+            textStyle: const TextStyle(
               fontFamily: "CircularStd",
               fontWeight: FontWeight.w900,
               fontSize: 20,
               letterSpacing: 0,
             ),
-            strokeColor: Color(0xFF000000),
+            strokeColor: const Color(0xFF000000),
             strokeWidth: 5,
           ),
         ),

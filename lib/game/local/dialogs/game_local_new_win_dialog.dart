@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -85,17 +86,17 @@ class _GameLocalNewWinDialogState extends ConsumerState<GameLocalNewWinDialog> {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
 
-                const StrokeText(
-                  text: "GAME\nOVER",
+                StrokeText(
+                  text: tr("dialog_local_game_over_title"),
                   textAlign: TextAlign.center,
-                  textColor: Color(0xFFFFFFFF),
-                  textStyle: TextStyle(
+                  textColor: const Color(0xFFFFFFFF),
+                  textStyle: const TextStyle(
                     height: 0.85,
                     fontFamily: "CircularStd",
                     fontWeight: FontWeight.w900,
                     fontSize: 60,
                   ),
-                  strokeColor: Color(0xFF000000),
+                  strokeColor: const Color(0xFF000000),
                   strokeWidth: 6,
                 ),
 
@@ -108,7 +109,7 @@ class _GameLocalNewWinDialogState extends ConsumerState<GameLocalNewWinDialog> {
                     vertical: 15,
                   ),
                   child: StrokeText(
-                    text: "${widget.gameLocalPlayerEnum.text} won!".toUpperCase(),
+                    text: tr("dialog_local_game_over_won").replaceAll("%s", widget.gameLocalPlayerEnum.text),
                     textAlign: TextAlign.center,
                     textColor: const Color(0xFFFFFFFF),
                     textStyle: const TextStyle(
@@ -135,7 +136,7 @@ class _GameLocalNewWinDialogState extends ConsumerState<GameLocalNewWinDialog> {
                     children: [
 
                       Tooltip(
-                        message: "Back to Home",
+                        message: tr("dialog_local_game_home_button_tooltip"),
                         verticalOffset: 40,
                         child: GlobalActionButton(
                           iconData: MdiIcons.home,
@@ -152,7 +153,7 @@ class _GameLocalNewWinDialogState extends ConsumerState<GameLocalNewWinDialog> {
                       ),
 
                       Tooltip(
-                        message: "Rematch",
+                        message: tr("dialog_local_game_rematch_button_tooltip"),
                         verticalOffset: 40,
                         child: GlobalActionButton(
                           iconData: MdiIcons.swordCross,

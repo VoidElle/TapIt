@@ -21,7 +21,7 @@ class GameOnlineFunctions {
     debugPrint("GameOnlineSocketStatus -> ${gameOnlineSocketStatus.toString()}");
 
     // Pop a dialog if it's currently showing
-    GlobalFunctions.popIfADialogIsShown(context);
+    GlobalFunctions.popIfADialogIsShown();
 
     switch(gameOnlineSocketStatus) {
       case GameOnlineSocketStatus.loading:
@@ -42,7 +42,7 @@ class GameOnlineFunctions {
         // If the socket's current status is Success,
         // pop the currently showing dialog
         // (it should be the loading one, or also the error one)
-        GlobalFunctions.popIfADialogIsShown(context);
+        GlobalFunctions.popIfADialogIsShown();
 
         break;
       case GameOnlineSocketStatus.error:

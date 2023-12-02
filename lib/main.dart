@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,12 +11,19 @@ import 'menu/pages/menu_page.dart';
 void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
 
   runApp(
-    const ProviderScope(
-      child: TapIt(),
+    EasyLocalization(
+      supportedLocales: GlobalConstants.supportedLocales,
+      path: GlobalConstants.translationsPath,
+      fallbackLocale: GlobalConstants.fallbackLocale,
+      child: const ProviderScope(
+        child: TapIt(),
+      ),
     ),
   );
+
 }
 
 class TapIt extends StatelessWidget {
@@ -43,28 +51,13 @@ class TapIt extends StatelessWidget {
     );
 
     return MaterialApp(
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
       title: "TapIt: Challenge your friends",
       navigatorKey: GlobalConstants.navigatorKey,
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        textTheme: const TextTheme(
-          displayLarge: TextStyle(
-            fontFamily: "CircularStd",
-            color: Color(0xFFFFFFFF),
-            fontSize: 20,
-          ),
-          displayMedium: TextStyle(
-            fontFamily: "CircularStd",
-            color: Color(0xFF000000),
-            fontWeight: FontWeight.w900,
-            fontSize: 20,
-          ),
-          displaySmall: TextStyle(
-            fontFamily: "CircularStd",
-            color: Color(0xFF000000),
-          ),
-        ),
-      ),
+      theme: GlobalConstants.globalTheme,
       onGenerateRoute: GlobalFunctions.generateRoutes,
       home: FutureBuilder(
         future: GlobalConstants.globalSharedPreferencesManager.init(),

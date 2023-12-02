@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:tapit/game/local/pages/game_local_page.dart';
@@ -73,8 +74,9 @@ class GlobalFunctions {
   }
 
   // Function to pop a dialog if it's displayed
-  static void popIfADialogIsShown(BuildContext context) {
-    if (_isThereCurrentDialogShowing(context)) {
+  static void popIfADialogIsShown() {
+    final BuildContext? context = GlobalConstants.navigatorKey.currentState?.context;
+    if (context != null && _isThereCurrentDialogShowing(context)) {
       GlobalConstants.navigatorKey.currentState?.pop();
     }
   }
@@ -112,6 +114,10 @@ class GlobalFunctions {
       case GlobalComplexButtonType.joinGame:
         return "Join lobby button";
     }
+  }
+
+  static Locale getCurrentLocale() {
+    return GlobalConstants.navigatorKey.currentState!.context.locale;
   }
 
 }
