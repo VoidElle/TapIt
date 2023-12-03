@@ -6,12 +6,17 @@ import 'package:tapit/menu/dialogs/menu_change_language_dialog.dart';
 import '../utils/global_constants.dart';
 import '../utils/global_functions.dart';
 
-class GlobalUserHeader extends StatelessWidget {
+class GlobalUserHeader extends StatefulWidget {
 
   const GlobalUserHeader({
     super.key,
   });
 
+  @override
+  State<GlobalUserHeader> createState() => _GlobalUserHeaderState();
+}
+
+class _GlobalUserHeaderState extends State<GlobalUserHeader> {
   @override
   Widget build(BuildContext context) {
 
@@ -73,12 +78,18 @@ class GlobalUserHeader extends StatelessWidget {
 
               if (flagPath != null)
                 GestureDetector(
-                  onTapUp: (TapUpDetails _) {
-                    showDialog(
+                  onTapUp: (TapUpDetails _) async {
+
+                    // Show the change language dialog
+                    await showDialog(
                       context: context,
-                      builder: (BuildContext _) =>
-                          const MenuChangeLanguageDialog(),
+                      builder: (BuildContext _) => const MenuChangeLanguageDialog(),
                     );
+
+                    // Reloading the Menu to change
+                    // the buttons' label
+                    setState(() {});
+
                   },
                   child: Image.asset(
                     flagPath,
@@ -91,5 +102,4 @@ class GlobalUserHeader extends StatelessWidget {
       ),
     );
   }
-
 }

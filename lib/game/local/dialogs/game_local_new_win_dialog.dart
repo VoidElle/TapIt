@@ -1,7 +1,7 @@
-import 'package:admob_flutter/admob_flutter.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:tapit/game/local/providers/game_local_game_status_provider.dart';
 import 'package:tapit/global/utils/global_functions.dart';
@@ -36,28 +36,43 @@ class _GameLocalNewWinDialogState extends ConsumerState<GameLocalNewWinDialog> {
   final GlobalSharedPreferencesManager globalSharedPreferencesManager = GlobalConstants.globalSharedPreferencesManager;
   final GlobalSoundsManager globalSoundsManager = GlobalConstants.globalSoundsManager;
 
-  AdmobBannerSize? bannerSize;
-  late AdmobInterstitial interstitialAd;
+  BannerAd? _bannerAd;
+
+  void _loadAd() {
+    final bannerAd = BannerAd(
+      size: AdSize.banner,
+      adUnitId: GlobalConstants.localWinDialogAdId,
+      request: const AdRequest(),
+      listener: BannerAdListener(
+        onAdLoaded: (ad) {
+          if (!mounted) {
+            ad.dispose();
+            return;
+          }
+          setState(() {
+            _bannerAd = ad as BannerAd;
+          });
+        },
+        onAdFailedToLoad: (ad, error) {
+          debugPrint('BannerAd failed to load: $error');
+          ad.dispose();
+        },
+      ),
+    );
+
+    // Start loading.
+    bannerAd.load();
+  }
 
   @override
   void initState() {
 
     super.initState();
 
-    bannerSize = AdmobBannerSize.BANNER;
-
-    interstitialAd = AdmobInterstitial(
-      adUnitId: GlobalConstants.localWinDialogAdId,
-      listener: (AdmobAdEvent event, Map<String, dynamic>? args) {
-        if (event == AdmobAdEvent.closed) interstitialAd.load();
-      },
-    );
-
-    interstitialAd.load();
-
     // Set the player won state to true to show the confetti
     GlobalFunctions.executeAfterBuild(() {
       ref.read(gameLocalGameStatusProvider.notifier).setPlayerWon(true);
+      _loadAd();
     });
 
     if (globalSharedPreferencesManager.getFxSoundsEnabled()) {
@@ -187,6 +202,20 @@ class _GameLocalNewWinDialogState extends ConsumerState<GameLocalNewWinDialog> {
                     ],
                   ),
                 ),
+
+                _bannerAd == null
+                    ? const SizedBox(
+                        width: 320,
+                        height: 50,
+                      )
+                    : Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 25,
+                        ),
+                        child: AdWidget(
+                          ad: _bannerAd!,
+                        ),
+                      ),
 
               ],
             ),
