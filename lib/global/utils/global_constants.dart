@@ -4,6 +4,10 @@ import 'package:tapit/global/utils/managers/global_sounds_manager.dart';
 
 class GlobalConstants {
 
+  static final List<String> testDevicesIds = [
+    "6B4E3C5928CB30318EF8A99715237195",
+  ];
+
   static final GlobalSoundsManager globalSoundsManager = GlobalSoundsManager();
   static final GlobalSharedPreferencesManager globalSharedPreferencesManager = GlobalSharedPreferencesManager();
 
