@@ -69,6 +69,7 @@ class _MenuPageState extends State<MenuPage> {
 
                     GlobalComplexButton(
                       globalComplexButtonType: GlobalComplexButtonType.online,
+                      enabled: false,
                       onTapCallback: () => GlobalFunctions.redirectAndClearRootTree(GameOnlineMenuPage.route),
                       padding: const EdgeInsets.symmetric(
                         vertical: 15,
@@ -77,6 +78,7 @@ class _MenuPageState extends State<MenuPage> {
 
                     GlobalComplexButton(
                       globalComplexButtonType: GlobalComplexButtonType.shop,
+                      enabled: false,
                       bypassSvgUseJpg: true,
                       onTapCallback: () {
                         // Todo

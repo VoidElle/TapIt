@@ -7,6 +7,8 @@ import 'package:tapit/global/utils/global_functions.dart';
 import 'package:tapit/global/utils/managers/global_shared_preferences_manager.dart';
 import 'package:tapit/global/utils/managers/global_sounds_manager.dart';
 
+import '../dialogs/global_disabled_section_dialog.dart';
+
 class GlobalComplexButton extends StatefulWidget {
 
   final GlobalComplexButtonType globalComplexButtonType;
@@ -14,6 +16,7 @@ class GlobalComplexButton extends StatefulWidget {
   final EdgeInsets padding;
   final bool bypassSvgUseJpg;
   final bool makeSound;
+  final bool enabled;
 
   const GlobalComplexButton({
     required this.globalComplexButtonType,
@@ -21,6 +24,7 @@ class GlobalComplexButton extends StatefulWidget {
     this.padding = EdgeInsets.zero,
     this.bypassSvgUseJpg = false,
     this.makeSound = true,
+    this.enabled = true,
     super.key,
   });
 
@@ -71,16 +75,29 @@ class _GlobalComplexButtonState extends State<GlobalComplexButton> {
             await globalSoundsManager.playMenuTapFx();
           }
 
+          if (!widget.enabled) {
+            if (context.mounted) {
+              showDialog(
+                context: context,
+                builder: (BuildContext _) => const GlobalDisabledSectionDialog(),
+              );
+            }
+            return;
+          }
+
           widget.onTapCallback();
         },
-        child: widget.bypassSvgUseJpg
-            ? Image.asset(
-                _path!,
-              )
-            : SvgPicture.asset(
-                _path!,
-                semanticsLabel: _label,
-              ),
+        child: Opacity(
+          opacity: widget.enabled ? 1 : .6,
+          child: widget.bypassSvgUseJpg
+              ? Image.asset(
+                  _path!,
+                )
+              : SvgPicture.asset(
+                  _path!,
+                  semanticsLabel: _label,
+                ),
+        ),
       ),
     );
   }
