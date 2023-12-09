@@ -10,6 +10,7 @@ class GameLocalGameStatusNotifier extends StateNotifier<Map> {
   static final Map _initialState = {
     "game_started": false,
     "has_player_won": false,
+    "ads_need_to_be_reloaded": false,
   };
 
   GameLocalGameStatusNotifier(): super({ ..._initialState });
@@ -20,6 +21,16 @@ class GameLocalGameStatusNotifier extends StateNotifier<Map> {
     final newState = {
       ...state,
       "game_started": true,
+    };
+
+    state = { ...newState };
+  }
+
+  void setAdsNeedToBeReloaded(bool newValue) {
+
+    final newState = {
+      ...state,
+      "ads_need_to_be_reloaded": newValue,
     };
 
     state = { ...newState };

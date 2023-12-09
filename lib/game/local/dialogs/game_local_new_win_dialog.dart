@@ -20,11 +20,13 @@ class GameLocalNewWinDialog extends ConsumerStatefulWidget {
 
   final GameLocalPlayerEnum gameLocalPlayerEnum;
   final Color winnerColor;
+  final BannerAd? bannerAd;
 
   const GameLocalNewWinDialog({
     super.key,
     required this.gameLocalPlayerEnum,
     required this.winnerColor,
+    required this.bannerAd,
   });
 
   @override
@@ -36,34 +38,6 @@ class _GameLocalNewWinDialogState extends ConsumerState<GameLocalNewWinDialog> {
   final GlobalSharedPreferencesManager globalSharedPreferencesManager = GlobalConstants.globalSharedPreferencesManager;
   final GlobalSoundsManager globalSoundsManager = GlobalConstants.globalSoundsManager;
 
-  BannerAd? _bannerAd;
-
-  void _loadAd() {
-    final bannerAd = BannerAd(
-      size: AdSize.banner,
-      adUnitId: GlobalConstants.localWinDialogAdId,
-      request: const AdRequest(),
-      listener: BannerAdListener(
-        onAdLoaded: (ad) {
-          if (!mounted) {
-            ad.dispose();
-            return;
-          }
-          setState(() {
-            _bannerAd = ad as BannerAd;
-          });
-        },
-        onAdFailedToLoad: (ad, error) {
-          debugPrint('BannerAd failed to load: $error');
-          ad.dispose();
-        },
-      ),
-    );
-
-    // Start loading.
-    bannerAd.load();
-  }
-
   @override
   void initState() {
 
@@ -72,7 +46,6 @@ class _GameLocalNewWinDialogState extends ConsumerState<GameLocalNewWinDialog> {
     // Set the player won state to true to show the confetti
     GlobalFunctions.executeAfterBuild(() {
       ref.read(gameLocalGameStatusProvider.notifier).setPlayerWon(true);
-      _loadAd();
     });
 
     if (globalSharedPreferencesManager.getFxSoundsEnabled()) {
@@ -195,6 +168,8 @@ class _GameLocalNewWinDialogState extends ConsumerState<GameLocalNewWinDialog> {
                             // Reset the providers of the match
                             GameLocalFunctions.resetProviders(ref);
 
+                            ref.read(gameLocalGameStatusProvider.notifier).setAdsNeedToBeReloaded(true);
+
                           },
                         ),
                       ),
@@ -203,19 +178,14 @@ class _GameLocalNewWinDialogState extends ConsumerState<GameLocalNewWinDialog> {
                   ),
                 ),
 
-                _bannerAd == null
-                    ? const SizedBox(
-                        width: 320,
-                        height: 50,
-                      )
-                    : Padding(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 25,
-                        ),
-                        child: AdWidget(
-                          ad: _bannerAd!,
-                        ),
-                      ),
+                if (widget.bannerAd != null)
+                  SizedBox(
+                    width: 320,
+                    height: 100,
+                    child: AdWidget(
+                      ad: widget.bannerAd!,
+                    ),
+                  ),
 
               ],
             ),
