@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:tapit/menu/dialogs/menu_change_language_dialog.dart';
 
@@ -103,6 +104,14 @@ class _GlobalUserHeaderState extends State<GlobalUserHeader> {
           ),
         ),
       ),
-    );
+    )
+        .animate()
+        .fadeIn(
+          delay: const Duration(milliseconds: 100),
+        )
+        .slideX(
+          delay: const Duration(milliseconds: 100),
+          curve: Curves.easeOut,
+        );
   }
 }

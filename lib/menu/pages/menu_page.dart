@@ -68,6 +68,7 @@ class _MenuPageState extends State<MenuPage> {
                     ),
 
                     GlobalComplexButton(
+                      i: 1,
                       globalComplexButtonType: GlobalComplexButtonType.online,
                       enabled: false,
                       onTapCallback: () => GlobalFunctions.redirectAndClearRootTree(GameOnlineMenuPage.route),
@@ -77,6 +78,7 @@ class _MenuPageState extends State<MenuPage> {
                     ),
 
                     GlobalComplexButton(
+                      i: 2,
                       globalComplexButtonType: GlobalComplexButtonType.shop,
                       enabled: false,
                       bypassSvgUseJpg: true,

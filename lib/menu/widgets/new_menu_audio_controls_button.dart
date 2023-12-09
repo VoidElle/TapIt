@@ -1,5 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:tapit/global/utils/global_constants.dart';
@@ -108,6 +109,14 @@ class _NewMenuAudioControlsButtonState extends ConsumerState<NewMenuAudioControl
           ),
         ),
       ),
-    );
+    )
+        .animate()
+        .fadeIn(
+          delay: const Duration(milliseconds: 100),
+        )
+        .slideX(
+          delay: const Duration(milliseconds: 100),
+          curve: Curves.easeOut,
+        );
   }
 }

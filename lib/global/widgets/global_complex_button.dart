@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:logger/logger.dart';
 import 'package:tapit/global/utils/global_constants.dart';
@@ -11,6 +12,7 @@ import '../dialogs/global_disabled_section_dialog.dart';
 
 class GlobalComplexButton extends StatefulWidget {
 
+  final int i;
   final GlobalComplexButtonType globalComplexButtonType;
   final Function onTapCallback;
   final EdgeInsets padding;
@@ -19,6 +21,7 @@ class GlobalComplexButton extends StatefulWidget {
   final bool enabled;
 
   const GlobalComplexButton({
+    this.i = 0,
     required this.globalComplexButtonType,
     required this.onTapCallback,
     this.padding = EdgeInsets.zero,
@@ -99,6 +102,19 @@ class _GlobalComplexButtonState extends State<GlobalComplexButton> {
                 ),
         ),
       ),
-    );
+    )
+        .animate()
+        .fadeIn(
+          delay: Duration(milliseconds: 100 * (widget.i + 1)),
+        )
+        .slideX(
+          delay: Duration(milliseconds: 100 * (widget.i + 1)),
+          curve: Curves.easeOut,
+        )
+        .animate()
+        .shimmer(
+          duration: Duration(seconds: widget.enabled ? 1 : 0),
+        );
+
   }
 }
