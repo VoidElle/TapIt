@@ -14,6 +14,9 @@
   "dialog_local_game_rematch_button_tooltip": "Rivincita",
 
   "global_color_red": "ROSSO",
-  "global_color_blue": "BLU"
+  "global_color_blue": "BLU",
+
+  "wip_dialog_title": "WIP",
+  "wip_dialog_body": "Questa sezione non è ancora completata.\nVerrà implementata nei prossimi rilasci"
 
 }

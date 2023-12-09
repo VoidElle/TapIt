@@ -47,17 +47,17 @@ class GlobalDisabledSectionDialog extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
 
-                const StrokeText(
-                  text: "WIP",
+                StrokeText(
+                  text: tr("wip_dialog_title"),
                   textAlign: TextAlign.center,
-                  textColor: Color(0xFFFFFFFF),
-                  textStyle: TextStyle(
+                  textColor: const Color(0xFFFFFFFF),
+                  textStyle: const TextStyle(
                     height: 0.85,
                     fontFamily: "CircularStd",
                     fontWeight: FontWeight.w900,
                     fontSize: 60,
                   ),
-                  strokeColor: Color(0xFF000000),
+                  strokeColor: const Color(0xFF000000),
                   strokeWidth: 6,
                 ),
 
@@ -70,7 +70,7 @@ class GlobalDisabledSectionDialog extends StatelessWidget {
                     vertical: 15,
                   ),
                   child: Text(
-                    "This section is still not completed.\nIt will be implemented in next releases",
+                    tr("wip_dialog_body"),
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.displayMedium,
                   ),
