@@ -18,6 +18,8 @@ class GlobalConstants {
   static const String sharedPreferencesMusicEnabledTag = "MUSIC_ENABLED";
   static const String sharedPreferencesFxSoundsEnabledTag = "FX_SOUNDS_ENABLED";
 
+  static const String sharedPreferencesNumberOfMatchesPlayedAfterAd = "MATCHES_PLAYED_AFTER_AD";
+
   static const String translationsPath = "assets/translations";
 
   static const Locale englishLocale = Locale('en', 'EN');
@@ -51,5 +53,6 @@ class GlobalConstants {
   );
 
   static const String localWinDialogAdId = "ca-app-pub-1371572580052524/6961924787";
+  static const String localWinFullScreenAd = "ca-app-pub-1371572580052524/9759634040";
 
 }

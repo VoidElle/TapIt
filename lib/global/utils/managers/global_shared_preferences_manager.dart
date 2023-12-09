@@ -27,4 +27,13 @@ class GlobalSharedPreferencesManager {
     return value ?? true;
   }
 
+  int getMatchesPlayedAfterAd() {
+    final int? value = _sharedPreferences?.getInt(GlobalConstants.sharedPreferencesNumberOfMatchesPlayedAfterAd);
+    return value ?? 0;
+  }
+
+  Future<void> setMatchesPlayedAfterAd(int value) async {
+    await _sharedPreferences?.setInt(GlobalConstants.sharedPreferencesNumberOfMatchesPlayedAfterAd, value);
+  }
+
 }

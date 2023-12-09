@@ -21,11 +21,13 @@ class GameLocalGestureDetectors extends ConsumerStatefulWidget {
 
 class _GameLocalGestureDetectorsState extends ConsumerState<GameLocalGestureDetectors> {
 
+  final GlobalSharedPreferencesManager globalSharedPreferencesManager = GlobalConstants.globalSharedPreferencesManager;
+
   BannerAd? _bannerAd;
+  InterstitialAd? _interstitialAd;
 
   Future<void> checkAndPlaySound() async {
 
-    final GlobalSharedPreferencesManager globalSharedPreferencesManager = GlobalConstants.globalSharedPreferencesManager;
     final GlobalSoundsManager globalSoundsManager = GlobalConstants.globalSoundsManager;
 
     if (globalSharedPreferencesManager.getFxSoundsEnabled()) {
@@ -107,6 +109,43 @@ class _GameLocalGestureDetectorsState extends ConsumerState<GameLocalGestureDete
     bannerAd.load();
   }
 
+  void _showFullScreenAd() {
+    InterstitialAd.load(
+      adUnitId: GlobalConstants.localWinFullScreenAd,
+      request: const AdRequest(),
+      adLoadCallback: InterstitialAdLoadCallback(
+        onAdLoaded: (ad) {
+
+          _interstitialAd = ad;
+          _interstitialAd!.show();
+
+          _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
+            onAdFailedToShowFullScreenContent: ((ad, error) {
+
+              ad.dispose();
+              _interstitialAd?.dispose();
+
+              debugPrint("Full screen ad failed to show full screen content... ${error.message}");
+
+            }),
+            onAdDismissedFullScreenContent: (ad) {
+
+              ad.dispose();
+              _interstitialAd?.dispose();
+
+            },
+          );
+
+        },
+        onAdFailedToLoad: (error) {
+          debugPrint("Full screen ad failed to load... ${error.message}");
+        },
+      ),
+    );
+
+
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -145,6 +184,15 @@ class _GameLocalGestureDetectorsState extends ConsumerState<GameLocalGestureDete
 
                 // If the TOP player has won, show the win dialog
                 if (playerWon && context.mounted) {
+
+                  final int currentNumberOfMatchesPlayedAfterAdToSet = globalSharedPreferencesManager.getMatchesPlayedAfterAd() + 1;
+                  globalSharedPreferencesManager.setMatchesPlayedAfterAd(currentNumberOfMatchesPlayedAfterAdToSet);
+
+                  if (currentNumberOfMatchesPlayedAfterAdToSet >= 3) {
+                    globalSharedPreferencesManager.setMatchesPlayedAfterAd(0);
+                    _showFullScreenAd();
+                  }
+
                   showDialog(
                     context: context,
                     barrierDismissible: false,
@@ -175,6 +223,15 @@ class _GameLocalGestureDetectorsState extends ConsumerState<GameLocalGestureDete
 
                 // If the BOTTOM player has won, show the win dialog
                 if (playerWon && context.mounted) {
+
+                  final int currentNumberOfMatchesPlayedAfterAdToSet = globalSharedPreferencesManager.getMatchesPlayedAfterAd() + 1;
+                  globalSharedPreferencesManager.setMatchesPlayedAfterAd(currentNumberOfMatchesPlayedAfterAdToSet);
+
+                  if (currentNumberOfMatchesPlayedAfterAdToSet >= 3) {
+                    globalSharedPreferencesManager.setMatchesPlayedAfterAd(0);
+                    _showFullScreenAd();
+                  }
+
                   showDialog(
                     context: context,
                     barrierDismissible: false,
