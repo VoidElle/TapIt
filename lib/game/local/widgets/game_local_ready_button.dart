@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 import '../../../global/widgets/stroke_text.dart';
 
@@ -44,6 +45,13 @@ class GameLocalReadyButton extends StatelessWidget {
           ),
         ),
       ),
+    ).animate()
+        .fadeIn(
+      delay: const Duration(milliseconds: 100),
+    )
+        .slideX(
+      delay: const Duration(milliseconds: 100),
+      curve: Curves.easeOut,
     );
   }
 
