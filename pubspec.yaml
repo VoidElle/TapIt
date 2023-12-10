@@ -65,9 +65,15 @@ flutter:
           weight: 500
   assets:
     - assets/lotties/
-    - assets/svgs/buttons/lobby/
+
+    - assets/svgs/buttons/online/en/
+    - assets/svgs/buttons/online/it/
+
     - assets/svgs/buttons/menu/en/
     - assets/svgs/buttons/menu/it/
+
     - assets/jpgs/global/
+
     - assets/sounds/
+
     - assets/translations/

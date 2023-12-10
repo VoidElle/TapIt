@@ -4,6 +4,11 @@ import 'package:tapit/global/utils/managers/global_sounds_manager.dart';
 
 class GlobalConstants {
 
+  static bool headerNameEnabled = true;
+  static bool localGameEnabled = true;
+  static bool onlineGameEnabled = true;
+  static bool shopEnabled = true;
+
   static final List<String> testDevicesIds = [
     "6B4E3C5928CB30318EF8A99715237195",
   ];

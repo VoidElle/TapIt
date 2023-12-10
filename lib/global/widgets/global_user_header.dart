@@ -56,7 +56,7 @@ class _GlobalUserHeaderState extends State<GlobalUserHeader> {
             children: [
 
               Opacity(
-                opacity: .6,
+                opacity: GlobalConstants.headerNameEnabled ? 1 : .6,
                 child: Row(
                   children: [
 

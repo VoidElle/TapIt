@@ -8,6 +8,7 @@ import 'package:tapit/game/online/pages/game_online_join_lobby_page.dart';
 import 'package:tapit/game/online/pages/game_online_lobby_page.dart';
 import 'package:tapit/game/online/pages/game_online_menu_page.dart';
 import 'package:tapit/game/online/pages/game_online_page.dart';
+import 'package:tapit/game/online/pages/new/new_game_online_page.dart';
 import 'package:tapit/global/utils/global_constants.dart';
 import 'package:tapit/global/utils/global_enums.dart';
 import 'package:tapit/menu/pages/menu_page.dart';
@@ -39,6 +40,9 @@ class GlobalFunctions {
           gameModel: gameModel,
         );
 
+        break;
+      case NewGameOnlinePage.route:
+        returnScreen = const NewGameOnlinePage();
         break;
       case GameOnlineMenuPage.route:
         returnScreen = const GameOnlineMenuPage();
@@ -107,9 +111,9 @@ class GlobalFunctions {
       case GlobalComplexButtonType.shop:
         return GlobalPaths.jpgMenuShopButtonPath.replaceAll("%language%", dir);
       case GlobalComplexButtonType.createGame:
-        return "";
+        return GlobalPaths.svgOnlineGameCreateButtonPath.replaceAll("%language%", dir);
       case GlobalComplexButtonType.joinGame:
-        return "";
+        return GlobalPaths.svgOnlineGameJoinButtonPath.replaceAll("%language%", dir);
     }
   }
 
