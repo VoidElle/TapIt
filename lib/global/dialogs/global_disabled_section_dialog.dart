@@ -49,15 +49,12 @@ class GlobalDisabledSectionDialog extends StatelessWidget {
 
                 StrokeText(
                   text: tr("wip_dialog_title"),
-                  textAlign: TextAlign.center,
-                  textColor: const Color(0xFFFFFFFF),
                   textStyle: const TextStyle(
                     height: 0.85,
                     fontFamily: "CircularStd",
                     fontWeight: FontWeight.w900,
                     fontSize: 60,
                   ),
-                  strokeColor: const Color(0xFF000000),
                   strokeWidth: 6,
                 ),
 

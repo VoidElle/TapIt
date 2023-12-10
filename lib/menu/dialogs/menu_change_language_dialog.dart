@@ -31,16 +31,12 @@ class MenuChangeLanguageDialog extends StatelessWidget {
 
           StrokeText(
             text: label,
-            textAlign: TextAlign.center,
-            textColor: const Color(0xFFFFFFFF),
             textStyle: const TextStyle(
               height: 0.85,
               fontFamily: "CircularStd",
               fontWeight: FontWeight.w900,
               fontSize: 25,
             ),
-            strokeColor: const Color(0xFF000000),
-            strokeWidth: 6,
           ),
 
           Container(
@@ -118,16 +114,12 @@ class MenuChangeLanguageDialog extends StatelessWidget {
                 ),
                 child: StrokeText(
                   text: tr("dialog_change_language_title"),
-                  textAlign: TextAlign.center,
-                  textColor: const Color(0xFFFFFFFF),
                   textStyle: const TextStyle(
                     height: 0.95,
                     fontFamily: "CircularStd",
                     fontWeight: FontWeight.w900,
                     fontSize: 35,
                   ),
-                  strokeColor: const Color(0xFF000000),
-                  strokeWidth: 6,
                 ),
               ),
 

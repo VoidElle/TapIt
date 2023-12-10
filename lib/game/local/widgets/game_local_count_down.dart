@@ -128,14 +128,12 @@ class _GameLocalCountDownState extends ConsumerState<GameLocalCountDown> with Ti
             scale: countDownAnimation,
             child: StrokeText(
               text: countDownTexts[currentTextPosition],
-              textColor: const Color(0xFFFFFFFF),
               textStyle: const TextStyle(
                 fontFamily: "CircularStd",
                 fontWeight: FontWeight.w900,
                 fontSize: 60,
                 letterSpacing: 0,
               ),
-              strokeColor: const Color(0xFF000000),
               strokeWidth: 5,
             )
           ),

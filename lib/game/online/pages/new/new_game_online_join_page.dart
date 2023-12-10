@@ -41,7 +41,6 @@ class NewGameOnlineJoinPage extends StatelessWidget {
                   ),
                   child: StrokeText(
                     text: "INSERT LOBBY\nCODE",
-                    textAlign: TextAlign.center,
                     textColor: Color(0xFFFFFFFF),
                     textStyle: TextStyle(
                       height: .95,
@@ -50,7 +49,6 @@ class NewGameOnlineJoinPage extends StatelessWidget {
                       fontSize: 40,
                     ),
                     strokeColor: Color(0xFF000000),
-                    strokeWidth: 6,
                   ),
                 ).animate()
                     .fadeIn(

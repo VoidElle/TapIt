@@ -91,16 +91,12 @@ class _GameLocalNewWinDialogState extends ConsumerState<GameLocalNewWinDialog> {
 
                 StrokeText(
                   text: tr("dialog_local_game_over_title"),
-                  textAlign: TextAlign.center,
-                  textColor: const Color(0xFFFFFFFF),
                   textStyle: const TextStyle(
                     height: 0.85,
                     fontFamily: "CircularStd",
                     fontWeight: FontWeight.w900,
                     fontSize: 60,
                   ),
-                  strokeColor: const Color(0xFF000000),
-                  strokeWidth: 6,
                 ),
 
                 const SizedBox(
@@ -113,15 +109,12 @@ class _GameLocalNewWinDialogState extends ConsumerState<GameLocalNewWinDialog> {
                   ),
                   child: StrokeText(
                     text: tr("dialog_local_game_over_won").replaceAll("%s", widget.gameLocalPlayerEnum.text),
-                    textAlign: TextAlign.center,
-                    textColor: const Color(0xFFFFFFFF),
                     textStyle: const TextStyle(
                       height: 0.85,
                       fontFamily: "CircularStd",
                       fontWeight: FontWeight.w900,
                       fontSize: 25,
                     ),
-                    strokeColor: const Color(0xFF000000),
                     strokeWidth: 3,
                   ),
                 ),

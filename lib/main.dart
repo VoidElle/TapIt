@@ -9,7 +9,7 @@ import 'package:tapit/global/utils/global_functions.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-import 'firebase_options.dart';
+import 'global/utils/firebase_options.dart';
 import 'menu/pages/menu_page.dart';
 
 Future<void> main() async {

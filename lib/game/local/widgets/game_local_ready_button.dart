@@ -33,14 +33,12 @@ class GameLocalReadyButton extends StatelessWidget {
         child: Center(
           child: StrokeText(
             text: tr("game_local_ready_button"),
-            textColor: const Color(0xFFFFFFFF),
             textStyle: const TextStyle(
               fontFamily: "CircularStd",
               fontWeight: FontWeight.w900,
               fontSize: 20,
               letterSpacing: 0,
             ),
-            strokeColor: const Color(0xFF000000),
             strokeWidth: 5,
           ),
         ),

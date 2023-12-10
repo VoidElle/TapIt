@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tapit/global/utils/global_color_constants.dart';
 
 class StrokeText extends StatelessWidget {
 
@@ -12,9 +13,9 @@ class StrokeText extends StatelessWidget {
   const StrokeText({
     Key? key,
     required this.text,
-    this.strokeWidth = 1,
-    this.strokeColor = Colors.black,
-    this.textColor = Colors.white,
+    this.strokeWidth = 6,
+    this.strokeColor = GlobalColorConstants.kFullBlackColor,
+    this.textColor = GlobalColorConstants.kWhiteColor,
     this.textStyle,
     this.textAlign = TextAlign.center
   }) : super(key: key);
