@@ -59,7 +59,7 @@ class NewGameOnlineJoinPage extends StatelessWidget {
                   curve: Curves.easeOut,
                 ),
 
-                const NewGameOnlineJoinLobbyPin(),
+                NewGameOnlineJoinLobbyPin(),
 
                 GlobalComplexButton(
                   padding: const EdgeInsets.only(

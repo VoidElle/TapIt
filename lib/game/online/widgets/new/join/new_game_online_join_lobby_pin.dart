@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:tapit/global/utils/global_constants.dart';
 
 class NewGameOnlineJoinLobbyPin extends StatelessWidget {
 
-  const NewGameOnlineJoinLobbyPin({super.key});
+  NewGameOnlineJoinLobbyPin({super.key});
 
-  Widget _buildSinglePinInput() {
+  final List<Widget> _pinInputs = [];
+  final List<FocusNode> _focusNodes = List.generate(6, (int index) => FocusNode());
+
+  Widget _buildSinglePinInput(int index) {
     return Padding(
       padding: const EdgeInsets.all(10),
       child: Container(
@@ -22,18 +26,35 @@ class NewGameOnlineJoinLobbyPin extends StatelessWidget {
             width: 4.5,
           ),
         ),
-        child: const TextField(
+        child: TextFormField(
+          onChanged: (String? value) {
+
+            // Get the current focus
+            final FocusScopeNode currentFocus = FocusScope.of(GlobalConstants.navigatorKey.currentContext!);
+
+            // If index+1 overflows the focus nodes list,
+            // cancel the next focus and close the keyboard
+            if (index+1 >= _focusNodes.length) {
+              currentFocus.unfocus();
+              return;
+            }
+
+            // Request focus of the new FormTextField
+            currentFocus.requestFocus(_focusNodes[index+1]);
+
+          },
+          focusNode: _focusNodes[index],
           textAlign: TextAlign.center,
           maxLength: 1,
           keyboardType: TextInputType.number,
-          style: TextStyle(
+          style: const TextStyle(
             height: .95,
             fontFamily: "CircularStd",
             fontWeight: FontWeight.w900,
             fontSize: 40,
             color: Color(0xFF000000),
           ),
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             border: InputBorder.none,
             counterText: "",
           ),
@@ -44,6 +65,11 @@ class NewGameOnlineJoinLobbyPin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    for (int i = 0; i < 6; i++) {
+      _pinInputs.add(_buildSinglePinInput(i));
+    }
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -52,20 +78,18 @@ class NewGameOnlineJoinLobbyPin extends StatelessWidget {
         (int index) => Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: List.generate(
-            3,
-            (int index) => _buildSinglePinInput(),
-          ),
+          children: _pinInputs.getRange(index == 0 ? 0 : 3, index == 0 ? 3 : 6).toList(),
         ),
       ),
-    ).animate()
-        .fadeIn(
-      delay: const Duration(milliseconds: 100),
     )
+        .animate()
+        .fadeIn(
+          delay: const Duration(milliseconds: 100),
+        )
         .slideX(
-      delay: const Duration(milliseconds: 100),
-      curve: Curves.easeOut,
-    );
+          delay: const Duration(milliseconds: 100),
+          curve: Curves.easeOut,
+        );
   }
 
 }
