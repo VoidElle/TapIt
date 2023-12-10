@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:tapit/game/online/pages/new/new_game_online_page.dart';
 
 import '../../../../global/utils/global_enums.dart';
 import '../../../../global/utils/global_functions.dart';
@@ -76,18 +77,38 @@ class NewGameOnlineJoinPage extends StatelessWidget {
                   child: SizedBox(),
                 ),
 
-                GlobalActionButton(
-                  iconData: MdiIcons.home,
-                  padding: const EdgeInsets.only(
-                    bottom: 75,
-                  ),
-                  animated: true,
-                  voidCallback: () {
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
 
-                    // Redirect to the Menu page
-                    GlobalFunctions.redirectAndClearRootTree(MenuPage.route);
+                    GlobalActionButton(
+                      iconData: MdiIcons.arrowLeftBold,
+                      padding: const EdgeInsets.only(
+                        bottom: 75,
+                      ),
+                      animated: true,
+                      voidCallback: () => GlobalFunctions.redirectAndClearRootTree(NewGameOnlinePage.route),
+                    ),
 
-                  },
+                    const SizedBox(
+                      width: 50,
+                    ),
+
+                    GlobalActionButton(
+                      iconData: MdiIcons.home,
+                      padding: const EdgeInsets.only(
+                        bottom: 75,
+                      ),
+                      animated: true,
+                      voidCallback: () {
+
+                        // Redirect to the Menu page
+                        GlobalFunctions.redirectAndClearRootTree(MenuPage.route);
+
+                      },
+                    ),
+
+                  ],
                 ),
 
               ],
