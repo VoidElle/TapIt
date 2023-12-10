@@ -14,6 +14,6 @@ class GlobalPaths {
 
   static const String svgOnlineGameCreateButtonPath = "$svgLobbyButtonsDir%language%/create_game_button.svg";
   static const String svgOnlineGameJoinButtonPath = "$svgLobbyButtonsDir%language%/join_game_button.svg";
-
+  static const String svgOnlineGameJoinFromPinButtonPath = "$svgLobbyButtonsDir%language%/lobby_join_button.svg";
 
 }

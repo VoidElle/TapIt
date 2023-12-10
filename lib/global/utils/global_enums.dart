@@ -3,5 +3,7 @@ enum GlobalComplexButtonType {
   online,
   shop,
   createGame,
-  joinGame
+  joinGame,
+
+  joinGameFromPin
 }

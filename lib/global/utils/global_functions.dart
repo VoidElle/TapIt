@@ -8,6 +8,8 @@ import 'package:tapit/game/online/pages/game_online_join_lobby_page.dart';
 import 'package:tapit/game/online/pages/game_online_lobby_page.dart';
 import 'package:tapit/game/online/pages/game_online_menu_page.dart';
 import 'package:tapit/game/online/pages/game_online_page.dart';
+import 'package:tapit/game/online/pages/new/new_game_online_lobby_page.dart';
+import 'package:tapit/game/online/pages/new/new_game_online_join_page.dart';
 import 'package:tapit/game/online/pages/new/new_game_online_page.dart';
 import 'package:tapit/global/utils/global_constants.dart';
 import 'package:tapit/global/utils/global_enums.dart';
@@ -29,6 +31,12 @@ class GlobalFunctions {
     final Map? arguments = settings.arguments as Map?;
 
     switch (settings.name) {
+      case NewGameOnlineLobbyPage.route:
+        returnScreen = const NewGameOnlineLobbyPage();
+        break;
+      case NewGameOnlineJoinPage.route:
+        returnScreen = const NewGameOnlineJoinPage();
+        break;
       case MenuPage.route:
         returnScreen = const MenuPage();
         break;
@@ -114,7 +122,10 @@ class GlobalFunctions {
         return GlobalPaths.svgOnlineGameCreateButtonPath.replaceAll("%language%", dir);
       case GlobalComplexButtonType.joinGame:
         return GlobalPaths.svgOnlineGameJoinButtonPath.replaceAll("%language%", dir);
+      case GlobalComplexButtonType.joinGameFromPin:
+        return GlobalPaths.svgOnlineGameJoinFromPinButtonPath.replaceAll("%language%", dir);
     }
+
   }
 
   // Function to get the label from the GlobalComplexButtonType
@@ -130,6 +141,8 @@ class GlobalFunctions {
         return "Create lobby button";
       case GlobalComplexButtonType.joinGame:
         return "Join lobby button";
+      case GlobalComplexButtonType.joinGameFromPin:
+        return "Join game button";
     }
   }
 

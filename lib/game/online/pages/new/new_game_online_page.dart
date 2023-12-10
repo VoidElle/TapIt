@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:tapit/game/online/pages/new/new_game_online_join_page.dart';
+import 'package:tapit/game/online/pages/new/new_game_online_lobby_page.dart';
 
 import '../../../../global/utils/global_enums.dart';
 import '../../../../global/utils/global_functions.dart';
@@ -46,7 +48,8 @@ class NewGameOnlinePage extends StatelessWidget {
                         globalComplexButtonType: GlobalComplexButtonType.createGame,
                         enabled: true,
                         onTapCallback: () {
-
+                          // Todo: Function to create a lobby
+                          GlobalFunctions.redirectAndClearRootTree(NewGameOnlineLobbyPage.route);
                         },
                       ),
 
@@ -57,7 +60,7 @@ class NewGameOnlinePage extends StatelessWidget {
                         globalComplexButtonType: GlobalComplexButtonType.joinGame,
                         enabled: true,
                         onTapCallback: () {
-
+                          GlobalFunctions.redirectAndClearRootTree(NewGameOnlineJoinPage.route);
                         },
                       ),
 
