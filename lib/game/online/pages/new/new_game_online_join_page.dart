@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:tapit/game/online/pages/new/new_game_online_page.dart';
 
 import '../../../../global/utils/global_enums.dart';
 import '../../../../global/utils/global_functions.dart';
-import '../../../../global/widgets/global_action_button.dart';
 import '../../../../global/widgets/global_complex_button.dart';
 import '../../../../global/widgets/global_user_header.dart';
 import '../../../../global/widgets/stroke_text.dart';
 import '../../../../menu/pages/menu_page.dart';
 import '../../widgets/new/join/new_game_online_join_lobby_pin.dart';
+import '../../widgets/new/new_game_online_back_home_buttons.dart';
 
 class NewGameOnlineJoinPage extends StatelessWidget {
 
@@ -77,38 +76,13 @@ class NewGameOnlineJoinPage extends StatelessWidget {
                   child: SizedBox(),
                 ),
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-
-                    GlobalActionButton(
-                      iconData: MdiIcons.arrowLeftBold,
-                      padding: const EdgeInsets.only(
-                        bottom: 75,
-                      ),
-                      animated: true,
-                      voidCallback: () => GlobalFunctions.redirectAndClearRootTree(NewGameOnlinePage.route),
-                    ),
-
-                    const SizedBox(
-                      width: 50,
-                    ),
-
-                    GlobalActionButton(
-                      iconData: MdiIcons.home,
-                      padding: const EdgeInsets.only(
-                        bottom: 75,
-                      ),
-                      animated: true,
-                      voidCallback: () {
-
-                        // Redirect to the Menu page
-                        GlobalFunctions.redirectAndClearRootTree(MenuPage.route);
-
-                      },
-                    ),
-
-                  ],
+                NewGameOnlineBackButtons(
+                  backButtonCallback: () {
+                    GlobalFunctions.redirectAndClearRootTree(NewGameOnlinePage.route);
+                  },
+                  homeButtonCallback: () {
+                    GlobalFunctions.redirectAndClearRootTree(MenuPage.route);
+                  },
                 ),
 
               ],
