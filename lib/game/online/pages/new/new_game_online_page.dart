@@ -1,23 +1,49 @@
 import 'package:flutter/material.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tapit/game/online/pages/new/new_game_online_join_page.dart';
 import 'package:tapit/game/online/pages/new/new_game_online_lobby_page.dart';
 
+import '../../../../global/providers/global_socket_provider.dart';
 import '../../../../global/utils/global_enums.dart';
 import '../../../../global/utils/global_functions.dart';
-import '../../../../global/widgets/global_action_button.dart';
 import '../../../../global/widgets/global_complex_button.dart';
+import '../../../../global/widgets/global_home_button.dart';
 import '../../../../global/widgets/global_user_header.dart';
-import '../../../../menu/pages/menu_page.dart';
+import '../../utils/game_online_functions.dart';
+import '../../mixins/game_online_socket_connectivity_change_listener_mixin.dart';
 
-class NewGameOnlinePage extends StatelessWidget {
+class NewGameOnlinePage extends ConsumerStatefulWidget {
 
   static const route = "/new-game-online-page";
 
   const NewGameOnlinePage({super.key});
 
   @override
+  ConsumerState<NewGameOnlinePage> createState() => _NewGameOnlinePageState();
+}
+
+class _NewGameOnlinePageState extends ConsumerState<NewGameOnlinePage> with GameOnlineSocketConnectivityChangeListenerMixin {
+
+  @override
+  void initState() {
+
+    super.initState();
+
+    // Getting the socket notifier pre initialization
+    final socketNotifierPreInitialization = ref.read(globalSocketProvider.notifier);
+
+    // Initialization of the socket connection if it hasn't been initialized yet
+    // (Connect with the Server)
+    if (!socketNotifierPreInitialization.isSocketInitialized()) {
+      GameOnlineFunctions.initSocketConnection(ref);
+    }
+
+  }
+
+  @override
   Widget build(BuildContext context) {
+
+    listenSocketConnectivityChange(ref);
 
     final MediaQueryData mediaQuery = MediaQuery.of(context);
     final double usableScreenHeight = mediaQuery.size.height - mediaQuery.padding.top;
@@ -72,19 +98,7 @@ class NewGameOnlinePage extends StatelessWidget {
                   child: SizedBox(),
                 ),
 
-                GlobalActionButton(
-                  iconData: MdiIcons.home,
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 25,
-                  ),
-                  animated: true,
-                  voidCallback: () {
-
-                    // Redirect to the Menu page
-                    GlobalFunctions.redirectAndClearRootTree(MenuPage.route);
-
-                  },
-                ),
+                const GlobalHomeButton(),
 
               ],
             ),
@@ -93,5 +107,6 @@ class NewGameOnlinePage extends StatelessWidget {
       ),
     );
   }
+
 
 }

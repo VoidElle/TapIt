@@ -24,7 +24,8 @@ class GlobalActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+
+    Widget returnWidget = Padding(
       padding: padding,
       child: GestureDetector(
         onTapUp: (TapUpDetails _) async {
@@ -65,7 +66,11 @@ class GlobalActionButton extends StatelessWidget {
             )
           ),
         ),
-      )
+      ),
+    );
+
+    if (animated) {
+     returnWidget = returnWidget
           .animate()
           .fadeIn(
             delay: Duration(
@@ -77,8 +82,10 @@ class GlobalActionButton extends StatelessWidget {
               milliseconds: animated ? 100 : 0,
             ),
             curve: Curves.easeOut,
-          ),
-    );
+          );
+    }
+
+    return returnWidget;
   }
 
 }

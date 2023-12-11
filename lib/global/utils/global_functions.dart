@@ -85,6 +85,13 @@ class GlobalFunctions {
     GlobalConstants.navigatorKey.currentState?.pushNamedAndRemoveUntil(route, (Route<dynamic> route) => false, arguments: arguments);;
   }
 
+  static void pop() {
+    final BuildContext? context = GlobalConstants.navigatorKey.currentState?.context;
+    if (context != null) {
+      GlobalConstants.navigatorKey.currentState?.pop();
+    }
+  }
+
   // Function to pop a dialog if it's displayed
   static void popIfADialogIsShown() {
     final BuildContext? context = GlobalConstants.navigatorKey.currentState?.context;
