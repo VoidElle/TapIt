@@ -1,24 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tapit/game/online/widgets/new/lobby/new_game_online_lobby_players_list.dart';
 
 import '../../../../global/utils/global_color_constants.dart';
 import '../../../../global/utils/global_functions.dart';
 import '../../../../menu/pages/menu_page.dart';
 import '../../../../global/widgets/global_custom_container_base.dart';
+import '../../models/game/game_online_game_model.dart';
+import '../../providers/game_online_game_provider.dart';
 import '../../widgets/new/new_game_online_back_home_buttons.dart';
 import 'new_game_online_page.dart';
 
-class NewGameOnlineLobbyPage extends StatelessWidget {
+class NewGameOnlineLobbyPage extends ConsumerWidget {
 
   static const route = "/new-game-online-lobby-page";
 
   const NewGameOnlineLobbyPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
 
     final MediaQueryData mediaQuery = MediaQuery.of(context);
     final double usableScreenHeight = mediaQuery.size.height - mediaQuery.padding.top;
+
+    final GameOnlineGameModel gameOnlineGameState = ref.read(gameOnlineGameProvider);
 
     return Scaffold(
       body: SafeArea(

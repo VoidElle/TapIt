@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tapit/game/online/models/game/game_online_game_model.dart';
 
-final gameOnlineGameProvider = StateNotifierProvider.autoDispose<GameOnlineGameNotifier, GameOnlineGameModel>(
+final gameOnlineGameProvider = StateNotifierProvider<GameOnlineGameNotifier, GameOnlineGameModel>(
       (ref) => GameOnlineGameNotifier(),
 );
 

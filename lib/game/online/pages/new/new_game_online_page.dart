@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:socket_io_client/socket_io_client.dart' as socket_io;
 import 'package:tapit/game/online/pages/new/new_game_online_join_page.dart';
-import 'package:tapit/game/online/pages/new/new_game_online_lobby_page.dart';
 
+import '../../../../global/models/global_socket_model.dart';
 import '../../../../global/providers/global_socket_provider.dart';
 import '../../../../global/utils/global_enums.dart';
 import '../../../../global/utils/global_functions.dart';
 import '../../../../global/widgets/global_complex_button.dart';
 import '../../../../global/widgets/global_home_button.dart';
 import '../../../../global/widgets/global_user_header.dart';
+import '../../enums/socket_enums.dart';
+import '../../mixins/game_online_socket_lobby_listener_mixin.dart';
 import '../../utils/game_online_functions.dart';
 import '../../mixins/game_online_socket_connectivity_change_listener_mixin.dart';
 
@@ -22,7 +25,7 @@ class NewGameOnlinePage extends ConsumerStatefulWidget {
   ConsumerState<NewGameOnlinePage> createState() => _NewGameOnlinePageState();
 }
 
-class _NewGameOnlinePageState extends ConsumerState<NewGameOnlinePage> with GameOnlineSocketConnectivityChangeListenerMixin {
+class _NewGameOnlinePageState extends ConsumerState<NewGameOnlinePage> with GameOnlineSocketConnectivityChangeListenerMixin, GameOnlineSocketLobbyListenerMixin {
 
   @override
   void initState() {
@@ -47,6 +50,9 @@ class _NewGameOnlinePageState extends ConsumerState<NewGameOnlinePage> with Game
 
     final MediaQueryData mediaQuery = MediaQuery.of(context);
     final double usableScreenHeight = mediaQuery.size.height - mediaQuery.padding.top;
+
+    final GlobalSocketModel socketProvider = ref.read(globalSocketProvider);
+    final socket_io.Socket? socket = socketProvider.socket;
 
     return Scaffold(
       body: SafeArea(
@@ -74,8 +80,13 @@ class _NewGameOnlinePageState extends ConsumerState<NewGameOnlinePage> with Game
                         globalComplexButtonType: GlobalComplexButtonType.createGame,
                         enabled: true,
                         onTapCallback: () {
-                          // Todo: Function to create a lobby
-                          GlobalFunctions.redirectAndClearRootTree(NewGameOnlineLobbyPage.route);
+
+                          // Emit the create lobby request
+                          socket?.emit(GameOnlineSocketEvent.createLobbyRequest.text);
+
+                          // Listen to the create lobby response
+                          listenToSocketLobbyCreationEvent(socket, ref);
+
                         },
                       ),
 

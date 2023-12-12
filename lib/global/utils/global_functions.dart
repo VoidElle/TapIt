@@ -15,6 +15,9 @@ import 'package:tapit/global/utils/global_constants.dart';
 import 'package:tapit/global/utils/global_enums.dart';
 import 'package:tapit/menu/pages/menu_page.dart';
 
+import '../../game/online/dialogs/socket_connection/game_online_connection_error_dialog.dart';
+import '../../game/online/dialogs/socket_connection/game_online_connection_loading_dialog.dart';
+import '../dialogs/global_error_dialog.dart';
 import 'global_paths.dart';
 
 class GlobalFunctions {
@@ -155,6 +158,86 @@ class GlobalFunctions {
 
   static Locale getCurrentLocale() {
     return GlobalConstants.navigatorKey.currentState!.context.locale;
+  }
+
+  static void showLoadingDialog({
+    required bool shouldPopBefore,
+  }) {
+    final BuildContext? context = GlobalConstants.navigatorKey.currentContext;
+
+    if (context == null) {
+      debugPrint("Error: Cannot show loading dialog, Context is null!");
+      return;
+    }
+
+    if (shouldPopBefore) {
+      GlobalFunctions.pop();
+    }
+
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext _) => const GameOnlineConnectionLoadingDialog(),
+    );
+
+  }
+
+  static void showConnectivityErrorDialog({
+    required bool shouldPopBefore,
+  }) {
+    final BuildContext? context = GlobalConstants.navigatorKey.currentContext;
+
+    if (context == null) {
+      debugPrint("Error: Cannot show loading dialog, Context is null!");
+      return;
+    }
+
+    if (shouldPopBefore) {
+      GlobalFunctions.pop();
+    }
+
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext _) => const GameOnlineConnectionErrorDialog(),
+    );
+
+  }
+
+  static void showErrorDialog({
+    required bool shouldPopBefore,
+    required String error,
+    required String content,
+  }) {
+    final BuildContext? context = GlobalConstants.navigatorKey.currentContext;
+
+    if (context == null) {
+      debugPrint("Error: Cannot show loading dialog, Context is null!");
+      return;
+    }
+
+    if (shouldPopBefore) {
+      GlobalFunctions.pop();
+    }
+
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext _) => GlobalErrorDialog(
+        title: error,
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Center(
+              child: Text(
+                content,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+
   }
 
 }
