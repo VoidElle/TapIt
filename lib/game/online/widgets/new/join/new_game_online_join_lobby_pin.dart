@@ -4,10 +4,15 @@ import 'package:tapit/global/utils/global_constants.dart';
 
 class NewGameOnlineJoinLobbyPin extends StatelessWidget {
 
-  NewGameOnlineJoinLobbyPin({super.key});
+  final List<TextEditingController> textEditingControllers;
+
+  NewGameOnlineJoinLobbyPin({
+    required this.textEditingControllers,
+    super.key,
+  });
 
   final List<Widget> _pinInputs = [];
-  final List<FocusNode> _focusNodes = List.generate(6, (int index) => FocusNode());
+  final List<FocusNode> _focusNodes = List.generate(6, (int _) => FocusNode());
 
   Widget _buildSinglePinInput(int index) {
     return Padding(
@@ -27,6 +32,7 @@ class NewGameOnlineJoinLobbyPin extends StatelessWidget {
           ),
         ),
         child: TextFormField(
+          controller: textEditingControllers[index],
           onChanged: (String? value) {
 
             // Get the current focus

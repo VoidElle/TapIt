@@ -38,7 +38,7 @@ class GlobalFunctions {
         returnScreen = const NewGameOnlineLobbyPage();
         break;
       case NewGameOnlineJoinPage.route:
-        returnScreen = const NewGameOnlineJoinPage();
+        returnScreen = NewGameOnlineJoinPage();
         break;
       case MenuPage.route:
         returnScreen = const MenuPage();

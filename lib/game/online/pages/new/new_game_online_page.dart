@@ -11,7 +11,7 @@ import '../../../../global/widgets/global_complex_button.dart';
 import '../../../../global/widgets/global_home_button.dart';
 import '../../../../global/widgets/global_user_header.dart';
 import '../../enums/socket_enums.dart';
-import '../../mixins/game_online_socket_lobby_listener_mixin.dart';
+import '../../mixins/game_online_socket_lobby_creation_listener_mixin.dart';
 import '../../utils/game_online_functions.dart';
 import '../../mixins/game_online_socket_connectivity_change_listener_mixin.dart';
 
@@ -25,7 +25,7 @@ class NewGameOnlinePage extends ConsumerStatefulWidget {
   ConsumerState<NewGameOnlinePage> createState() => _NewGameOnlinePageState();
 }
 
-class _NewGameOnlinePageState extends ConsumerState<NewGameOnlinePage> with GameOnlineSocketConnectivityChangeListenerMixin, GameOnlineSocketLobbyListenerMixin {
+class _NewGameOnlinePageState extends ConsumerState<NewGameOnlinePage> with GameOnlineSocketConnectivityChangeListenerMixin, GameOnlineSocketLobbyCreationListenerMixin {
 
   @override
   void initState() {

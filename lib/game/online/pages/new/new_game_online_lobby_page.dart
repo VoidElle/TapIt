@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tapit/game/online/widgets/new/lobby/new_game_online_lobby_players_list.dart';
 
@@ -35,13 +36,20 @@ class NewGameOnlineLobbyPage extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
 
-                const GlobalCustomContainerBase.big(
+                GlobalCustomContainerBase.big(
                   backgroundColor: GlobalColorConstants.kRedColor,
-                  text: '000000',
+                  text: gameOnlineGameState.lobbyId,
                   lineHeight: 0.85,
                   fontSize: 60,
                   fontStrokeWidth: 8,
                   letterSpacing: 7.5,
+                  callback: () async {
+                    await Clipboard.setData(
+                      ClipboardData(
+                        text: gameOnlineGameState.lobbyId,
+                      ),
+                    );
+                  },
                 ),
 
                 const Expanded(

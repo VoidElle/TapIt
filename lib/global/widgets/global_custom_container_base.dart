@@ -19,6 +19,8 @@ class GlobalCustomContainerBase extends StatelessWidget {
   final double fontStrokeWidth;
   final double letterSpacing;
 
+  final VoidCallback? callback;
+
   const GlobalCustomContainerBase({
     required this.height,
     required this.width,
@@ -30,6 +32,7 @@ class GlobalCustomContainerBase extends StatelessWidget {
     required this.fontSize,
     required this.fontStrokeWidth,
     this.letterSpacing = 0,
+    this.callback,
     super.key,
   });
 
@@ -44,6 +47,7 @@ class GlobalCustomContainerBase extends StatelessWidget {
     required this.fontSize,
     required this.fontStrokeWidth,
     this.letterSpacing = 0,
+    this.callback,
     super.key,
   });
 
@@ -58,41 +62,49 @@ class GlobalCustomContainerBase extends StatelessWidget {
     required this.fontSize,
     required this.fontStrokeWidth,
     this.letterSpacing = 0,
+    this.callback,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: height,
-      width: width,
-      padding: padding,
-      margin: margin,
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: GlobalColorConstants.kFullBlackColor,
-          width: 5,
-        ),
-        borderRadius: const BorderRadius.all(
-          Radius.circular(12.5),
-        ),
-        color: backgroundColor,
-      ),
-      child: Center(
-        child: Padding(
-          padding: const EdgeInsets.only(
-            top: 10,
+    return GestureDetector(
+      onTapUp: (TapUpDetails _) {
+        if (callback != null) {
+          callback!();
+        }
+      },
+      child: Container(
+        height: height,
+        width: width,
+        padding: padding,
+        margin: margin,
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: GlobalColorConstants.kFullBlackColor,
+            width: 5,
           ),
-          child: StrokeText(
-            text: text,
-            textStyle: TextStyle(
-              height: lineHeight,
-              fontFamily: "CircularStd",
-              fontWeight: FontWeight.w900,
-              fontSize: fontSize,
-              letterSpacing: letterSpacing,
+          borderRadius: const BorderRadius.all(
+            Radius.circular(12.5),
+          ),
+          color: backgroundColor,
+        ),
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.only(
+              top: 10,
             ),
-            strokeWidth: fontStrokeWidth,
+            child: StrokeText(
+              text: text,
+              textStyle: TextStyle(
+                height: lineHeight,
+                fontFamily: "CircularStd",
+                fontWeight: FontWeight.w900,
+                fontSize: fontSize,
+                letterSpacing: letterSpacing,
+              ),
+              strokeWidth: fontStrokeWidth,
+            ),
           ),
         ),
       ),

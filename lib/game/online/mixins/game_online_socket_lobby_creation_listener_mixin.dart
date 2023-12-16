@@ -12,7 +12,7 @@ import 'package:socket_io_client/socket_io_client.dart' as socket_io;
 import '../models/player/game_online_player_model.dart';
 import '../pages/new/new_game_online_lobby_page.dart';
 
-mixin GameOnlineSocketLobbyListenerMixin {
+mixin GameOnlineSocketLobbyCreationListenerMixin {
 
   void listenToSocketLobbyCreationEvent(socket_io.Socket? socket, WidgetRef ref) {
 

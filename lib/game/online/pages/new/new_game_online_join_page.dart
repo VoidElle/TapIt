@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:socket_io_client/socket_io_client.dart' as socket_io;
 import 'package:tapit/game/online/pages/new/new_game_online_page.dart';
+import 'package:tapit/game/online/utils/game_online_socket_emitter.dart';
 
+import '../../../../global/models/global_socket_model.dart';
+import '../../../../global/providers/global_socket_provider.dart';
 import '../../../../global/utils/global_enums.dart';
 import '../../../../global/utils/global_functions.dart';
 import '../../../../global/widgets/global_complex_button.dart';
@@ -11,14 +16,16 @@ import '../../../../menu/pages/menu_page.dart';
 import '../../widgets/new/join/new_game_online_join_lobby_pin.dart';
 import '../../widgets/new/new_game_online_back_home_buttons.dart';
 
-class NewGameOnlineJoinPage extends StatelessWidget {
+class NewGameOnlineJoinPage extends ConsumerWidget {
 
   static const route = "/new-game-online-join-page";
 
-  const NewGameOnlineJoinPage({super.key});
+  NewGameOnlineJoinPage({super.key});
+
+  final List<TextEditingController> _textEditingControllers = List.generate(6, (int _) => TextEditingController());
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
 
     final MediaQueryData mediaQuery = MediaQuery.of(context);
     final double usableScreenHeight = mediaQuery.size.height - mediaQuery.padding.top;
@@ -59,7 +66,9 @@ class NewGameOnlineJoinPage extends StatelessWidget {
                   curve: Curves.easeOut,
                 ),
 
-                NewGameOnlineJoinLobbyPin(),
+                NewGameOnlineJoinLobbyPin(
+                  textEditingControllers: _textEditingControllers,
+                ),
 
                 GlobalComplexButton(
                   padding: const EdgeInsets.only(
@@ -68,6 +77,21 @@ class NewGameOnlineJoinPage extends StatelessWidget {
                   globalComplexButtonType: GlobalComplexButtonType.joinGameFromPin,
                   enabled: true,
                   onTapCallback: () {
+
+                    String lobbyId = "";
+
+                    for (TextEditingController textEditingController in _textEditingControllers) {
+                      lobbyId += textEditingController.text;
+                    }
+
+                    debugPrint("Lobby id: $lobbyId");
+
+                    final GlobalSocketModel socketProvider = ref.read(globalSocketProvider);
+                    final socket_io.Socket? socket = socketProvider.socket;
+
+                    if (socket != null) {
+                      GameOnlineSocketEmitter.emitJoinLobbyEvent(socket, lobbyId);
+                    }
 
                   },
                 ),
