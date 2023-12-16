@@ -13,10 +13,11 @@ import '../../../../global/widgets/global_complex_button.dart';
 import '../../../../global/widgets/global_user_header.dart';
 import '../../../../global/widgets/stroke_text.dart';
 import '../../../../menu/pages/menu_page.dart';
+import '../../mixins/game_online_socket_lobby_players_change_listener_mixin.dart';
 import '../../widgets/new/join/new_game_online_join_lobby_pin.dart';
 import '../../widgets/new/new_game_online_back_home_buttons.dart';
 
-class NewGameOnlineJoinPage extends ConsumerWidget {
+class NewGameOnlineJoinPage extends ConsumerWidget with GameOnlineSocketLobbyPlayersChangeListenerMixin {
 
   static const route = "/new-game-online-join-page";
 
@@ -29,6 +30,11 @@ class NewGameOnlineJoinPage extends ConsumerWidget {
 
     final MediaQueryData mediaQuery = MediaQuery.of(context);
     final double usableScreenHeight = mediaQuery.size.height - mediaQuery.padding.top;
+
+    final GlobalSocketModel socketProvider = ref.read(globalSocketProvider);
+    final socket_io.Socket? socket = socketProvider.socket;
+
+    listenToPlayerChange(socket, ref, needsToJoin: true);
 
     return Scaffold(
       body: SafeArea(
