@@ -5,8 +5,10 @@ import 'package:tapit/game/online/dialogs/game_online_loading_dialog.dart';
 import 'package:tapit/game/online/models/socket/game_online_socket_model.dart';
 import 'package:tapit/global/utils/global_functions.dart';
 
+import '../../../global/utils/global_color_constants.dart';
 import '../enums/socket_enums.dart';
 import '../../../global/providers/global_socket_provider.dart';
+import '../models/lobby/game_online_lobby_model.dart';
 import '../models/player/game_online_player_model.dart';
 
 class GameOnlineFunctions {
@@ -86,6 +88,28 @@ class GameOnlineFunctions {
   // Function that returns a list of players without a player with a specified socket id
   static List<GameOnlinePlayerModel> removePlayerFromList(String socketId, List<GameOnlinePlayerModel> gameOnlinePlayerModelList) {
     return gameOnlinePlayerModelList.where((GameOnlinePlayerModel gameOnlinePlayerModel) => gameOnlinePlayerModel.gameOnlineSocketModel.socketId != socketId).toList();
+  }
+
+  // Function to get a list of GameOnlinePlayerModel from the GameOnlineLobbyModel
+  static List<GameOnlinePlayerModel> getPlayersFromGameOnlineLobbyModel(GameOnlineLobbyModel gameOnlineLobbyModel) {
+
+    final List<GameOnlinePlayerModel> gameOnlinePlayerModelList = [];
+
+    // For every socket, create a Player model
+    for (GameOnlineSocketModel gameOnlineSocketModel in gameOnlineLobbyModel.sockets) {
+
+      // Create the Player model
+      final GameOnlinePlayerModel gameOnlinePlayerModel = GameOnlinePlayerModel(
+        gameOnlineSocketModel: gameOnlineSocketModel,
+        colorValue: GlobalColorConstants.kBlueColor.value,
+      );
+
+      // Add the player model to the list
+      gameOnlinePlayerModelList.add(gameOnlinePlayerModel);
+
+    }
+
+    return gameOnlinePlayerModelList;
   }
 
 }

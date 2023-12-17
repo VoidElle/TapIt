@@ -5,7 +5,6 @@ import 'package:socket_io_client/socket_io_client.dart' as socket_io;
 import 'package:tapit/game/online/providers/game_online_game_provider.dart';
 import 'package:tapit/global/widgets/global_custom_rounded_circle.dart';
 
-import '../../../../../global/models/global_socket_model.dart';
 import '../../../../../global/providers/global_socket_provider.dart';
 import '../../../../../global/utils/global_paths.dart';
 import '../../../../../global/widgets/stroke_text.dart';
@@ -14,17 +13,27 @@ import '../../../models/game/game_online_game_model.dart';
 import '../../../models/player/game_online_player_model.dart';
 import '../../../models/socket/game_online_socket_model.dart';
 
-class NewGameOnlineLobbyPlayersList extends ConsumerWidget with GameOnlineSocketLobbyPlayersChangeListenerMixin {
+class NewGameOnlineLobbyPlayersList extends ConsumerStatefulWidget {
 
   const NewGameOnlineLobbyPlayersList({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<NewGameOnlineLobbyPlayersList> createState() => _NewGameOnlineLobbyPlayersListState();
+}
 
-    final GlobalSocketModel socketProvider = ref.read(globalSocketProvider);
-    final socket_io.Socket? socket = socketProvider.socket;
+class _NewGameOnlineLobbyPlayersListState extends ConsumerState<NewGameOnlineLobbyPlayersList> with GameOnlineSocketLobbyPlayersChangeListenerMixin {
 
+  @override
+  void initState() {
+
+    final socket_io.Socket? socket = ref.read(globalSocketProvider).socket;
     listenToPlayerChange(context, socket, ref);
+
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
 
     final List<String> socketIdsList = [];
 
@@ -80,5 +89,4 @@ class NewGameOnlineLobbyPlayersList extends ConsumerWidget with GameOnlineSocket
           .toList(),
     );
   }
-
 }

@@ -3,9 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tapit/game/online/enums/socket_enums.dart';
 import 'package:tapit/game/online/models/game/game_online_game_model.dart';
 import 'package:tapit/game/online/models/lobby/game_online_lobby_model.dart';
-import 'package:tapit/game/online/models/socket/game_online_socket_model.dart';
 import 'package:tapit/game/online/providers/game_online_game_provider.dart';
-import 'package:tapit/global/utils/global_color_constants.dart';
+import 'package:tapit/game/online/utils/game_online_functions.dart';
 import 'package:tapit/global/utils/global_functions.dart';
 
 import 'package:socket_io_client/socket_io_client.dart' as socket_io;
@@ -33,7 +32,7 @@ mixin GameOnlineSocketLobbyCreationListenerMixin {
       final gameOnlineGameNotifier = ref.read(gameOnlineGameProvider.notifier);
 
       // Create the list to set
-      final List<GameOnlinePlayerModel> gameOnlinePlayerModelList = _getPlayersFromGameOnlineLobbyModel(gameOnlineLobbyModel);
+      final List<GameOnlinePlayerModel> gameOnlinePlayerModelList = GameOnlineFunctions.getPlayersFromGameOnlineLobbyModel(gameOnlineLobbyModel);
 
       // Create the game model
       final GameOnlineGameModel gameOnlineGameModel = GameOnlineGameModel(
@@ -59,27 +58,6 @@ mixin GameOnlineSocketLobbyCreationListenerMixin {
       );
     });
 
-  }
-
-  List<GameOnlinePlayerModel> _getPlayersFromGameOnlineLobbyModel(GameOnlineLobbyModel gameOnlineLobbyModel) {
-
-    final List<GameOnlinePlayerModel> gameOnlinePlayerModelList = [];
-
-    // For every socket, create a Player model
-    for (GameOnlineSocketModel gameOnlineSocketModel in gameOnlineLobbyModel.sockets) {
-
-      // Create the Player model
-      final GameOnlinePlayerModel gameOnlinePlayerModel = GameOnlinePlayerModel(
-        gameOnlineSocketModel: gameOnlineSocketModel,
-        colorValue: GlobalColorConstants.kBlueColor.value,
-      );
-
-      // Add the player model to the list
-      gameOnlinePlayerModelList.add(gameOnlinePlayerModel);
-
-    }
-
-    return gameOnlinePlayerModelList;
   }
 
 }

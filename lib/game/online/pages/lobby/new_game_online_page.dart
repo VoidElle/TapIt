@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:socket_io_client/socket_io_client.dart' as socket_io;
 import 'package:tapit/game/online/pages/lobby/new_game_online_join_page.dart';
 
-import '../../../../global/models/global_socket_model.dart';
 import '../../../../global/providers/global_socket_provider.dart';
 import '../../../../global/utils/global_enums.dart';
 import '../../../../global/utils/global_functions.dart';
@@ -27,6 +26,8 @@ class NewGameOnlinePage extends ConsumerStatefulWidget {
 
 class _NewGameOnlinePageState extends ConsumerState<NewGameOnlinePage> with GameOnlineSocketConnectivityChangeListenerMixin, GameOnlineSocketLobbyCreationListenerMixin {
 
+  late socket_io.Socket? _socket;
+
   @override
   void initState() {
 
@@ -41,6 +42,12 @@ class _NewGameOnlinePageState extends ConsumerState<NewGameOnlinePage> with Game
       GameOnlineFunctions.initSocketConnection(ref);
     }
 
+    // Getting the socket and setting it
+    _socket = ref.read(globalSocketProvider).socket;
+
+    // Listen to the create lobby response
+    listenToSocketLobbyCreationEvent(context, _socket, ref);
+
   }
 
   @override
@@ -50,9 +57,6 @@ class _NewGameOnlinePageState extends ConsumerState<NewGameOnlinePage> with Game
 
     final MediaQueryData mediaQuery = MediaQuery.of(context);
     final double usableScreenHeight = mediaQuery.size.height - mediaQuery.padding.top;
-
-    final GlobalSocketModel socketProvider = ref.read(globalSocketProvider);
-    final socket_io.Socket? socket = socketProvider.socket;
 
     return Scaffold(
       body: SafeArea(
@@ -82,10 +86,7 @@ class _NewGameOnlinePageState extends ConsumerState<NewGameOnlinePage> with Game
                         onTapCallback: () {
 
                           // Emit the create lobby request
-                          socket?.emit(GameOnlineSocketEvent.createLobbyRequest.text);
-
-                          // Listen to the create lobby response
-                          listenToSocketLobbyCreationEvent(context, socket, ref);
+                          _socket?.emit(GameOnlineSocketEvent.createLobbyRequest.text);
 
                         },
                       ),
