@@ -7,6 +7,7 @@ import 'package:tapit/global/utils/global_functions.dart';
 
 import '../enums/socket_enums.dart';
 import '../../../global/providers/global_socket_provider.dart';
+import '../models/player/game_online_player_model.dart';
 
 class GameOnlineFunctions {
 
@@ -80,6 +81,11 @@ class GameOnlineFunctions {
     }
 
     return gameOnlineSocketModelList.isNotEmpty;
+  }
+
+  // Function that returns a list of players without a player with a specified socket id
+  static List<GameOnlinePlayerModel> removePlayerFromList(String socketId, List<GameOnlinePlayerModel> gameOnlinePlayerModelList) {
+    return gameOnlinePlayerModelList.where((GameOnlinePlayerModel gameOnlinePlayerModel) => gameOnlinePlayerModel.gameOnlineSocketModel.socketId != socketId).toList();
   }
 
 }

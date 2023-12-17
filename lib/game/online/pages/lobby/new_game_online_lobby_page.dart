@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:socket_io_client/socket_io_client.dart' as socket_io;
 import 'package:tapit/game/online/widgets/new/lobby/new_game_online_lobby_players_list.dart';
+import 'package:tapit/global/utils/global_constants.dart';
 
+import '../../../../global/providers/global_socket_provider.dart';
 import '../../../../global/utils/global_color_constants.dart';
 import '../../../../global/utils/global_functions.dart';
 import '../../../../menu/pages/menu_page.dart';
@@ -90,9 +93,11 @@ class NewGameOnlineLobbyPage extends ConsumerWidget {
 
                 NewGameOnlineBackButtons(
                   backButtonCallback: () {
+                    _quitLobby(ref, gameOnlineGameState);
                     GlobalFunctions.redirectAndClearRootTree(NewGameOnlinePage.route);
                   },
                   homeButtonCallback: () {
+                    _quitLobby(ref, gameOnlineGameState);
                     GlobalFunctions.redirectAndClearRootTree(MenuPage.route);
                   },
                 ),
@@ -103,6 +108,13 @@ class NewGameOnlineLobbyPage extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  void _quitLobby(WidgetRef ref, GameOnlineGameModel gameOnlineGameState) {
+    final socket_io.Socket? socket = ref.read(globalSocketProvider).socket;
+    if (socket != null) {
+      GlobalConstants.gameOnlineSocketEmitter.emitQuitLobbyEvent(socket, gameOnlineGameState.lobbyId);
+    }
   }
 
 }

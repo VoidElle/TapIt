@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:socket_io_client/socket_io_client.dart' as socket_io;
-import 'package:tapit/game/online/pages/new/new_game_online_page.dart';
-import 'package:tapit/game/online/utils/game_online_socket_emitter.dart';
+import 'package:tapit/global/utils/global_constants.dart';
 
 import '../../../../global/models/global_socket_model.dart';
 import '../../../../global/providers/global_socket_provider.dart';
@@ -16,6 +15,7 @@ import '../../../../menu/pages/menu_page.dart';
 import '../../mixins/game_online_socket_lobby_players_change_listener_mixin.dart';
 import '../../widgets/new/join/new_game_online_join_lobby_pin.dart';
 import '../../widgets/new/new_game_online_back_home_buttons.dart';
+import 'new_game_online_page.dart';
 
 class NewGameOnlineJoinPage extends ConsumerWidget with GameOnlineSocketLobbyPlayersChangeListenerMixin {
 
@@ -96,7 +96,9 @@ class NewGameOnlineJoinPage extends ConsumerWidget with GameOnlineSocketLobbyPla
                     final socket_io.Socket? socket = socketProvider.socket;
 
                     if (socket != null) {
-                      GameOnlineSocketEmitter.emitJoinLobbyEvent(socket, lobbyId);
+                      GlobalConstants
+                          .gameOnlineSocketEmitter
+                          .emitJoinLobbyEvent(socket, lobbyId);
                     }
 
                   },

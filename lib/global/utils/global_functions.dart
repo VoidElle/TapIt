@@ -1,22 +1,17 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:tapit/game/local/pages/game_local_page.dart';
 import 'package:tapit/game/online/models/game/game_online_game_model.dart';
-import 'package:tapit/game/online/models/lobby/game_online_lobby_model.dart';
-import 'package:tapit/game/online/pages/game_online_join_lobby_page.dart';
-import 'package:tapit/game/online/pages/game_online_lobby_page.dart';
-import 'package:tapit/game/online/pages/game_online_menu_page.dart';
 import 'package:tapit/game/online/pages/game_online_page.dart';
-import 'package:tapit/game/online/pages/new/new_game_online_lobby_page.dart';
-import 'package:tapit/game/online/pages/new/new_game_online_join_page.dart';
-import 'package:tapit/game/online/pages/new/new_game_online_page.dart';
+import 'package:tapit/game/online/pages/lobby/new_game_online_join_page.dart';
 import 'package:tapit/global/utils/global_constants.dart';
 import 'package:tapit/global/utils/global_enums.dart';
 import 'package:tapit/menu/pages/menu_page.dart';
 
 import '../../game/online/dialogs/socket_connection/game_online_connection_error_dialog.dart';
 import '../../game/online/dialogs/socket_connection/game_online_connection_loading_dialog.dart';
+import '../../game/online/pages/lobby/new_game_online_lobby_page.dart';
+import '../../game/online/pages/lobby/new_game_online_page.dart';
 import '../dialogs/global_error_dialog.dart';
 import 'global_paths.dart';
 
@@ -54,24 +49,6 @@ class GlobalFunctions {
         break;
       case NewGameOnlinePage.route:
         returnScreen = const NewGameOnlinePage();
-        break;
-      case GameOnlineMenuPage.route:
-        returnScreen = const GameOnlineMenuPage();
-        break;
-      case GameLocalPage.route:
-        returnScreen = const GameLocalPage();
-        break;
-      case GameOnlineLobbyPage.route:
-
-        final GameOnlineLobbyModel gameOnlineLobbyModel = arguments!["data"];
-
-        returnScreen = GameOnlineLobbyPage(
-          gameOnlineLobbyModel: gameOnlineLobbyModel,
-        );
-
-        break;
-      case GameOnlineJoinLobbyPage.route:
-        returnScreen = const GameOnlineJoinLobbyPage();
         break;
     }
 

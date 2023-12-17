@@ -10,7 +10,7 @@ import 'package:tapit/global/utils/global_functions.dart';
 import 'package:socket_io_client/socket_io_client.dart' as socket_io;
 
 import '../models/player/game_online_player_model.dart';
-import '../pages/new/new_game_online_lobby_page.dart';
+import '../pages/lobby/new_game_online_lobby_page.dart';
 
 mixin GameOnlineSocketLobbyCreationListenerMixin {
 

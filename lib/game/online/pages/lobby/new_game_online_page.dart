@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:socket_io_client/socket_io_client.dart' as socket_io;
-import 'package:tapit/game/online/pages/new/new_game_online_join_page.dart';
+import 'package:tapit/game/online/pages/lobby/new_game_online_join_page.dart';
 
 import '../../../../global/models/global_socket_model.dart';
 import '../../../../global/providers/global_socket_provider.dart';
