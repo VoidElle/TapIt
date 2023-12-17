@@ -1,10 +1,15 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:socket_io_client/socket_io_client.dart' as socket_io;
+import 'package:tapit/game/online/dialogs/game_online_leader_left_dialog.dart';
 import 'package:tapit/game/online/models/game/game_online_game_model.dart';
 import 'package:tapit/game/online/models/player/game_online_player_model.dart';
 import 'package:tapit/game/online/models/socket/game_online_socket_model.dart';
 import 'package:tapit/game/online/utils/game_online_functions.dart';
 import 'package:tapit/global/utils/global_color_constants.dart';
+import 'package:tapit/global/utils/global_constants.dart';
+import 'package:tapit/menu/pages/menu_page.dart';
 
 import '../../../global/utils/global_functions.dart';
 import '../enums/socket_enums.dart';
@@ -91,6 +96,21 @@ mixin GameOnlineSocketLobbyPlayersChangeListenerMixin {
 
       // Set the new game model
       gameOnlineGameStateNotifier.setGameModel(newGameOnlineGameModel);
+
+    });
+
+    // Listen to leader's leaving event
+    socket?.on(GameOnlineSocketEvent.leaderLeftLobby.text, (dynamic data) {
+
+      GlobalFunctions.redirectAndClearRootTree(MenuPage.route);
+
+      final BuildContext? context = GlobalConstants.navigatorKey.currentContext;
+      if (context != null) {
+        showDialog(
+          context: context,
+          builder: (BuildContext _) => const GameOnlineLeaderLeftDialog(),
+        );
+      }
 
     });
 
