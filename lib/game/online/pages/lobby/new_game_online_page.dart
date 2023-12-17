@@ -85,7 +85,7 @@ class _NewGameOnlinePageState extends ConsumerState<NewGameOnlinePage> with Game
                           socket?.emit(GameOnlineSocketEvent.createLobbyRequest.text);
 
                           // Listen to the create lobby response
-                          listenToSocketLobbyCreationEvent(socket, ref);
+                          listenToSocketLobbyCreationEvent(context, socket, ref);
 
                         },
                       ),

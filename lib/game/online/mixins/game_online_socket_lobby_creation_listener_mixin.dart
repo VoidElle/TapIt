@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tapit/game/online/enums/socket_enums.dart';
 import 'package:tapit/game/online/models/game/game_online_game_model.dart';
@@ -14,11 +15,15 @@ import '../pages/lobby/new_game_online_lobby_page.dart';
 
 mixin GameOnlineSocketLobbyCreationListenerMixin {
 
-  void listenToSocketLobbyCreationEvent(socket_io.Socket? socket, WidgetRef ref) {
+  void listenToSocketLobbyCreationEvent(BuildContext context, socket_io.Socket? socket, WidgetRef ref) {
 
     // Function that will be execute if the server send the lobby creation
     // SUCCESS event
     socket?.on(GameOnlineSocketEvent.createLobbyResponseSuccess.text, (dynamic data) {
+
+      if (!context.mounted) {
+        return;
+      }
 
       // Get the Game Lobby model received
       final Map<String, dynamic> jsonReceived = data as Map<String, dynamic>;

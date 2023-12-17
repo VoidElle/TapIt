@@ -34,7 +34,7 @@ class NewGameOnlineJoinPage extends ConsumerWidget with GameOnlineSocketLobbyPla
     final GlobalSocketModel socketProvider = ref.read(globalSocketProvider);
     final socket_io.Socket? socket = socketProvider.socket;
 
-    listenToPlayerChange(socket, ref, needsToJoin: true);
+    listenToPlayerChange(context, socket, ref, needsToJoin: true);
 
     return Scaffold(
       body: SafeArea(

@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tapit/game/online/models/lobby/game_online_lobby_model.dart';
 import 'package:tapit/game/online/models/socket/game_online_socket_model.dart';
 
-final gameOnlineLobbyProvider = StateNotifierProvider.autoDispose<GameOnlineLobbyNotifier, GameOnlineLobbyModel>(
+final gameOnlineLobbyProvider = StateNotifierProvider<GameOnlineLobbyNotifier, GameOnlineLobbyModel>(
       (ref) => GameOnlineLobbyNotifier(),
 );
 

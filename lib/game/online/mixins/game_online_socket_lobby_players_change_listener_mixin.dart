@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:socket_io_client/socket_io_client.dart' as socket_io;
@@ -18,10 +17,14 @@ import '../providers/game_online_game_provider.dart';
 
 mixin GameOnlineSocketLobbyPlayersChangeListenerMixin {
 
-  void listenToPlayerChange(socket_io.Socket? socket, WidgetRef ref, {bool needsToJoin = false}) {
+  void listenToPlayerChange(BuildContext context, socket_io.Socket? socket, WidgetRef ref, {bool needsToJoin = false}) {
 
     // Listen to a player lobby join event
     socket?.on(GameOnlineSocketEvent.joinLobbyResponseSuccess.text, (dynamic data) {
+
+      if (!context.mounted) {
+        return;
+      }
 
       // Parse the dynamic data to json
       final Map<String, dynamic> jsonData = data as Map<String, dynamic>;
@@ -76,6 +79,10 @@ mixin GameOnlineSocketLobbyPlayersChangeListenerMixin {
     // Listen to a player lobby quit event
     socket?.on(GameOnlineSocketEvent.quitLobbyResponseSuccess.text, (dynamic data) {
 
+      if (!context.mounted) {
+        return;
+      }
+
       // Parse the dynamic data to json
       final Map<String, dynamic> jsonData = data as Map<String, dynamic>;
 
@@ -102,12 +109,16 @@ mixin GameOnlineSocketLobbyPlayersChangeListenerMixin {
     // Listen to leader's leaving event
     socket?.on(GameOnlineSocketEvent.leaderLeftLobby.text, (dynamic data) {
 
+      if (!context.mounted) {
+        return;
+      }
+
       GlobalFunctions.redirectAndClearRootTree(MenuPage.route);
 
-      final BuildContext? context = GlobalConstants.navigatorKey.currentContext;
-      if (context != null) {
+      final BuildContext? globalContext = GlobalConstants.navigatorKey.currentContext;
+      if (globalContext != null) {
         showDialog(
-          context: context,
+          context: globalContext,
           builder: (BuildContext _) => const GameOnlineLeaderLeftDialog(),
         );
       }

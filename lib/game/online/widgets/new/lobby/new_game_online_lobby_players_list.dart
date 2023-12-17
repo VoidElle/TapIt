@@ -24,7 +24,7 @@ class NewGameOnlineLobbyPlayersList extends ConsumerWidget with GameOnlineSocket
     final GlobalSocketModel socketProvider = ref.read(globalSocketProvider);
     final socket_io.Socket? socket = socketProvider.socket;
 
-    listenToPlayerChange(socket, ref);
+    listenToPlayerChange(context, socket, ref);
 
     final List<String> socketIdsList = [];
 
