@@ -4,7 +4,6 @@ import '../utils/global_color_constants.dart';
 import 'stroke_text.dart';
 
 class GlobalCustomContainerBase extends StatelessWidget {
-
   final double height;
   final double width;
 
@@ -20,6 +19,7 @@ class GlobalCustomContainerBase extends StatelessWidget {
   final double letterSpacing;
 
   final VoidCallback? callback;
+  final bool enabled;
 
   const GlobalCustomContainerBase({
     required this.height,
@@ -33,6 +33,7 @@ class GlobalCustomContainerBase extends StatelessWidget {
     required this.fontStrokeWidth,
     this.letterSpacing = 0,
     this.callback,
+    this.enabled = true,
     super.key,
   });
 
@@ -48,6 +49,7 @@ class GlobalCustomContainerBase extends StatelessWidget {
     required this.fontStrokeWidth,
     this.letterSpacing = 0,
     this.callback,
+    this.enabled = true,
     super.key,
   });
 
@@ -63,52 +65,58 @@ class GlobalCustomContainerBase extends StatelessWidget {
     required this.fontStrokeWidth,
     this.letterSpacing = 0,
     this.callback,
+    this.enabled = true,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTapUp: (TapUpDetails _) {
-        if (callback != null) {
-          callback!();
-        }
-      },
-      child: Container(
-        height: height,
-        width: width,
-        padding: padding,
-        margin: margin,
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: GlobalColorConstants.kFullBlackColor,
-            width: 5,
-          ),
-          borderRadius: const BorderRadius.all(
-            Radius.circular(12.5),
-          ),
-          color: backgroundColor,
-        ),
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.only(
-              top: 10,
+    return AnimatedOpacity(
+      opacity: enabled ? 1 : .6,
+      duration: const Duration(
+        milliseconds: 250,
+      ),
+      child: GestureDetector(
+        onTapUp: (TapUpDetails _) {
+          if (callback != null && enabled) {
+            callback!();
+          }
+        },
+        child: Container(
+          height: height,
+          width: width,
+          padding: padding,
+          margin: margin,
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: GlobalColorConstants.kFullBlackColor,
+              width: 5,
             ),
-            child: StrokeText(
-              text: text,
-              textStyle: TextStyle(
-                height: lineHeight,
-                fontFamily: "CircularStd",
-                fontWeight: FontWeight.w900,
-                fontSize: fontSize,
-                letterSpacing: letterSpacing,
+            borderRadius: const BorderRadius.all(
+              Radius.circular(12.5),
+            ),
+            color: backgroundColor,
+          ),
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.only(
+                top: 10,
               ),
-              strokeWidth: fontStrokeWidth,
+              child: StrokeText(
+                text: text,
+                textStyle: TextStyle(
+                  height: lineHeight,
+                  fontFamily: "CircularStd",
+                  fontWeight: FontWeight.w900,
+                  fontSize: fontSize,
+                  letterSpacing: letterSpacing,
+                ),
+                strokeWidth: fontStrokeWidth,
+              ),
             ),
           ),
         ),
       ),
     );
   }
-
 }

@@ -6,10 +6,10 @@ import 'package:tapit/game/online/providers/game_online_game_provider.dart';
 import 'package:tapit/global/widgets/global_custom_rounded_circle.dart';
 
 import '../../../../../global/providers/global_socket_provider.dart';
+import '../../../../../global/utils/global_color_constants.dart';
 import '../../../../../global/utils/global_paths.dart';
 import '../../../../../global/widgets/stroke_text.dart';
 import '../../../mixins/game_online_socket_lobby_players_change_listener_mixin.dart';
-import '../../../models/game/game_online_game_model.dart';
 import '../../../models/player/game_online_player_model.dart';
 import '../../../models/socket/game_online_socket_model.dart';
 
@@ -37,8 +37,8 @@ class _NewGameOnlineLobbyPlayersListState extends ConsumerState<NewGameOnlineLob
 
     final List<String> socketIdsList = [];
 
-    final GameOnlineGameModel gameOnlineGameState = ref.watch(gameOnlineGameProvider);
-    final List<GameOnlinePlayerModel> players = gameOnlineGameState.players;
+    final GameOnlineGameNotifier gameOnlineGameNotifier = ref.read(gameOnlineGameProvider.notifier);
+    final List<GameOnlinePlayerModel> players = ref.watch(gameOnlineGameProvider).players;
 
     for (GameOnlinePlayerModel gameOnlinePlayerModel in players) {
       final GameOnlineSocketModel gameOnlineSocketModel = gameOnlinePlayerModel.gameOnlineSocketModel;
@@ -56,10 +56,13 @@ class _NewGameOnlineLobbyPlayersListState extends ConsumerState<NewGameOnlineLob
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
 
-                const GlobalCustomRoundedCircle(
+                GlobalCustomRoundedCircle(
                   height: 35,
                   width: 35,
                   strokeWidth: 3.5,
+                  color: gameOnlineGameNotifier.getPlayer(playerName)!.readyStatus
+                      ? GlobalColorConstants.kGreenColor
+                      : GlobalColorConstants.kGreyColor,
                 ),
 
                 Padding(

@@ -10,24 +10,39 @@ import '../../../../global/utils/global_color_constants.dart';
 import '../../../../global/utils/global_functions.dart';
 import '../../../../menu/pages/menu_page.dart';
 import '../../../../global/widgets/global_custom_container_base.dart';
+import '../../mixins/game_online_player_change_status_listener_mixin.dart';
 import '../../models/game/game_online_game_model.dart';
+import '../../models/player/game_online_player_model.dart';
 import '../../providers/game_online_game_provider.dart';
 import '../../widgets/new/new_game_online_back_home_buttons.dart';
 import 'new_game_online_page.dart';
 
-class NewGameOnlineLobbyPage extends ConsumerWidget {
+class NewGameOnlineLobbyPage extends ConsumerStatefulWidget {
 
   static const route = "/new-game-online-lobby-page";
 
   const NewGameOnlineLobbyPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<NewGameOnlineLobbyPage> createState() => _NewGameOnlineLobbyPageState();
+}
+
+class _NewGameOnlineLobbyPageState extends ConsumerState<NewGameOnlineLobbyPage> with GameOnlinePlayerChangeStatusListenerMixin {
+
+  bool _startGameButtonEnabled = false;
+
+  @override
+  Widget build(BuildContext context) {
+
+    listenToPlayerChangeStatusEvent(context, ref);
 
     final MediaQueryData mediaQuery = MediaQuery.of(context);
     final double usableScreenHeight = mediaQuery.size.height - mediaQuery.padding.top;
 
     final GameOnlineGameModel gameOnlineGameState = ref.read(gameOnlineGameProvider);
+    final List<GameOnlinePlayerModel> playersList = gameOnlineGameState.players;
+
+    _checkStartGameButtonEnabled(playersList);
 
     return Scaffold(
       body: SafeArea(
@@ -65,8 +80,8 @@ class NewGameOnlineLobbyPage extends ConsumerWidget {
                   child: SizedBox(),
                 ),
 
-                const GlobalCustomContainerBase.small(
-                  margin: EdgeInsets.symmetric(
+                GlobalCustomContainerBase.small(
+                  margin: const EdgeInsets.symmetric(
                     horizontal: 50,
                     vertical: 7.5,
                   ),
@@ -74,10 +89,14 @@ class NewGameOnlineLobbyPage extends ConsumerWidget {
                   text: 'START GAME',
                   fontSize: 28,
                   fontStrokeWidth: 4,
+                  enabled: _startGameButtonEnabled,
+                  callback: () {
+                    // Todo
+                  },
                 ),
 
-                const GlobalCustomContainerBase.small(
-                  margin: EdgeInsets.symmetric(
+                GlobalCustomContainerBase.small(
+                  margin: const EdgeInsets.symmetric(
                     horizontal: 50,
                     vertical: 7.5,
                   ),
@@ -85,6 +104,9 @@ class NewGameOnlineLobbyPage extends ConsumerWidget {
                   text: 'CHANGE READY',
                   fontSize: 28,
                   fontStrokeWidth: 4,
+                  callback: () {
+                    _changeReadyStatus(true, gameOnlineGameState);
+                  },
                 ),
 
                 SizedBox(
@@ -93,11 +115,11 @@ class NewGameOnlineLobbyPage extends ConsumerWidget {
 
                 NewGameOnlineBackButtons(
                   backButtonCallback: () {
-                    _quitLobby(ref, gameOnlineGameState);
+                    _quitLobby(gameOnlineGameState);
                     GlobalFunctions.redirectAndClearRootTree(NewGameOnlinePage.route);
                   },
                   homeButtonCallback: () {
-                    _quitLobby(ref, gameOnlineGameState);
+                    _quitLobby(gameOnlineGameState);
                     GlobalFunctions.redirectAndClearRootTree(MenuPage.route);
                   },
                 ),
@@ -110,10 +132,34 @@ class NewGameOnlineLobbyPage extends ConsumerWidget {
     );
   }
 
-  void _quitLobby(WidgetRef ref, GameOnlineGameModel gameOnlineGameState) {
+  void _quitLobby(GameOnlineGameModel gameOnlineGameState) {
     final socket_io.Socket? socket = ref.read(globalSocketProvider).socket;
     if (socket != null) {
       GlobalConstants.gameOnlineSocketEmitter.emitQuitLobbyEvent(socket, gameOnlineGameState.lobbyId);
+    }
+  }
+
+  void _checkStartGameButtonEnabled(List<GameOnlinePlayerModel> players) {
+
+    bool enabled = true;
+
+    for (GameOnlinePlayerModel gameOnlinePlayerModel in players) {
+      if (!gameOnlinePlayerModel.readyStatus) {
+        enabled = false;
+        break;
+      }
+    }
+
+    setState(() {
+      _startGameButtonEnabled = enabled;
+    });
+
+  }
+
+  void _changeReadyStatus(bool newStatus, GameOnlineGameModel gameOnlineGameState) {
+    final socket_io.Socket? socket = ref.read(globalSocketProvider).socket;
+    if (socket != null) {
+      GlobalConstants.gameOnlineSocketEmitter.emitChangeReadyStatusEvent(socket, gameOnlineGameState.lobbyId);
     }
   }
 

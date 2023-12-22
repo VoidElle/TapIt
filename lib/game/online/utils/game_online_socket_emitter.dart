@@ -15,4 +15,8 @@ class GameOnlineSocketEmitter {
     socket.emit(GameOnlineSocketEvent.quitLobbyRequest.text, lobbyId);
   }
 
+  void emitChangeReadyStatusEvent(socket_io.Socket socket, String lobbyId) {
+    socket.emit(GameOnlineSocketEvent.playerChangeReadyStatus.text, lobbyId);
+  }
+
 }
