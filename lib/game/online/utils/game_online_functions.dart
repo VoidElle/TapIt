@@ -10,6 +10,7 @@ import '../../../global/utils/global_color_constants.dart';
 import '../enums/socket_enums.dart';
 import '../../../global/providers/global_socket_provider.dart';
 import '../models/player/game_online_player_model.dart';
+import '../providers/game_online_game_provider.dart';
 
 class GameOnlineFunctions {
 
@@ -101,7 +102,9 @@ class GameOnlineFunctions {
       players.add(
         GameOnlinePlayerModel(
           gameOnlineSocketModel: GameOnlineSocketModel.fromJson(socketToParse),
-          colorValue: GlobalColorConstants.kBlueColor.value,
+          colorValue: socketToParse["socketId"] == socketsToParse.first["socketId"]
+              ? GlobalColorConstants.kBlueColor.value
+              : GlobalColorConstants.kRedColor.value,
         ),
       );
     }
@@ -112,6 +115,19 @@ class GameOnlineFunctions {
     );
 
     return gameOnlineGameModel;
+  }
+
+  static void createAndSetNewGameModel(Map<String, dynamic> jsonReceived, WidgetRef ref) {
+
+    // Create the new game model
+    final GameOnlineGameModel gameOnlineGameModel = GameOnlineFunctions.gameOnlineGameModelBuilderFromJson(jsonReceived);
+
+    // Get the notifier of the Online Game
+    final gameOnlineGameStateNotifier = ref.read(gameOnlineGameProvider.notifier);
+
+    // Set the new game model
+    gameOnlineGameStateNotifier.setGameModel(gameOnlineGameModel);
+
   }
 
 }

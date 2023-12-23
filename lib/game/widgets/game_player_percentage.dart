@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../global/widgets/stroke_text.dart';
+import '../../global/widgets/stroke_text.dart';
 
-class GameLocalPlayersPercentage extends ConsumerWidget {
+class GamePlayersPercentage extends ConsumerWidget {
 
   final int value;
 
-  const GameLocalPlayersPercentage({
+  const GamePlayersPercentage({
     required this.value,
     super.key,
   });

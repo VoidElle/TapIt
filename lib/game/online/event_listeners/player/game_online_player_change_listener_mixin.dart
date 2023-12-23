@@ -4,9 +4,7 @@ import 'package:socket_io_client/socket_io_client.dart' as socket_io;
 import 'package:tapit/game/online/dialogs/game_online_leader_left_dialog.dart';
 import 'package:tapit/game/online/models/game/game_online_game_model.dart';
 import 'package:tapit/game/online/models/player/game_online_player_model.dart';
-import 'package:tapit/game/online/models/socket/game_online_socket_model.dart';
 import 'package:tapit/game/online/utils/game_online_functions.dart';
-import 'package:tapit/global/utils/global_color_constants.dart';
 import 'package:tapit/global/utils/global_constants.dart';
 import 'package:tapit/menu/pages/menu_page.dart';
 
@@ -22,49 +20,16 @@ mixin GameOnlinePlayerChangeListenerMixin {
     // Listen to a player lobby join event
     socket?.on(GameOnlineSocketEvent.joinLobbyResponseSuccess.text, (dynamic data) {
 
+      // Skip the event management if the context is not mounted
       if (!context.mounted) {
         return;
       }
 
       // Parse the dynamic data to json
-      final Map<String, dynamic> jsonData = data as Map<String, dynamic>;
+      final Map<String, dynamic> jsonReceived = data as Map<String, dynamic>;
 
-      final String lobbyId = jsonData["lobbyId"];
-
-      // Get the list of connected sockets
-      final List<dynamic>? socketsList = jsonData["sockets"];
-      final List<GameOnlineSocketModel> socketsParsedList = [];
-
-      // Parse the list of connected sockets
-      if (socketsList != null) {
-        for (dynamic socket in socketsList) {
-          socketsParsedList.add(
-            GameOnlineSocketModel.fromJson(socket as Map<String, dynamic>),
-          );
-        }
-      }
-
-      // Get the notifier of the Online Game
-      final gameOnlineGameStateNotifier = ref.read(gameOnlineGameProvider.notifier);
-
-      // Parse the Sockets players to the effective player's model
-      final List<GameOnlinePlayerModel> players = [];
-      for (GameOnlineSocketModel gameOnlineSocketModel in socketsParsedList) {
-        final GameOnlinePlayerModel gameOnlinePlayerModel = GameOnlinePlayerModel(
-          gameOnlineSocketModel: gameOnlineSocketModel,
-          colorValue: GlobalColorConstants.kBlueColor.value,
-        );
-        players.add(gameOnlinePlayerModel);
-      }
-
-      // Create a new game model (Cannot modify immutable lists using freezed)
-      final GameOnlineGameModel gameOnlineGameModel = GameOnlineGameModel(
-        lobbyId: lobbyId,
-        players: players,
-      );
-
-      // Set the new game model
-      gameOnlineGameStateNotifier.setGameModel(gameOnlineGameModel);
+      // Create and set the new game model
+      GameOnlineFunctions.createAndSetNewGameModel(jsonReceived, ref);
 
       // If it's the guest socket, it needs to go the
       // lobby page where the leader is already

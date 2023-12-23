@@ -3,23 +3,22 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../models/game_local_player_model.dart';
-import '../providers/game_local_player_data_provider.dart';
-import '../../widgets/game_player_percentage.dart';
+import '../../../widgets/game_player_percentage.dart';
+import '../../models/game/game_online_game_model.dart';
+import '../../models/player/game_online_player_model.dart';
+import '../../providers/game_online_game_provider.dart';
 
-class GameLocalPlayersPercentages extends ConsumerWidget {
+class GameOnlinePlayersPercentages extends ConsumerWidget {
 
-  const GameLocalPlayersPercentages({
+  const GameOnlinePlayersPercentages({
     super.key,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
 
-    final gameLocalPlayerData = ref.watch(gameLocalPlayerDataProvider);
-
-    final GameLocalPlayerModel topPlayer = gameLocalPlayerData[0];
-    final GameLocalPlayerModel bottomPlayer = gameLocalPlayerData[1];
+    final GameOnlineGameModel gameOnlineGameState = ref.watch(gameOnlineGameProvider);
+    final List<GameOnlinePlayerModel> playersList = gameOnlineGameState.players;
 
     return SafeArea(
       child: Padding(
@@ -34,7 +33,7 @@ class GameLocalPlayersPercentages extends ConsumerWidget {
                 child: Transform.rotate(
                   angle: pi,
                   child: GamePlayersPercentage(
-                    value: topPlayer.percentageValue,
+                    value: playersList.first.percentageValue,
                   ),
                 ),
               ),
@@ -45,7 +44,7 @@ class GameLocalPlayersPercentages extends ConsumerWidget {
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: GamePlayersPercentage(
-                  value: bottomPlayer.percentageValue,
+                  value: playersList.last.percentageValue,
                 ),
               ),
             ),

@@ -4,6 +4,7 @@ import 'package:tapit/game/online/widgets/game/game_online_gesture_detectors.dar
 import 'package:tapit/game/online/widgets/game/game_online_player_containers.dart';
 
 import '../widgets/game/game_online_container_indicators.dart';
+import '../widgets/game/game_online_player_percentages.dart';
 
 class GameOnlinePage extends ConsumerStatefulWidget {
 
@@ -28,6 +29,8 @@ class _GameOnlinePageState extends ConsumerState<GameOnlinePage> {
           GameOnlinePlayersContainers(),
 
           GameOnlineContainerIndicators(),
+
+          GameOnlinePlayersPercentages(),
 
           GameOnlineGestureDetectors(),
 

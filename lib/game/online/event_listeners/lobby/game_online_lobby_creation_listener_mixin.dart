@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tapit/game/online/enums/socket_enums.dart';
-import 'package:tapit/game/online/models/game/game_online_game_model.dart';
-import 'package:tapit/game/online/providers/game_online_game_provider.dart';
 import 'package:tapit/game/online/utils/game_online_functions.dart';
 import 'package:tapit/global/utils/global_functions.dart';
 
@@ -18,19 +16,16 @@ mixin GameOnlineLobbyCreationListenerMixin {
     // SUCCESS event
     socket?.on(GameOnlineSocketEvent.createLobbyResponseSuccess.text, (dynamic data) {
 
+      // Skip the event management if the context is not mounted
       if (!context.mounted) {
         return;
       }
 
+      // Parse the dynamic data to json
       final Map<String, dynamic> jsonReceived = data as Map<String, dynamic>;
 
-      final GameOnlineGameModel gameOnlineGameModel = GameOnlineFunctions.gameOnlineGameModelBuilderFromJson(jsonReceived);
-
-      // Get the notifier of the OnlineGame
-      final gameOnlineGameNotifier = ref.read(gameOnlineGameProvider.notifier);
-
-      // Set the game model on the provider
-      gameOnlineGameNotifier.setGameModel(gameOnlineGameModel);
+      // Create and set the new game model
+      GameOnlineFunctions.createAndSetNewGameModel(jsonReceived, ref);
 
       // Redirect the player to the Lobby page
       GlobalFunctions.redirectAndClearRootTree(NewGameOnlineLobbyPage.route);
