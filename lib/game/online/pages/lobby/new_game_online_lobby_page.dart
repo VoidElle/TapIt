@@ -46,7 +46,7 @@ class _NewGameOnlineLobbyPageState extends ConsumerState<NewGameOnlineLobbyPage>
     final MediaQueryData mediaQuery = MediaQuery.of(context);
     final double usableScreenHeight = mediaQuery.size.height - mediaQuery.padding.top;
 
-    final GameOnlineGameModel gameOnlineGameState = ref.read(gameOnlineGameProvider);
+    final GameOnlineGameModel gameOnlineGameState = ref.watch(gameOnlineGameProvider);
     final List<GameOnlinePlayerModel> playersList = gameOnlineGameState.players;
 
     _checkStartGameButtonEnabled(playersList);
@@ -150,11 +150,17 @@ class _NewGameOnlineLobbyPageState extends ConsumerState<NewGameOnlineLobbyPage>
 
     bool enabled = true;
 
-    for (GameOnlinePlayerModel gameOnlinePlayerModel in players) {
-      if (!gameOnlinePlayerModel.readyStatus) {
-        enabled = false;
-        break;
+    if (players.length > 1) {
+
+      for (GameOnlinePlayerModel gameOnlinePlayerModel in players) {
+        if (!gameOnlinePlayerModel.readyStatus) {
+          enabled = false;
+          break;
+        }
       }
+
+    } else {
+      enabled = false;
     }
 
     setState(() {

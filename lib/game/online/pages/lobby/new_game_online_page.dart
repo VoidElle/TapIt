@@ -4,12 +4,12 @@ import 'package:socket_io_client/socket_io_client.dart' as socket_io;
 import 'package:tapit/game/online/pages/lobby/new_game_online_join_page.dart';
 
 import '../../../../global/providers/global_socket_provider.dart';
+import '../../../../global/utils/global_constants.dart';
 import '../../../../global/utils/global_enums.dart';
 import '../../../../global/utils/global_functions.dart';
 import '../../../../global/widgets/global_complex_button.dart';
 import '../../../../global/widgets/global_home_button.dart';
 import '../../../../global/widgets/global_user_header.dart';
-import '../../enums/socket_enums.dart';
 import '../../mixins/game_online_socket_lobby_creation_listener_mixin.dart';
 import '../../utils/game_online_functions.dart';
 import '../../mixins/game_online_socket_connectivity_change_listener_mixin.dart';
@@ -26,7 +26,7 @@ class NewGameOnlinePage extends ConsumerStatefulWidget {
 
 class _NewGameOnlinePageState extends ConsumerState<NewGameOnlinePage> with GameOnlineSocketConnectivityChangeListenerMixin, GameOnlineSocketLobbyCreationListenerMixin {
 
-  late socket_io.Socket? _socket;
+  late socket_io.Socket _socket;
 
   @override
   void initState() {
@@ -43,7 +43,7 @@ class _NewGameOnlinePageState extends ConsumerState<NewGameOnlinePage> with Game
     }
 
     // Getting the socket and setting it
-    _socket = ref.read(globalSocketProvider).socket;
+    _socket = ref.read(globalSocketProvider).socket!;
 
     // Listen to the create lobby response
     listenToSocketLobbyCreationEvent(context, _socket, ref);
@@ -86,7 +86,9 @@ class _NewGameOnlinePageState extends ConsumerState<NewGameOnlinePage> with Game
                         onTapCallback: () {
 
                           // Emit the create lobby request
-                          _socket?.emit(GameOnlineSocketEvent.createLobbyRequest.text);
+                          GlobalConstants
+                              .gameOnlineSocketEmitter
+                              .emitCreateLobbyEvent(_socket);
 
                         },
                       ),

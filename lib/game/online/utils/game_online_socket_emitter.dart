@@ -3,8 +3,8 @@ import 'package:tapit/game/online/enums/socket_enums.dart';
 
 class GameOnlineSocketEmitter {
 
-  void emitCreateLobbyEvent() {
-
+  void emitCreateLobbyEvent(socket_io.Socket socket) {
+    socket.emit(GameOnlineSocketEvent.createLobbyRequest.text);
   }
 
   void emitJoinLobbyEvent(socket_io.Socket socket, String lobbyId) {
