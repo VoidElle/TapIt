@@ -42,8 +42,15 @@ class _NewGameOnlineLobbyPageState extends ConsumerState<NewGameOnlineLobbyPage>
 
     _socket = ref.read(globalSocketProvider).socket!;
 
-    listenToPlayerChangeStatusEvent(context, ref);
-    listenLobbyStartEvent(context, _socket);
+    listenToPlayerChangeStatusEvent(
+      context: context,
+      ref: ref,
+    );
+
+    listenLobbyStartEvent(
+      context: context,
+      socket: _socket,
+    );
 
   }
 
@@ -55,6 +62,8 @@ class _NewGameOnlineLobbyPageState extends ConsumerState<NewGameOnlineLobbyPage>
 
     final GameOnlineGameModel gameOnlineGameState = ref.watch(gameOnlineGameProvider);
     final List<GameOnlinePlayerModel> playersList = gameOnlineGameState.players;
+
+    final GameOnlineGameNotifier gameOnlineGameNotifier = ref.read(gameOnlineGameProvider.notifier);
 
     _checkStartGameButtonEnabled(playersList);
 
@@ -94,22 +103,26 @@ class _NewGameOnlineLobbyPageState extends ConsumerState<NewGameOnlineLobbyPage>
                   child: SizedBox(),
                 ),
 
-                GlobalCustomContainerBase.small(
-                  margin: const EdgeInsets.symmetric(
-                    horizontal: 50,
-                    vertical: 7.5,
+                // Render the start game button only if
+                // the player is the leader of the lobby
+                if (gameOnlineGameNotifier.isSocketLeader(_socket.id!))
+                  GlobalCustomContainerBase.small(
+                    margin: const EdgeInsets.symmetric(
+                      horizontal: 50,
+                      vertical: 7.5,
+                    ),
+                    backgroundColor: GlobalColorConstants.kBlueColor,
+                    text: 'START GAME',
+                    fontSize: 28,
+                    fontStrokeWidth: 4,
+                    enabled: _startGameButtonEnabled,
+                    callback: () {
+                      GlobalConstants.gameOnlineSocketEmitter.emitStartLobbyEvent(
+                        socket: _socket,
+                        lobbyId: gameOnlineGameState.lobbyId,
+                      );
+                    },
                   ),
-                  backgroundColor: GlobalColorConstants.kBlueColor,
-                  text: 'START GAME',
-                  fontSize: 28,
-                  fontStrokeWidth: 4,
-                  enabled: _startGameButtonEnabled,
-                  callback: () {
-                    GlobalConstants
-                        .gameOnlineSocketEmitter
-                        .emitStartLobbyEvent(_socket, gameOnlineGameState.lobbyId);
-                  },
-                ),
 
                 GlobalCustomContainerBase.small(
                   margin: const EdgeInsets.symmetric(
@@ -117,13 +130,14 @@ class _NewGameOnlineLobbyPageState extends ConsumerState<NewGameOnlineLobbyPage>
                     vertical: 7.5,
                   ),
                   backgroundColor: GlobalColorConstants.kBlueColor,
-                  text: 'CHANGE READY',
-                  fontSize: 28,
+                  text: 'CHANGE STATUS',
+                  fontSize: 26,
                   fontStrokeWidth: 4,
                   callback: () {
-                    GlobalConstants
-                        .gameOnlineSocketEmitter
-                        .emitChangeReadyStatusEvent(_socket, gameOnlineGameState.lobbyId);
+                    GlobalConstants.gameOnlineSocketEmitter.emitChangeReadyStatusEvent(
+                      socket: _socket,
+                      lobbyId: gameOnlineGameState.lobbyId,
+                    );
                   },
                 ),
 
@@ -151,9 +165,10 @@ class _NewGameOnlineLobbyPageState extends ConsumerState<NewGameOnlineLobbyPage>
   }
 
   void _quitLobby(GameOnlineGameModel gameOnlineGameState) {
-    GlobalConstants
-        .gameOnlineSocketEmitter
-        .emitQuitLobbyEvent(_socket, gameOnlineGameState.lobbyId);
+    GlobalConstants.gameOnlineSocketEmitter.emitQuitLobbyEvent(
+      socket: _socket,
+      lobbyId: gameOnlineGameState.lobbyId,
+    );
   }
 
   void _checkStartGameButtonEnabled(List<GameOnlinePlayerModel> players) {

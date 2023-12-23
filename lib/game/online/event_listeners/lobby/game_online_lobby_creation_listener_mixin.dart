@@ -10,7 +10,11 @@ import '../../pages/lobby/new_game_online_lobby_page.dart';
 
 mixin GameOnlineLobbyCreationListenerMixin {
 
-  void listenToSocketLobbyCreationEvent(BuildContext context, socket_io.Socket? socket, WidgetRef ref) {
+  void listenToSocketLobbyCreationEvent({
+    required BuildContext context,
+    required socket_io.Socket? socket,
+    required WidgetRef ref,
+  }) {
 
     // Function that will be execute if the server send the lobby creation
     // SUCCESS event

@@ -46,14 +46,20 @@ class _NewGameOnlinePageState extends ConsumerState<NewGameOnlinePage> with Game
     _socket = ref.read(globalSocketProvider).socket!;
 
     // Listen to the create lobby response
-    listenToSocketLobbyCreationEvent(context, _socket, ref);
+    listenToSocketLobbyCreationEvent(
+      context: context,
+      socket: _socket,
+      ref: ref,
+    );
 
   }
 
   @override
   Widget build(BuildContext context) {
 
-    listenSocketConnectivityChange(ref);
+    listenSocketConnectivityChange(
+      ref: ref,
+    );
 
     final MediaQueryData mediaQuery = MediaQuery.of(context);
     final double usableScreenHeight = mediaQuery.size.height - mediaQuery.padding.top;
@@ -86,9 +92,9 @@ class _NewGameOnlinePageState extends ConsumerState<NewGameOnlinePage> with Game
                         onTapCallback: () {
 
                           // Emit the create lobby request
-                          GlobalConstants
-                              .gameOnlineSocketEmitter
-                              .emitCreateLobbyEvent(_socket);
+                          GlobalConstants.gameOnlineSocketEmitter.emitCreateLobbyEvent(
+                            socket: _socket,
+                          );
 
                         },
                       ),

@@ -15,7 +15,12 @@ import '../../providers/game_online_game_provider.dart';
 
 mixin GameOnlinePlayerChangeListenerMixin {
 
-  void listenToPlayerChange(BuildContext context, socket_io.Socket? socket, WidgetRef ref, {bool needsToJoin = false}) {
+  void listenToPlayerChange({
+    required BuildContext context,
+    required socket_io.Socket? socket,
+    required WidgetRef ref,
+    bool needsToJoin = false,
+  }) {
 
     // Listen to a player lobby join event
     socket?.on(GameOnlineSocketEvent.joinLobbyResponseSuccess.text, (dynamic data) {

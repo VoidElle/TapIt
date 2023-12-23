@@ -37,7 +37,13 @@ class _NewGameOnlineJoinPageState extends ConsumerState<NewGameOnlineJoinPage> w
     super.initState();
 
     final socket_io.Socket? socket = ref.read(globalSocketProvider).socket;
-    listenToPlayerChange(context, socket, ref, needsToJoin: true);
+
+    listenToPlayerChange(
+      context: context,
+      socket: socket,
+      ref: ref,
+      needsToJoin: true,
+    );
 
   }
 
@@ -107,9 +113,10 @@ class _NewGameOnlineJoinPageState extends ConsumerState<NewGameOnlineJoinPage> w
                     final socket_io.Socket? socket = socketProvider.socket;
 
                     if (socket != null) {
-                      GlobalConstants
-                          .gameOnlineSocketEmitter
-                          .emitJoinLobbyEvent(socket, lobbyId);
+                      GlobalConstants.gameOnlineSocketEmitter.emitJoinLobbyEvent(
+                        socket: socket,
+                        lobbyId: lobbyId,
+                      );
                     }
 
                   },

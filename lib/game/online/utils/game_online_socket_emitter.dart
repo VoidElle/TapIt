@@ -3,23 +3,37 @@ import 'package:tapit/game/online/enums/socket_enums.dart';
 
 class GameOnlineSocketEmitter {
 
-  void emitCreateLobbyEvent(socket_io.Socket socket) {
+  void emitCreateLobbyEvent({
+    required socket_io.Socket socket
+  }) {
     socket.emit(GameOnlineSocketEvent.createLobbyRequest.text);
   }
 
-  void emitJoinLobbyEvent(socket_io.Socket socket, String lobbyId) {
+  void emitJoinLobbyEvent({
+    required socket_io.Socket socket,
+    required String lobbyId
+  }) {
     socket.emit(GameOnlineSocketEvent.joinLobbyRequest.text, lobbyId);
   }
 
-  void emitQuitLobbyEvent(socket_io.Socket socket, String lobbyId) {
+  void emitQuitLobbyEvent({
+    required socket_io.Socket socket,
+    required String lobbyId
+  }) {
     socket.emit(GameOnlineSocketEvent.quitLobbyRequest.text, lobbyId);
   }
 
-  void emitChangeReadyStatusEvent(socket_io.Socket socket, String lobbyId) {
+  void emitChangeReadyStatusEvent({
+    required socket_io.Socket socket,
+    required String lobbyId
+  }) {
     socket.emit(GameOnlineSocketEvent.playerChangeReadyStatus.text, lobbyId);
   }
 
-  void emitStartLobbyEvent(socket_io.Socket socket, String lobbyId) {
+  void emitStartLobbyEvent({
+    required socket_io.Socket socket,
+    required String lobbyId
+  }) {
     socket.emit(GameOnlineSocketEvent.startLobbyRequest.text, lobbyId);
   }
 

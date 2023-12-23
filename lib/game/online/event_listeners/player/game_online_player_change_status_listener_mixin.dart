@@ -8,7 +8,10 @@ import '../../enums/socket_enums.dart';
 
 mixin GameOnlinePlayerChangeStatusListenerMixin {
 
-  void listenToPlayerChangeStatusEvent(BuildContext context, WidgetRef ref) {
+  void listenToPlayerChangeStatusEvent({
+    required BuildContext context,
+    required WidgetRef ref,
+  }) {
 
     final socket_io.Socket? socket = ref.read(globalSocketProvider).socket;
 

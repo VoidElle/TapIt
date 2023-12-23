@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:socket_io_client/socket_io_client.dart' as socket_io;
 import 'package:tapit/game/online/providers/game_online_game_provider.dart';
 import 'package:tapit/global/widgets/global_custom_rounded_circle.dart';
 
@@ -27,8 +26,11 @@ class _NewGameOnlineLobbyPlayersListState extends ConsumerState<NewGameOnlineLob
 
     super.initState();
 
-    final socket_io.Socket? socket = ref.read(globalSocketProvider).socket;
-    listenToPlayerChange(context, socket, ref);
+    listenToPlayerChange(
+      context: context,
+      socket: ref.read(globalSocketProvider).socket,
+      ref: ref,
+    );
 
   }
 

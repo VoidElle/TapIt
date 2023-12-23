@@ -7,7 +7,10 @@ import 'package:socket_io_client/socket_io_client.dart' as socket_io;
 
 mixin GameOnlineLobbyStartListenerMixin {
 
-  void listenLobbyStartEvent(BuildContext context, socket_io.Socket socket) {
+  void listenLobbyStartEvent({
+    required BuildContext context,
+    required socket_io.Socket socket,
+  }) {
 
     // Start lobby - SUCCESS event
     socket.on(GameOnlineSocketEvent.startLobbyResponseSuccess.text, (dynamic data) {

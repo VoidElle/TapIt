@@ -9,7 +9,9 @@ mixin GameOnlineSocketConnectivityChangeListenerMixin {
 
   bool _isDialogShowingFromListeningProcedure = false;
 
-  void listenSocketConnectivityChange(WidgetRef ref) {
+  void listenSocketConnectivityChange({
+    required WidgetRef ref,
+  }) {
 
     final GlobalSocketModel globalSocketModel = ref.watch(globalSocketProvider);
     final GameOnlineSocketStatus gameOnlineSocketStatus = globalSocketModel.gameOnlineSocketStatus;

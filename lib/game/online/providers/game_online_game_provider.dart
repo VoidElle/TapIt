@@ -70,4 +70,9 @@ class GameOnlineGameNotifier extends StateNotifier<GameOnlineGameModel> {
     state = newState;
   }
 
+  bool isSocketLeader(String socketId) {
+    final int position = _getPositionOfSocketIdInState(socketId);
+    return state.players[position].gameOnlineSocketModel.isLeader;
+  }
+
 }
