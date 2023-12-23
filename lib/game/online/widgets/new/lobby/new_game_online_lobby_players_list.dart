@@ -11,7 +11,6 @@ import '../../../../../global/utils/global_paths.dart';
 import '../../../../../global/widgets/stroke_text.dart';
 import '../../../mixins/game_online_socket_lobby_players_change_listener_mixin.dart';
 import '../../../models/player/game_online_player_model.dart';
-import '../../../models/socket/game_online_socket_model.dart';
 
 class NewGameOnlineLobbyPlayersList extends ConsumerStatefulWidget {
 
@@ -26,32 +25,23 @@ class _NewGameOnlineLobbyPlayersListState extends ConsumerState<NewGameOnlineLob
   @override
   void initState() {
 
+    super.initState();
+
     final socket_io.Socket? socket = ref.read(globalSocketProvider).socket;
     listenToPlayerChange(context, socket, ref);
 
-    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
 
-    final List<String> socketIdsList = [];
-
-    final GameOnlineGameNotifier gameOnlineGameNotifier = ref.read(gameOnlineGameProvider.notifier);
     final List<GameOnlinePlayerModel> players = ref.watch(gameOnlineGameProvider).players;
-
-    for (GameOnlinePlayerModel gameOnlinePlayerModel in players) {
-      final GameOnlineSocketModel gameOnlineSocketModel = gameOnlinePlayerModel.gameOnlineSocketModel;
-      final String socketId = gameOnlineSocketModel.socketId;
-      socketIdsList.add(socketId);
-    }
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
-      children: socketIdsList
-          .map(
-            (String playerName) => Row(
+      children: players.map(
+            (GameOnlinePlayerModel player) => Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -60,7 +50,7 @@ class _NewGameOnlineLobbyPlayersListState extends ConsumerState<NewGameOnlineLob
                   height: 35,
                   width: 35,
                   strokeWidth: 3.5,
-                  color: gameOnlineGameNotifier.getPlayer(playerName)!.readyStatus
+                  color: player.readyStatus
                       ? GlobalColorConstants.kGreenColor
                       : GlobalColorConstants.kGreyColor,
                 ),
@@ -71,7 +61,7 @@ class _NewGameOnlineLobbyPlayersListState extends ConsumerState<NewGameOnlineLob
                   ),
                   child: StrokeText(
                     // Todo: Remove substring
-                    text: playerName.substring(10),
+                    text: player.gameOnlineSocketModel.socketId.substring(10),
                     textStyle: const TextStyle(
                       fontFamily: "CircularStd",
                       fontWeight: FontWeight.w900,
@@ -80,7 +70,7 @@ class _NewGameOnlineLobbyPlayersListState extends ConsumerState<NewGameOnlineLob
                   ),
                 ),
 
-                if (false)
+                if (player.gameOnlineSocketModel.isLeader)
                   SvgPicture.asset(
                     GlobalPaths.svgOnlineLeaderIconPath,
                     semanticsLabel: "Leader icon",

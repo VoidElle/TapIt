@@ -32,9 +32,16 @@ class _NewGameOnlineLobbyPageState extends ConsumerState<NewGameOnlineLobbyPage>
   bool _startGameButtonEnabled = false;
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+
+    super.initState();
 
     listenToPlayerChangeStatusEvent(context, ref);
+
+  }
+
+  @override
+  Widget build(BuildContext context) {
 
     final MediaQueryData mediaQuery = MediaQuery.of(context);
     final double usableScreenHeight = mediaQuery.size.height - mediaQuery.padding.top;

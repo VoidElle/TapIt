@@ -17,24 +17,35 @@ import '../../widgets/new/join/new_game_online_join_lobby_pin.dart';
 import '../../widgets/new/new_game_online_back_home_buttons.dart';
 import 'new_game_online_page.dart';
 
-class NewGameOnlineJoinPage extends ConsumerWidget with GameOnlineSocketLobbyPlayersChangeListenerMixin {
+class NewGameOnlineJoinPage extends ConsumerStatefulWidget {
 
   static const route = "/new-game-online-join-page";
 
-  NewGameOnlineJoinPage({super.key});
+  const NewGameOnlineJoinPage({super.key});
+
+  @override
+  ConsumerState<NewGameOnlineJoinPage> createState() => _NewGameOnlineJoinPageState();
+}
+
+class _NewGameOnlineJoinPageState extends ConsumerState<NewGameOnlineJoinPage> with GameOnlineSocketLobbyPlayersChangeListenerMixin {
 
   final List<TextEditingController> _textEditingControllers = List.generate(6, (int _) => TextEditingController());
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  void initState() {
+
+    super.initState();
+
+    final socket_io.Socket? socket = ref.read(globalSocketProvider).socket;
+    listenToPlayerChange(context, socket, ref, needsToJoin: true);
+
+  }
+
+  @override
+  Widget build(BuildContext context) {
 
     final MediaQueryData mediaQuery = MediaQuery.of(context);
     final double usableScreenHeight = mediaQuery.size.height - mediaQuery.padding.top;
-
-    final GlobalSocketModel socketProvider = ref.read(globalSocketProvider);
-    final socket_io.Socket? socket = socketProvider.socket;
-
-    listenToPlayerChange(context, socket, ref, needsToJoin: true);
 
     return Scaffold(
       body: SafeArea(
@@ -124,5 +135,4 @@ class NewGameOnlineJoinPage extends ConsumerWidget with GameOnlineSocketLobbyPla
       ),
     );
   }
-
 }
