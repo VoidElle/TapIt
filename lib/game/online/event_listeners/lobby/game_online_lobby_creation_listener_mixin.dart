@@ -8,9 +8,9 @@ import 'package:tapit/global/utils/global_functions.dart';
 
 import 'package:socket_io_client/socket_io_client.dart' as socket_io;
 
-import '../pages/lobby/new_game_online_lobby_page.dart';
+import '../../pages/lobby/new_game_online_lobby_page.dart';
 
-mixin GameOnlineSocketLobbyCreationListenerMixin {
+mixin GameOnlineLobbyCreationListenerMixin {
 
   void listenToSocketLobbyCreationEvent(BuildContext context, socket_io.Socket? socket, WidgetRef ref) {
 

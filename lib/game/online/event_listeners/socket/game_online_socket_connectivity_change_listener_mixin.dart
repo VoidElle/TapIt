@@ -2,8 +2,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tapit/game/online/enums/socket_enums.dart';
 import 'package:tapit/global/utils/global_functions.dart';
 
-import '../../../global/models/global_socket_model.dart';
-import '../../../global/providers/global_socket_provider.dart';
+import '../../../../global/models/global_socket_model.dart';
+import '../../../../global/providers/global_socket_provider.dart';
 
 mixin GameOnlineSocketConnectivityChangeListenerMixin {
 

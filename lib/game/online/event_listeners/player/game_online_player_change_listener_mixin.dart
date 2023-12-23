@@ -10,12 +10,12 @@ import 'package:tapit/global/utils/global_color_constants.dart';
 import 'package:tapit/global/utils/global_constants.dart';
 import 'package:tapit/menu/pages/menu_page.dart';
 
-import '../../../global/utils/global_functions.dart';
-import '../enums/socket_enums.dart';
-import '../pages/lobby/new_game_online_lobby_page.dart';
-import '../providers/game_online_game_provider.dart';
+import '../../../../global/utils/global_functions.dart';
+import '../../enums/socket_enums.dart';
+import '../../pages/lobby/new_game_online_lobby_page.dart';
+import '../../providers/game_online_game_provider.dart';
 
-mixin GameOnlineSocketLobbyPlayersChangeListenerMixin {
+mixin GameOnlinePlayerChangeListenerMixin {
 
   void listenToPlayerChange(BuildContext context, socket_io.Socket? socket, WidgetRef ref, {bool needsToJoin = false}) {
 

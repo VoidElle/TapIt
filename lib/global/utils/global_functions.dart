@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:tapit/game/online/models/game/game_online_game_model.dart';
 import 'package:tapit/game/online/pages/game_online_page.dart';
 import 'package:tapit/game/online/pages/lobby/new_game_online_join_page.dart';
 import 'package:tapit/global/utils/global_constants.dart';
@@ -33,19 +32,13 @@ class GlobalFunctions {
         returnScreen = const NewGameOnlineLobbyPage();
         break;
       case NewGameOnlineJoinPage.route:
-        returnScreen = NewGameOnlineJoinPage();
+        returnScreen = const NewGameOnlineJoinPage();
         break;
       case MenuPage.route:
         returnScreen = const MenuPage();
         break;
       case GameOnlinePage.route:
-
-        final GameOnlineGameModel gameModel = arguments!["game_model"];
-
-        returnScreen = GameOnlinePage(
-          gameModel: gameModel,
-        );
-
+        returnScreen = const GameOnlinePage();
         break;
       case NewGameOnlinePage.route:
         returnScreen = const NewGameOnlinePage();

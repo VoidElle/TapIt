@@ -10,9 +10,9 @@ import '../../../../global/utils/global_functions.dart';
 import '../../../../global/widgets/global_complex_button.dart';
 import '../../../../global/widgets/global_home_button.dart';
 import '../../../../global/widgets/global_user_header.dart';
-import '../../mixins/game_online_socket_lobby_creation_listener_mixin.dart';
+import '../../event_listeners/lobby/game_online_lobby_creation_listener_mixin.dart';
 import '../../utils/game_online_functions.dart';
-import '../../mixins/game_online_socket_connectivity_change_listener_mixin.dart';
+import '../../event_listeners/socket/game_online_socket_connectivity_change_listener_mixin.dart';
 
 class NewGameOnlinePage extends ConsumerStatefulWidget {
 
@@ -24,7 +24,7 @@ class NewGameOnlinePage extends ConsumerStatefulWidget {
   ConsumerState<NewGameOnlinePage> createState() => _NewGameOnlinePageState();
 }
 
-class _NewGameOnlinePageState extends ConsumerState<NewGameOnlinePage> with GameOnlineSocketConnectivityChangeListenerMixin, GameOnlineSocketLobbyCreationListenerMixin {
+class _NewGameOnlinePageState extends ConsumerState<NewGameOnlinePage> with GameOnlineSocketConnectivityChangeListenerMixin, GameOnlineLobbyCreationListenerMixin {
 
   late socket_io.Socket _socket;
 

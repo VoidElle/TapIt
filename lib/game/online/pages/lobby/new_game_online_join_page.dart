@@ -12,7 +12,7 @@ import '../../../../global/widgets/global_complex_button.dart';
 import '../../../../global/widgets/global_user_header.dart';
 import '../../../../global/widgets/stroke_text.dart';
 import '../../../../menu/pages/menu_page.dart';
-import '../../mixins/game_online_socket_lobby_players_change_listener_mixin.dart';
+import '../../event_listeners/player/game_online_player_change_listener_mixin.dart';
 import '../../widgets/new/join/new_game_online_join_lobby_pin.dart';
 import '../../widgets/new/new_game_online_back_home_buttons.dart';
 import 'new_game_online_page.dart';
@@ -27,7 +27,7 @@ class NewGameOnlineJoinPage extends ConsumerStatefulWidget {
   ConsumerState<NewGameOnlineJoinPage> createState() => _NewGameOnlineJoinPageState();
 }
 
-class _NewGameOnlineJoinPageState extends ConsumerState<NewGameOnlineJoinPage> with GameOnlineSocketLobbyPlayersChangeListenerMixin {
+class _NewGameOnlineJoinPageState extends ConsumerState<NewGameOnlineJoinPage> with GameOnlinePlayerChangeListenerMixin {
 
   final List<TextEditingController> _textEditingControllers = List.generate(6, (int _) => TextEditingController());
 

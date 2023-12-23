@@ -19,4 +19,8 @@ class GameOnlineSocketEmitter {
     socket.emit(GameOnlineSocketEvent.playerChangeReadyStatus.text, lobbyId);
   }
 
+  void emitStartLobbyEvent(socket_io.Socket socket, String lobbyId) {
+    socket.emit(GameOnlineSocketEvent.startLobbyRequest.text, lobbyId);
+  }
+
 }

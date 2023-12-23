@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:socket_io_client/socket_io_client.dart' as socket_io;
+import 'package:tapit/game/online/event_listeners/lobby/game_online_lobby_start_listener_mixin.dart';
 import 'package:tapit/game/online/widgets/new/lobby/new_game_online_lobby_players_list.dart';
 import 'package:tapit/global/utils/global_constants.dart';
 
@@ -10,7 +11,7 @@ import '../../../../global/utils/global_color_constants.dart';
 import '../../../../global/utils/global_functions.dart';
 import '../../../../menu/pages/menu_page.dart';
 import '../../../../global/widgets/global_custom_container_base.dart';
-import '../../mixins/game_online_player_change_status_listener_mixin.dart';
+import '../../event_listeners/player/game_online_player_change_status_listener_mixin.dart';
 import '../../models/game/game_online_game_model.dart';
 import '../../models/player/game_online_player_model.dart';
 import '../../providers/game_online_game_provider.dart';
@@ -27,16 +28,22 @@ class NewGameOnlineLobbyPage extends ConsumerStatefulWidget {
   ConsumerState<NewGameOnlineLobbyPage> createState() => _NewGameOnlineLobbyPageState();
 }
 
-class _NewGameOnlineLobbyPageState extends ConsumerState<NewGameOnlineLobbyPage> with GameOnlinePlayerChangeStatusListenerMixin {
+class _NewGameOnlineLobbyPageState extends ConsumerState<NewGameOnlineLobbyPage> with
+    GameOnlinePlayerChangeStatusListenerMixin,
+    GameOnlineLobbyStartListenerMixin {
 
   bool _startGameButtonEnabled = false;
+  late socket_io.Socket _socket;
 
   @override
   void initState() {
 
     super.initState();
 
+    _socket = ref.read(globalSocketProvider).socket!;
+
     listenToPlayerChangeStatusEvent(context, ref);
+    listenLobbyStartEvent(context, _socket);
 
   }
 
@@ -98,7 +105,9 @@ class _NewGameOnlineLobbyPageState extends ConsumerState<NewGameOnlineLobbyPage>
                   fontStrokeWidth: 4,
                   enabled: _startGameButtonEnabled,
                   callback: () {
-                    // Todo
+                    GlobalConstants
+                        .gameOnlineSocketEmitter
+                        .emitStartLobbyEvent(_socket, gameOnlineGameState.lobbyId);
                   },
                 ),
 
@@ -112,7 +121,9 @@ class _NewGameOnlineLobbyPageState extends ConsumerState<NewGameOnlineLobbyPage>
                   fontSize: 28,
                   fontStrokeWidth: 4,
                   callback: () {
-                    _changeReadyStatus(true, gameOnlineGameState);
+                    GlobalConstants
+                        .gameOnlineSocketEmitter
+                        .emitChangeReadyStatusEvent(_socket, gameOnlineGameState.lobbyId);
                   },
                 ),
 
@@ -140,10 +151,9 @@ class _NewGameOnlineLobbyPageState extends ConsumerState<NewGameOnlineLobbyPage>
   }
 
   void _quitLobby(GameOnlineGameModel gameOnlineGameState) {
-    final socket_io.Socket? socket = ref.read(globalSocketProvider).socket;
-    if (socket != null) {
-      GlobalConstants.gameOnlineSocketEmitter.emitQuitLobbyEvent(socket, gameOnlineGameState.lobbyId);
-    }
+    GlobalConstants
+        .gameOnlineSocketEmitter
+        .emitQuitLobbyEvent(_socket, gameOnlineGameState.lobbyId);
   }
 
   void _checkStartGameButtonEnabled(List<GameOnlinePlayerModel> players) {
@@ -167,13 +177,6 @@ class _NewGameOnlineLobbyPageState extends ConsumerState<NewGameOnlineLobbyPage>
       _startGameButtonEnabled = enabled;
     });
 
-  }
-
-  void _changeReadyStatus(bool newStatus, GameOnlineGameModel gameOnlineGameState) {
-    final socket_io.Socket? socket = ref.read(globalSocketProvider).socket;
-    if (socket != null) {
-      GlobalConstants.gameOnlineSocketEmitter.emitChangeReadyStatusEvent(socket, gameOnlineGameState.lobbyId);
-    }
   }
 
 }
