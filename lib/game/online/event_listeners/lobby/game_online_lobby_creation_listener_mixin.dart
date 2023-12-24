@@ -6,7 +6,7 @@ import 'package:tapit/global/utils/global_functions.dart';
 
 import 'package:socket_io_client/socket_io_client.dart' as socket_io;
 
-import '../../pages/lobby/new_game_online_lobby_page.dart';
+import '../../pages/lobby/game_online_lobby_page.dart';
 
 mixin GameOnlineLobbyCreationListenerMixin {
 
@@ -32,7 +32,7 @@ mixin GameOnlineLobbyCreationListenerMixin {
       GameOnlineFunctions.createAndSetNewGameModel(jsonReceived, ref);
 
       // Redirect the player to the Lobby page
-      GlobalFunctions.redirectAndClearRootTree(NewGameOnlineLobbyPage.route);
+      GlobalFunctions.redirectAndClearRootTree(GameOnlineLobbyPage.route);
 
     });
 

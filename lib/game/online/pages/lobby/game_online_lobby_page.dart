@@ -16,19 +16,19 @@ import '../../models/player/game_online_player_model.dart';
 import '../../providers/game_online_game_provider.dart';
 import '../../widgets/lobby/new_game_online_lobby_players_list.dart';
 import '../../widgets/new_game_online_back_home_buttons.dart';
-import 'new_game_online_page.dart';
+import '../game_online_menu_page.dart';
 
-class NewGameOnlineLobbyPage extends ConsumerStatefulWidget {
+class GameOnlineLobbyPage extends ConsumerStatefulWidget {
 
-  static const route = "/new-game-online-lobby-page";
+  static const route = "/game-online-lobby-page";
 
-  const NewGameOnlineLobbyPage({super.key});
+  const GameOnlineLobbyPage({super.key});
 
   @override
-  ConsumerState<NewGameOnlineLobbyPage> createState() => _NewGameOnlineLobbyPageState();
+  ConsumerState<GameOnlineLobbyPage> createState() => _NewGameOnlineLobbyPageState();
 }
 
-class _NewGameOnlineLobbyPageState extends ConsumerState<NewGameOnlineLobbyPage> with
+class _NewGameOnlineLobbyPageState extends ConsumerState<GameOnlineLobbyPage> with
     GameOnlinePlayerChangeStatusListenerMixin,
     GameOnlineLobbyStartListenerMixin {
 
@@ -149,7 +149,7 @@ class _NewGameOnlineLobbyPageState extends ConsumerState<NewGameOnlineLobbyPage>
                 NewGameOnlineBackButtons(
                   backButtonCallback: () {
                     _quitLobby(gameOnlineGameState);
-                    GlobalFunctions.redirectAndClearRootTree(NewGameOnlinePage.route);
+                    GlobalFunctions.redirectAndClearRootTree(GameOnlineMenuPage.route);
                   },
                   homeButtonCallback: () {
                     _quitLobby(gameOnlineGameState);

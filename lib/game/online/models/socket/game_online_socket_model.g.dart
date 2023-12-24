@@ -6,16 +6,16 @@ part of 'game_online_socket_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_GameOnlineSocketModel _$$_GameOnlineSocketModelFromJson(
+GameOnlineSocketModel _$GameOnlineSocketModelFromJson(
         Map<String, dynamic> json) =>
-    _$_GameOnlineSocketModel(
+    GameOnlineSocketModel(
       socketId: json['socketId'] as String,
       isLeader: json['isLeader'] as bool,
       order: json['order'] as int,
     );
 
-Map<String, dynamic> _$$_GameOnlineSocketModelToJson(
-        _$_GameOnlineSocketModel instance) =>
+Map<String, dynamic> _$GameOnlineSocketModelToJson(
+        GameOnlineSocketModel instance) =>
     <String, dynamic>{
       'socketId': instance.socketId,
       'isLeader': instance.isLeader,

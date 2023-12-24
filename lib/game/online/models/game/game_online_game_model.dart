@@ -1,19 +1,23 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:tapit/game/online/models/player/game_online_player_model.dart';
+import 'package:json_annotation/json_annotation.dart';
 
-part 'game_online_game_model.freezed.dart';
+import '../player/game_online_player_model.dart';
+
 part 'game_online_game_model.g.dart';
 
-@unfreezed
-class GameOnlineGameModel with _$GameOnlineGameModel {
+@JsonSerializable(explicitToJson: true)
+class GameOnlineGameModel {
 
-  GameOnlineGameModel._();
+  final String lobbyId;
 
-  factory GameOnlineGameModel({
-    required String lobbyId,
-    @Default([]) List<GameOnlinePlayerModel> players,
-  }) = _GameOnlineGameModel;
+  List<GameOnlinePlayerModel> players;
+
+  GameOnlineGameModel({
+    required this.lobbyId,
+    this.players = const <GameOnlinePlayerModel>[],
+  });
 
   factory GameOnlineGameModel.fromJson(Map<String, dynamic> json) => _$GameOnlineGameModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$GameOnlineGameModelToJson(this);
 
 }

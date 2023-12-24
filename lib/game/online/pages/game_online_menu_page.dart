@@ -1,30 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:socket_io_client/socket_io_client.dart' as socket_io;
-import 'package:tapit/game/online/pages/lobby/new_game_online_join_page.dart';
+import 'package:tapit/game/online/pages/lobby/game_online_lobby_join_page.dart';
 
-import '../../../../global/providers/global_socket_provider.dart';
-import '../../../../global/utils/global_constants.dart';
-import '../../../../global/utils/global_enums.dart';
-import '../../../../global/utils/global_functions.dart';
-import '../../../../global/widgets/global_complex_button.dart';
-import '../../../../global/widgets/global_home_button.dart';
-import '../../../../global/widgets/global_user_header.dart';
-import '../../event_listeners/lobby/game_online_lobby_creation_listener_mixin.dart';
-import '../../utils/game_online_functions.dart';
-import '../../event_listeners/socket/game_online_socket_connectivity_change_listener_mixin.dart';
+import '../../../global/providers/global_socket_provider.dart';
+import '../../../global/utils/global_constants.dart';
+import '../../../global/utils/global_enums.dart';
+import '../../../global/utils/global_functions.dart';
+import '../../../global/widgets/global_complex_button.dart';
+import '../../../global/widgets/global_home_button.dart';
+import '../../../global/widgets/global_user_header.dart';
+import '../event_listeners/lobby/game_online_lobby_creation_listener_mixin.dart';
+import '../utils/game_online_functions.dart';
+import '../event_listeners/socket/game_online_socket_connectivity_change_listener_mixin.dart';
 
-class NewGameOnlinePage extends ConsumerStatefulWidget {
+class GameOnlineMenuPage extends ConsumerStatefulWidget {
 
-  static const route = "/new-game-online-page";
+  static const route = "/game-online-menu-page";
 
-  const NewGameOnlinePage({super.key});
+  const GameOnlineMenuPage({super.key});
 
   @override
-  ConsumerState<NewGameOnlinePage> createState() => _NewGameOnlinePageState();
+  ConsumerState<GameOnlineMenuPage> createState() => _NewGameOnlinePageState();
 }
 
-class _NewGameOnlinePageState extends ConsumerState<NewGameOnlinePage> with GameOnlineSocketConnectivityChangeListenerMixin, GameOnlineLobbyCreationListenerMixin {
+class _NewGameOnlinePageState extends ConsumerState<GameOnlineMenuPage> with GameOnlineSocketConnectivityChangeListenerMixin, GameOnlineLobbyCreationListenerMixin {
 
   late socket_io.Socket _socket;
 
@@ -106,7 +106,7 @@ class _NewGameOnlinePageState extends ConsumerState<NewGameOnlinePage> with Game
                         globalComplexButtonType: GlobalComplexButtonType.joinGame,
                         enabled: true,
                         onTapCallback: () {
-                          GlobalFunctions.redirectAndClearRootTree(NewGameOnlineJoinPage.route);
+                          GlobalFunctions.redirectAndClearRootTree(GameOnlineLobbyJoinPage.route);
                         },
                       ),
 

@@ -6,16 +6,16 @@ part of 'game_local_player_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_GameLocalPlayerModel _$$_GameLocalPlayerModelFromJson(
+GameLocalPlayerModel _$GameLocalPlayerModelFromJson(
         Map<String, dynamic> json) =>
-    _$_GameLocalPlayerModel(
+    GameLocalPlayerModel(
       colorValue: json['colorValue'] as int,
       percentageValue: json['percentageValue'] as int? ?? 50,
       readyStatus: json['readyStatus'] as bool? ?? false,
     );
 
-Map<String, dynamic> _$$_GameLocalPlayerModelToJson(
-        _$_GameLocalPlayerModel instance) =>
+Map<String, dynamic> _$GameLocalPlayerModelToJson(
+        GameLocalPlayerModel instance) =>
     <String, dynamic>{
       'colorValue': instance.colorValue,
       'percentageValue': instance.percentageValue,

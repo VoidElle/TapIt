@@ -20,7 +20,6 @@ class GameOnlineGameNotifier extends StateNotifier<GameOnlineGameModel> {
     if (notify) {
       state = gameModel;
     } else {
-      state.lobbyId = gameModel.lobbyId;
       state.players = gameModel.players;
     }
   }

@@ -15,19 +15,19 @@ import '../../../../menu/pages/menu_page.dart';
 import '../../event_listeners/player/game_online_player_change_listener_mixin.dart';
 import '../../widgets/join/new_game_online_join_lobby_pin.dart';
 import '../../widgets/new_game_online_back_home_buttons.dart';
-import 'new_game_online_page.dart';
+import '../game_online_menu_page.dart';
 
-class NewGameOnlineJoinPage extends ConsumerStatefulWidget {
+class GameOnlineLobbyJoinPage extends ConsumerStatefulWidget {
 
-  static const route = "/new-game-online-join-page";
+  static const route = "/game-online-lobby-join-page";
 
-  const NewGameOnlineJoinPage({super.key});
+  const GameOnlineLobbyJoinPage({super.key});
 
   @override
-  ConsumerState<NewGameOnlineJoinPage> createState() => _NewGameOnlineJoinPageState();
+  ConsumerState<GameOnlineLobbyJoinPage> createState() => _NewGameOnlineJoinPageState();
 }
 
-class _NewGameOnlineJoinPageState extends ConsumerState<NewGameOnlineJoinPage> with GameOnlinePlayerChangeListenerMixin {
+class _NewGameOnlineJoinPageState extends ConsumerState<GameOnlineLobbyJoinPage> with GameOnlinePlayerChangeListenerMixin {
 
   final List<TextEditingController> _textEditingControllers = List.generate(6, (int _) => TextEditingController());
 
@@ -128,7 +128,7 @@ class _NewGameOnlineJoinPageState extends ConsumerState<NewGameOnlineJoinPage> w
 
                 NewGameOnlineBackButtons(
                   backButtonCallback: () {
-                    GlobalFunctions.redirectAndClearRootTree(NewGameOnlinePage.route);
+                    GlobalFunctions.redirectAndClearRootTree(GameOnlineMenuPage.route);
                   },
                   homeButtonCallback: () {
                     GlobalFunctions.redirectAndClearRootTree(MenuPage.route);

@@ -6,7 +6,7 @@ import 'package:tapit/global/utils/managers/global_shared_preferences_manager.da
 import 'package:tapit/global/utils/managers/global_sounds_manager.dart';
 
 import '../../game/local/pages/game_local_page.dart';
-import '../../game/online/pages/lobby/new_game_online_page.dart';
+import '../../game/online/pages/game_online_menu_page.dart';
 import '../../global/widgets/global_complex_button.dart';
 import '../../global/widgets/global_user_header.dart';
 import '../widgets/new_menu_audio_controls_button.dart';
@@ -72,7 +72,7 @@ class _MenuPageState extends State<MenuPage> {
                       i: 1,
                       globalComplexButtonType: GlobalComplexButtonType.online,
                       enabled: GlobalConstants.onlineGameEnabled,
-                      onTapCallback: () => GlobalFunctions.redirectAndClearRootTree(NewGameOnlinePage.route),
+                      onTapCallback: () => GlobalFunctions.redirectAndClearRootTree(GameOnlineMenuPage.route),
                       padding: const EdgeInsets.symmetric(
                         vertical: 15,
                       ),

@@ -10,7 +10,7 @@ import 'package:tapit/menu/pages/menu_page.dart';
 
 import '../../../../global/utils/global_functions.dart';
 import '../../enums/socket_enums.dart';
-import '../../pages/lobby/new_game_online_lobby_page.dart';
+import '../../pages/lobby/game_online_lobby_page.dart';
 import '../../providers/game_online_game_provider.dart';
 
 mixin GameOnlinePlayerChangeListenerMixin {
@@ -42,7 +42,7 @@ mixin GameOnlinePlayerChangeListenerMixin {
         if (needsToJoin) {
           GlobalFunctions.executeAfterBuild(() {
             GlobalFunctions.redirectAndClearRootTree(
-                NewGameOnlineLobbyPage.route);
+                GameOnlineLobbyPage.route);
           });
         }
       });

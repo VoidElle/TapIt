@@ -6,9 +6,9 @@ part of 'game_online_player_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_GameOnlinePlayerModel _$$_GameOnlinePlayerModelFromJson(
+GameOnlinePlayerModel _$GameOnlinePlayerModelFromJson(
         Map<String, dynamic> json) =>
-    _$_GameOnlinePlayerModel(
+    GameOnlinePlayerModel(
       gameOnlineSocketModel: GameOnlineSocketModel.fromJson(
           json['gameOnlineSocketModel'] as Map<String, dynamic>),
       colorValue: json['colorValue'] as int,
@@ -16,10 +16,10 @@ _$_GameOnlinePlayerModel _$$_GameOnlinePlayerModelFromJson(
       readyStatus: json['readyStatus'] as bool? ?? false,
     );
 
-Map<String, dynamic> _$$_GameOnlinePlayerModelToJson(
-        _$_GameOnlinePlayerModel instance) =>
+Map<String, dynamic> _$GameOnlinePlayerModelToJson(
+        GameOnlinePlayerModel instance) =>
     <String, dynamic>{
-      'gameOnlineSocketModel': instance.gameOnlineSocketModel,
+      'gameOnlineSocketModel': instance.gameOnlineSocketModel.toJson(),
       'colorValue': instance.colorValue,
       'percentageValue': instance.percentageValue,
       'readyStatus': instance.readyStatus,

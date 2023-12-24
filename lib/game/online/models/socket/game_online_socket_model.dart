@@ -1,25 +1,24 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:json_annotation/json_annotation.dart';
 
-part 'game_online_socket_model.freezed.dart';
 part 'game_online_socket_model.g.dart';
 
-@unfreezed
-class GameOnlineSocketModel extends Equatable with _$GameOnlineSocketModel {
+@JsonSerializable()
+@immutable
+class GameOnlineSocketModel {
 
-  GameOnlineSocketModel._();
+  final String socketId;
+  final bool isLeader;
+  final int order;
 
-  factory GameOnlineSocketModel({
-    required String socketId,
-    required bool isLeader,
-    required int order,
-  }) = _GameOnlineSocketModel;
+  const GameOnlineSocketModel({
+    required this.socketId,
+    required this.isLeader,
+    required this.order,
+  });
 
-  factory GameOnlineSocketModel.fromJson(Map<String, Object?> json) => _$GameOnlineSocketModelFromJson(json);
+  factory GameOnlineSocketModel.fromJson(Map<String, dynamic> json) => _$GameOnlineSocketModelFromJson(json);
 
-  @override
-  List<Object?> get props => [
-    socketId,
-  ];
+  Map<String, dynamic> toJson() => _$GameOnlineSocketModelToJson(this);
 
 }

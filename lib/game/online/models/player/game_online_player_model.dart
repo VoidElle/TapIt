@@ -1,20 +1,27 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:tapit/game/online/models/socket/game_online_socket_model.dart';
+import 'package:json_annotation/json_annotation.dart';
 
-part 'game_online_player_model.freezed.dart';
+import '../socket/game_online_socket_model.dart';
+
 part 'game_online_player_model.g.dart';
 
-@unfreezed
-class GameOnlinePlayerModel with _$GameOnlinePlayerModel {
+@JsonSerializable(explicitToJson: true)
+class GameOnlinePlayerModel {
 
-  GameOnlinePlayerModel._();
+  final GameOnlineSocketModel gameOnlineSocketModel;
+  final int colorValue;
 
-  factory GameOnlinePlayerModel({
-    required GameOnlineSocketModel gameOnlineSocketModel,
-    required int colorValue,
-    @Default(50) int percentageValue,
-    @Default(false) bool readyStatus,
-  }) = _GameOnlinePlayerModel;
+  int percentageValue;
+  bool readyStatus;
+
+  GameOnlinePlayerModel({
+    required this.gameOnlineSocketModel,
+    required this.colorValue,
+    this.percentageValue = 50,
+    this.readyStatus = false,
+  });
 
   factory GameOnlinePlayerModel.fromJson(Map<String, dynamic> json) => _$GameOnlinePlayerModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$GameOnlinePlayerModelToJson(this);
+
 }
