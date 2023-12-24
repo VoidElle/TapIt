@@ -20,31 +20,33 @@ mixin GameOnlinePlayerChangeListenerMixin {
     required socket_io.Socket? socket,
     required WidgetRef ref,
     bool needsToJoin = false,
+    bool isInGame = false,
   }) {
 
-    // Listen to a player lobby join event
-    socket?.on(GameOnlineSocketEvent.joinLobbyResponseSuccess.text, (dynamic data) {
+    // Listen to a player lobby join event only if the player is not already inside a match
+    if (!isInGame) {
+      socket?.on(GameOnlineSocketEvent.joinLobbyResponseSuccess.text, (dynamic data) {
+        // Skip the event management if the context is not mounted
+        if (!context.mounted) {
+          return;
+        }
 
-      // Skip the event management if the context is not mounted
-      if (!context.mounted) {
-        return;
-      }
+        // Parse the dynamic data to json
+        final Map<String, dynamic> jsonReceived = data as Map<String, dynamic>;
 
-      // Parse the dynamic data to json
-      final Map<String, dynamic> jsonReceived = data as Map<String, dynamic>;
+        // Create and set the new game model
+        GameOnlineFunctions.createAndSetNewGameModel(jsonReceived, ref);
 
-      // Create and set the new game model
-      GameOnlineFunctions.createAndSetNewGameModel(jsonReceived, ref);
-
-      // If it's the guest socket, it needs to go the
-      // lobby page where the leader is already
-      if (needsToJoin) {
-        GlobalFunctions.executeAfterBuild(() {
-          GlobalFunctions.redirectAndClearRootTree(NewGameOnlineLobbyPage.route);
-        });
-      }
-
-    });
+        // If it's the guest socket, it needs to go the
+        // lobby page where the leader is already
+        if (needsToJoin) {
+          GlobalFunctions.executeAfterBuild(() {
+            GlobalFunctions.redirectAndClearRootTree(
+                NewGameOnlineLobbyPage.route);
+          });
+        }
+      });
+    }
 
     // Listen to a player lobby quit event
     socket?.on(GameOnlineSocketEvent.quitLobbyResponseSuccess.text, (dynamic data) {

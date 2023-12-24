@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tapit/game/online/models/player/game_online_player_model.dart';
 
+import '../../models/game/game_online_game_model.dart';
 import '../../providers/game_online_game_provider.dart';
 
 class GameOnlinePlayersContainers extends ConsumerWidget {
@@ -16,10 +16,7 @@ class GameOnlinePlayersContainers extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
 
-    final gameOnlineState = ref.watch(gameOnlineGameProvider);
-
-    final GameOnlinePlayerModel topPlayer = gameOnlineState.players[0];
-    final GameOnlinePlayerModel bottomPlayer = gameOnlineState.players[1];
+    final GameOnlineGameModel gameOnlineState = ref.watch(gameOnlineGameProvider);
 
     return Column(
       children: [
@@ -27,15 +24,15 @@ class GameOnlinePlayersContainers extends ConsumerWidget {
         // Top player's container
         AnimatedContainer(
           duration: animationDuration,
-          height: _getValueFromPercentage(context, topPlayer.percentageValue),
-          color: Color(topPlayer.colorValue),
+          height: _getValueFromPercentage(context, gameOnlineState.players.first.percentageValue),
+          color: Color(gameOnlineState.players.first.colorValue),
         ),
 
         // Bottom player's container
         AnimatedContainer(
           duration: animationDuration,
-          height: _getValueFromPercentage(context, bottomPlayer.percentageValue),
-          color: Color(bottomPlayer.colorValue),
+          height: _getValueFromPercentage(context, gameOnlineState.players.last.percentageValue),
+          color: Color(gameOnlineState.players.last.colorValue),
         ),
 
       ],
