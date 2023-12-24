@@ -32,7 +32,9 @@ enum GameOnlineSocketEvent {
   leaderLeftLobby,
   playerChangeReadyStatus,
 
-  gameScore,
+  gameScoreRequest,
+  gameScoreResponseSuccess,
+  gameScoreResponseFail,
 }
 
 // Extension to transform the enum to String using .text
@@ -86,8 +88,13 @@ extension GameOnlineSocketEventExtension on GameOnlineSocketEvent {
         return "PLAYER_CHANGE_READY_STATUS";
 
       // Game events
-      case GameOnlineSocketEvent.gameScore:
-        return "GAME_SCORE";
+      case GameOnlineSocketEvent.gameScoreRequest:
+        return "GAME_SCORE_REQUEST";
+      case GameOnlineSocketEvent.gameScoreResponseSuccess:
+        return "GAME_SCORE_RESPONSE_SUCCESS";
+      case GameOnlineSocketEvent.gameScoreResponseFail:
+        return "GAME_SCORE_RESPONSE_FAIL";
+
     }
   }
 

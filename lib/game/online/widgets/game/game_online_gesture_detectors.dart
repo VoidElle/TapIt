@@ -6,18 +6,31 @@ import 'package:tapit/game/online/providers/game_online_game_provider.dart';
 import 'package:tapit/global/providers/global_socket_provider.dart';
 import 'package:socket_io_client/socket_io_client.dart' as socket_io;
 
-import '../../../../global/models/global_socket_model.dart';
-import '../../enums/socket_enums.dart';
+import '../../../../global/utils/global_constants.dart';
 
-class GameOnlineGestureDetectors extends ConsumerWidget {
+class GameOnlineGestureDetectors extends ConsumerStatefulWidget {
 
   const GameOnlineGestureDetectors({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<GameOnlineGestureDetectors> createState() => _GameOnlineGestureDetectorsState();
+}
 
-    final GlobalSocketModel socketProvider = ref.watch(globalSocketProvider);
-    final socket_io.Socket? socket = socketProvider.socket;
+class _GameOnlineGestureDetectorsState extends ConsumerState<GameOnlineGestureDetectors> {
+
+  late socket_io.Socket _socket;
+
+  @override
+  void initState() {
+
+    super.initState();
+
+    _socket = ref.read(globalSocketProvider).socket!;
+
+  }
+
+  @override
+  Widget build(BuildContext context) {
 
     final GameOnlineGameModel gameOnlineGameModel = ref.watch(gameOnlineGameProvider);
     final List<GameOnlinePlayerModel> players = gameOnlineGameModel.players;
@@ -29,9 +42,9 @@ class GameOnlineGestureDetectors extends ConsumerWidget {
         Expanded(
           child: GestureDetector(
             onTapUp: (TapUpDetails _) {
-              if (players.first.gameOnlineSocketModel.socketId == socket?.id) {
+              if (players.first.gameOnlineSocketModel.socketId == _socket.id) {
                 debugPrint("Top container tap");
-                socket?.emit(GameOnlineSocketEvent.gameScore.text, socket.id);
+                _score(gameOnlineGameModel);
               }
             },
           ),
@@ -41,15 +54,22 @@ class GameOnlineGestureDetectors extends ConsumerWidget {
         Expanded(
           child: GestureDetector(
             onTapUp: (TapUpDetails _) {
-              if (players.last.gameOnlineSocketModel.socketId == socket?.id) {
+              if (players.last.gameOnlineSocketModel.socketId == _socket.id) {
                 debugPrint("Bottom container tap");
-                socket?.emit(GameOnlineSocketEvent.gameScore.text, socket.id);
+                _score(gameOnlineGameModel);
               }
             },
           ),
         ),
 
       ],
+    );
+  }
+
+  void _score(GameOnlineGameModel gameOnlineGameModel) {
+    GlobalConstants.gameOnlineSocketEmitter.emitGameScoreEvent(
+      socket: _socket,
+      lobbyId: gameOnlineGameModel.lobbyId,
     );
   }
 

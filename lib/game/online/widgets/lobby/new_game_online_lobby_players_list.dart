@@ -8,8 +8,8 @@ import '../../../../../global/providers/global_socket_provider.dart';
 import '../../../../../global/utils/global_color_constants.dart';
 import '../../../../../global/utils/global_paths.dart';
 import '../../../../../global/widgets/stroke_text.dart';
-import '../../../event_listeners/player/game_online_player_change_listener_mixin.dart';
-import '../../../models/player/game_online_player_model.dart';
+import '../../event_listeners/player/game_online_player_change_listener_mixin.dart';
+import '../../models/player/game_online_player_model.dart';
 
 class NewGameOnlineLobbyPlayersList extends ConsumerStatefulWidget {
 

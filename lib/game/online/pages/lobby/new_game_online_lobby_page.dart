@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:socket_io_client/socket_io_client.dart' as socket_io;
 import 'package:tapit/game/online/event_listeners/lobby/game_online_lobby_start_listener_mixin.dart';
-import 'package:tapit/game/online/widgets/new/lobby/new_game_online_lobby_players_list.dart';
 import 'package:tapit/global/utils/global_constants.dart';
 
 import '../../../../global/providers/global_socket_provider.dart';
@@ -15,7 +14,8 @@ import '../../event_listeners/player/game_online_player_change_status_listener_m
 import '../../models/game/game_online_game_model.dart';
 import '../../models/player/game_online_player_model.dart';
 import '../../providers/game_online_game_provider.dart';
-import '../../widgets/new/new_game_online_back_home_buttons.dart';
+import '../../widgets/lobby/new_game_online_lobby_players_list.dart';
+import '../../widgets/new_game_online_back_home_buttons.dart';
 import 'new_game_online_page.dart';
 
 class NewGameOnlineLobbyPage extends ConsumerStatefulWidget {
@@ -45,6 +45,7 @@ class _NewGameOnlineLobbyPageState extends ConsumerState<NewGameOnlineLobbyPage>
     listenToPlayerChangeStatusEvent(
       context: context,
       ref: ref,
+      socket: _socket,
     );
 
     listenLobbyStartEvent(

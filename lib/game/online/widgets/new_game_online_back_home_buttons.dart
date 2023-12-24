@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import '../../../../global/widgets/global_action_button.dart';
+import '../../../global/widgets/global_action_button.dart';
 
 class NewGameOnlineBackButtons extends StatelessWidget {
 

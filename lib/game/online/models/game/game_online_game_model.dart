@@ -11,9 +11,9 @@ class GameOnlineGameModel with _$GameOnlineGameModel {
 
   factory GameOnlineGameModel({
     required String lobbyId,
-    List<GameOnlinePlayerModel> players,
+    @Default([]) List<GameOnlinePlayerModel> players,
   }) = _GameOnlineGameModel;
 
-  factory GameOnlineGameModel.fromJson(Map<String, Object?> json) => _$GameOnlineGameModelFromJson(json);
+  factory GameOnlineGameModel.fromJson(Map<String, dynamic> json) => _$GameOnlineGameModelFromJson(json);
 
 }

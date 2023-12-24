@@ -37,4 +37,11 @@ class GameOnlineSocketEmitter {
     socket.emit(GameOnlineSocketEvent.startLobbyRequest.text, lobbyId);
   }
 
+  void emitGameScoreEvent({
+    required socket_io.Socket socket,
+    required String lobbyId,
+  }) {
+    socket.emit(GameOnlineSocketEvent.gameScoreRequest.text, lobbyId);
+  }
+
 }

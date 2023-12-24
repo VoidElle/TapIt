@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:equatable/equatable.dart';
 import 'package:tapit/game/online/models/socket/game_online_socket_model.dart';
 
 part 'game_online_player_model.freezed.dart';
@@ -17,6 +16,5 @@ class GameOnlinePlayerModel with _$GameOnlinePlayerModel {
     @Default(false) bool readyStatus,
   }) = _GameOnlinePlayerModel;
 
-  factory GameOnlinePlayerModel.fromJson(Map<String, Object?> json) => _$GameOnlinePlayerModelFromJson(json);
-
+  factory GameOnlinePlayerModel.fromJson(Map<String, dynamic> json) => _$GameOnlinePlayerModelFromJson(json);
 }

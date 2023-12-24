@@ -71,19 +71,19 @@ class GameOnlineFunctions {
 
   static void manageSocketStatusFromGame() {}
 
-  // Function to get if all the sockets are ready
-  static bool areAllSocketsReady(List<GameOnlineSocketModel> gameOnlineSocketModelList) {
+  // Function to get if all the player are ready
+  static bool areAllPlayersReady(List<GameOnlinePlayerModel> gameOnlinePlayerModelList) {
 
-    for (GameOnlineSocketModel gameOnlineSocketModel in gameOnlineSocketModelList) {
+    for (GameOnlinePlayerModel gameOnlinePlayerModel in gameOnlinePlayerModelList) {
 
       // If we find a socket that is not ready, we return false
-      if (!gameOnlineSocketModel.readyStatus) {
+      if (!gameOnlinePlayerModel.readyStatus) {
         return false;
       }
 
     }
 
-    return gameOnlineSocketModelList.isNotEmpty;
+    return gameOnlinePlayerModelList.isNotEmpty;
   }
 
   // Function that returns a list of players without a player with a specified socket id

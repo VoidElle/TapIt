@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tapit/game/online/event_listeners/game/game_online_game_score_listener_mixin.dart';
 import 'package:tapit/game/online/widgets/game/game_online_gesture_detectors.dart';
 import 'package:tapit/game/online/widgets/game/game_online_player_containers.dart';
 
@@ -7,6 +8,8 @@ import '../../../global/providers/global_socket_provider.dart';
 import '../event_listeners/player/game_online_player_change_listener_mixin.dart';
 import '../widgets/game/game_online_container_indicators.dart';
 import '../widgets/game/game_online_player_percentages.dart';
+
+import 'package:socket_io_client/socket_io_client.dart' as socket_io;
 
 class GameOnlinePage extends ConsumerStatefulWidget {
 
@@ -20,18 +23,28 @@ class GameOnlinePage extends ConsumerStatefulWidget {
   ConsumerState<GameOnlinePage> createState() => _GameOnlinePageState();
 }
 
-class _GameOnlinePageState extends ConsumerState<GameOnlinePage> with GameOnlinePlayerChangeListenerMixin {
+class _GameOnlinePageState extends ConsumerState<GameOnlinePage> with
+    GameOnlinePlayerChangeListenerMixin,
+    GameOnlineGameScoreListenerMixin {
 
   @override
   void initState() {
 
     super.initState();
 
+    final socket_io.Socket socket = ref.read(globalSocketProvider).socket!;
+
     listenToPlayerChange(
       context: context,
-      socket: ref.read(globalSocketProvider).socket,
+      socket: socket,
       ref: ref,
       isInGame: true,
+    );
+
+    listenToGameScoreEvent(
+      context: context,
+      socket: socket,
+      ref: ref,
     );
 
   }

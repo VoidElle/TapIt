@@ -71,8 +71,28 @@ class GameOnlineGameNotifier extends StateNotifier<GameOnlineGameModel> {
   }
 
   bool isSocketLeader(String socketId) {
-    final int position = _getPositionOfSocketIdInState(socketId);
-    return state.players[position].gameOnlineSocketModel.isLeader;
+
+    final GameOnlinePlayerModel? gameOnlinePlayerModel = getPlayer(socketId);
+
+    if (gameOnlinePlayerModel == null) {
+      return false;
+    }
+
+    return gameOnlinePlayerModel.gameOnlineSocketModel.isLeader;
+  }
+
+  void score(String socketId) {
+
+    final int scoredSocketIdPosition = _getPositionOfSocketIdInState(socketId);
+
+    final GameOnlinePlayerModel attackerPlayerModel = state.players[scoredSocketIdPosition];
+    final GameOnlinePlayerModel victimPlayerModel = state.players[scoredSocketIdPosition == 0 ? 1 : 0];
+
+    attackerPlayerModel.percentageValue += 5;
+    victimPlayerModel.percentageValue -= 5;
+
+    state = GameOnlineGameModel.fromJson(state.toJson());
+
   }
 
 }
