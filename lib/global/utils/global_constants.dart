@@ -1,9 +1,12 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:tapit/game/online/utils/game_online_socket_emitter.dart';
 import 'package:tapit/global/utils/managers/global_shared_preferences_manager.dart';
 import 'package:tapit/global/utils/managers/global_sounds_manager.dart';
 
 class GlobalConstants {
+
+  static Flushbar? flushbar;
 
   static bool headerNameEnabled = true;
   static bool localGameEnabled = true;

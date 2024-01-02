@@ -1,3 +1,4 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tapit/game/online/dialogs/game_online_error_dialog.dart';
@@ -7,6 +8,7 @@ import 'package:tapit/game/online/models/socket/game_online_socket_model.dart';
 import 'package:tapit/global/utils/global_functions.dart';
 
 import '../../../global/utils/global_color_constants.dart';
+import '../../../global/utils/global_constants.dart';
 import '../enums/socket_enums.dart';
 import '../../../global/providers/global_socket_provider.dart';
 import '../models/player/game_online_player_model.dart';
@@ -127,6 +129,56 @@ class GameOnlineFunctions {
 
     // Set the new game model
     gameOnlineGameStateNotifier.setGameModel(gameOnlineGameModel);
+
+  }
+
+  static void showErrorTopSnackBar({
+    required String title,
+    required String subtitle,
+    Duration duration = const Duration(
+      seconds: 3,
+    ),
+    EdgeInsets margin = const EdgeInsets.all(8),
+  }) {
+
+    final BuildContext? context = GlobalConstants.navigatorKey.currentContext;
+
+    if (context == null) {
+      debugPrint("Error: Cannot show loading dialog, Context is null!");
+      return;
+    }
+
+    // Check if the Flushbar was set before this run
+    final bool firstRun = GlobalConstants.flushbar == null;
+
+    // Set the Flushbar only if it is wasn't set before
+    GlobalConstants.flushbar ??= Flushbar(
+      flushbarStyle: FlushbarStyle.FLOATING,
+      flushbarPosition: FlushbarPosition.TOP,
+      duration: duration,
+      icon: const Padding(
+        padding: EdgeInsets.only(
+          left: 15,
+        ),
+        child: Icon(
+          Icons.error_outline,
+          color: GlobalColorConstants.kWhiteColor,
+        ),
+      ),
+      isDismissible: true,
+      title: title,
+      message: subtitle,
+      margin: margin,
+      borderRadius: BorderRadius.circular(8),
+    );
+
+    // Dismiss the flushbar if it was showing before
+    GlobalConstants.flushbar!.dismiss();
+
+    // Show the flushbar
+    Future.delayed(Duration(seconds: firstRun ? 0 : 1), () {
+      GlobalConstants.flushbar!.show(context);
+    });
 
   }
 

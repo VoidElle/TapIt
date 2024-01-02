@@ -17,7 +17,7 @@ mixin GameOnlinePlayerChangeListenerMixin {
 
   void listenToPlayerChange({
     required BuildContext context,
-    required socket_io.Socket? socket,
+    required socket_io.Socket socket,
     required WidgetRef ref,
     bool needsToJoin = false,
     bool isInGame = false,
@@ -25,7 +25,9 @@ mixin GameOnlinePlayerChangeListenerMixin {
 
     // Listen to a player lobby join event only if the player is not already inside a match
     if (!isInGame) {
-      socket?.on(GameOnlineSocketEvent.joinLobbyResponseSuccess.text, (dynamic data) {
+
+      // Success event
+      socket.on(GameOnlineSocketEvent.joinLobbyResponseSuccess.text, (dynamic data) {
         // Skip the event management if the context is not mounted
         if (!context.mounted) {
           return;
@@ -46,10 +48,33 @@ mixin GameOnlinePlayerChangeListenerMixin {
           });
         }
       });
+
+      // Fail event
+      socket.on(GameOnlineSocketEvent.joinLobbyResponseFail.text, (dynamic data) {
+
+        // Skip the event management if the context is not mounted
+        if (!context.mounted) {
+          return;
+        }
+
+        // Parse the dynamic data to json
+        final Map<String, dynamic> jsonReceived = data as Map<String, dynamic>;
+
+        // Get the error from the json
+        final String error = jsonReceived["error"];
+
+        // Show the top snackbar error
+        GameOnlineFunctions.showErrorTopSnackBar(
+          title: "Error",
+          subtitle: error,
+        );
+
+      });
+
     }
 
     // Listen to a player lobby quit event
-    socket?.on(GameOnlineSocketEvent.quitLobbyResponseSuccess.text, (dynamic data) {
+    socket.on(GameOnlineSocketEvent.quitLobbyResponseSuccess.text, (dynamic data) {
 
       if (!context.mounted) {
         return;
@@ -79,7 +104,7 @@ mixin GameOnlinePlayerChangeListenerMixin {
     });
 
     // Listen to leader's leaving event
-    socket?.on(GameOnlineSocketEvent.leaderLeftLobby.text, (dynamic data) {
+    socket.on(GameOnlineSocketEvent.leaderLeftLobby.text, (dynamic data) {
 
       if (!context.mounted) {
         return;

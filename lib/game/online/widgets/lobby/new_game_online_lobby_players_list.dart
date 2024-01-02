@@ -28,7 +28,7 @@ class _NewGameOnlineLobbyPlayersListState extends ConsumerState<NewGameOnlineLob
 
     listenToPlayerChange(
       context: context,
-      socket: ref.read(globalSocketProvider).socket,
+      socket: ref.read(globalSocketProvider).socket!,
       ref: ref,
     );
 

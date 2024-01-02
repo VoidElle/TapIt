@@ -40,7 +40,7 @@ class _NewGameOnlineJoinPageState extends ConsumerState<GameOnlineLobbyJoinPage>
 
     super.initState();
 
-    final socket_io.Socket? socket = ref.read(globalSocketProvider).socket;
+    final socket_io.Socket socket = ref.read(globalSocketProvider).socket!;
 
     listenToPlayerChange(
       context: context,
