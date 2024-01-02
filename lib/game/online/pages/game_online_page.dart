@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tapit/game/online/event_listeners/game/game_online_game_score_listener_mixin.dart';
+import 'package:tapit/game/online/event_listeners/game/game_online_game_win_listener_mixin.dart';
 import 'package:tapit/game/online/widgets/game/game_online_gesture_detectors.dart';
 import 'package:tapit/game/online/widgets/game/game_online_player_containers.dart';
 
@@ -25,7 +26,8 @@ class GameOnlinePage extends ConsumerStatefulWidget {
 
 class _GameOnlinePageState extends ConsumerState<GameOnlinePage> with
     GameOnlinePlayerChangeListenerMixin,
-    GameOnlineGameScoreListenerMixin {
+    GameOnlineGameScoreListenerMixin,
+    GameOnlineGameWinListenerMixin {
 
   @override
   void initState() {
@@ -34,6 +36,7 @@ class _GameOnlinePageState extends ConsumerState<GameOnlinePage> with
 
     final socket_io.Socket socket = ref.read(globalSocketProvider).socket!;
 
+    // Listening to the PLAYER STATUS CHANGE
     listenToPlayerChange(
       context: context,
       socket: socket,
@@ -41,7 +44,15 @@ class _GameOnlinePageState extends ConsumerState<GameOnlinePage> with
       isInGame: true,
     );
 
+    // Listening to the SCORE EVENT
     listenToGameScoreEvent(
+      context: context,
+      socket: socket,
+      ref: ref,
+    );
+
+    // Listening to the WIN EVENT
+    listenToGameWinEvent(
       context: context,
       socket: socket,
       ref: ref,

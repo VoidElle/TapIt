@@ -23,15 +23,23 @@ mixin GameOnlineGameScoreListenerMixin {
 
       // Parse the dynamic data to json
       final Map<String, dynamic> jsonReceived = data as Map<String, dynamic>;
+
+      // Get the attacker's socket id from the json
       final String attackerSocketId = jsonReceived["socketId"];
 
+      // Log the scoring event
       debugPrint("$attackerSocketId scored!");
 
+      // Get the notifier, and call the score's function
       final GameOnlineGameNotifier gameOnlineGameNotifier = ref.read(gameOnlineGameProvider.notifier);
-      gameOnlineGameNotifier.score(attackerSocketId);
+      gameOnlineGameNotifier.score(
+        socket: socket,
+        ref: ref,
+      );
 
     });
 
+    // If the event goes in the error state, show an error dialog
     socket?.on(GameOnlineSocketEvent.gameScoreResponseFail.text, (dynamic data) {
       GlobalFunctions.showErrorDialog(
         shouldPopBefore: false,

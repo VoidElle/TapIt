@@ -31,12 +31,6 @@ class MenuChangeLanguageDialog extends StatelessWidget {
 
           StrokeText(
             text: label,
-            textStyle: const TextStyle(
-              height: 0.85,
-              fontFamily: "CircularStd",
-              fontWeight: FontWeight.w900,
-              fontSize: 25,
-            ),
           ),
 
           Container(

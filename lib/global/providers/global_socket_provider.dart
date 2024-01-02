@@ -4,6 +4,7 @@ import 'package:socket_io_client/socket_io_client.dart' as socket_io;
 import 'package:tapit/global/models/global_socket_model.dart';
 
 import '../../game/online/enums/socket_enums.dart';
+import '../../game/online/utils/game_online_constants.dart';
 
 final globalSocketProvider = StateNotifierProvider<GlobalSocketNotifier, GlobalSocketModel>(
       (ref) => GlobalSocketNotifier(),
@@ -25,7 +26,7 @@ class GlobalSocketNotifier extends StateNotifier<GlobalSocketModel> {
     _setStatus(GameOnlineSocketStatus.loading, notify: false);
 
     // Specify the socket
-    final socket_io.Socket socket = socket_io.io("http://10.0.2.2:3000/", <String, dynamic>{
+    final socket_io.Socket socket = socket_io.io(GameOnlineConstants.serverUri, <String, dynamic>{
       'autoConnect': false,
       'transports': ['websocket'],
     });

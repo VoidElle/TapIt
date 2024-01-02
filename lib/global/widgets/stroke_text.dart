@@ -7,7 +7,7 @@ class StrokeText extends StatelessWidget {
   final double strokeWidth;
   final Color textColor;
   final Color strokeColor;
-  final TextStyle? textStyle;
+  final TextStyle textStyle;
   final TextAlign textAlign;
 
   const StrokeText({
@@ -16,7 +16,12 @@ class StrokeText extends StatelessWidget {
     this.strokeWidth = 6,
     this.strokeColor = GlobalColorConstants.kFullBlackColor,
     this.textColor = GlobalColorConstants.kWhiteColor,
-    this.textStyle,
+    this.textStyle = const TextStyle(
+      height: 0.85,
+      fontFamily: "CircularStd",
+      fontWeight: FontWeight.w900,
+      fontSize: 25,
+    ),
     this.textAlign = TextAlign.center
   }) : super(key: key);
 
