@@ -14,7 +14,7 @@ import '../widgets/new_menu_audio_controls_button.dart';
 
 class MenuPage extends StatefulWidget {
 
-  static const route = "/menu-page";
+  static const String route = "/menu-page";
 
   const MenuPage({
     super.key,

@@ -21,7 +21,7 @@ import '../game_online_menu_page.dart';
 
 class GameOnlineLobbyPage extends ConsumerStatefulWidget {
 
-  static const route = "/game-online-lobby-page";
+  static const String route = "/game-online-lobby-page";
 
   const GameOnlineLobbyPage({super.key});
 

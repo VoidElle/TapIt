@@ -17,7 +17,7 @@ import '../event_listeners/socket/game_online_socket_connectivity_change_listene
 
 class GameOnlineMenuPage extends ConsumerStatefulWidget {
 
-  static const route = "/game-online-menu-page";
+  static const String route = "/game-online-menu-page";
 
   const GameOnlineMenuPage({super.key});
 
