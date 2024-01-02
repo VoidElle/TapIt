@@ -5,6 +5,7 @@ import 'package:socket_io_client/socket_io_client.dart' as socket_io;
 import 'package:tapit/game/online/event_listeners/lobby/game_online_lobby_start_listener_mixin.dart';
 import 'package:tapit/global/utils/global_constants.dart';
 
+import '../../../../global/event_listeners/background_listener_mixin.dart';
 import '../../../../global/providers/global_socket_provider.dart';
 import '../../../../global/utils/global_color_constants.dart';
 import '../../../../global/utils/global_functions.dart';
@@ -30,7 +31,9 @@ class GameOnlineLobbyPage extends ConsumerStatefulWidget {
 
 class _NewGameOnlineLobbyPageState extends ConsumerState<GameOnlineLobbyPage> with
     GameOnlinePlayerChangeStatusListenerMixin,
-    GameOnlineLobbyStartListenerMixin {
+    GameOnlineLobbyStartListenerMixin,
+    WidgetsBindingObserver,
+    BackgroundListenerMixin<GameOnlineLobbyPage> {
 
   bool _startGameButtonEnabled = false;
   late socket_io.Socket _socket;

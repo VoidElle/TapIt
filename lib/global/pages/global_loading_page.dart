@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
 
-class GlobalLoadingPage extends StatelessWidget {
+import '../event_listeners/background_listener_mixin.dart';
+
+class GlobalLoadingPage extends StatefulWidget {
 
   const GlobalLoadingPage({
     super.key,
   });
+
+  @override
+  State<GlobalLoadingPage> createState() => _GlobalLoadingPageState();
+}
+
+class _GlobalLoadingPageState extends State<GlobalLoadingPage> with
+    WidgetsBindingObserver,
+    BackgroundListenerMixin<GlobalLoadingPage> {
 
   @override
   Widget build(BuildContext context) {

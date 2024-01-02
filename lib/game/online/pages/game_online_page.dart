@@ -5,6 +5,7 @@ import 'package:tapit/game/online/event_listeners/game/game_online_game_win_list
 import 'package:tapit/game/online/widgets/game/game_online_gesture_detectors.dart';
 import 'package:tapit/game/online/widgets/game/game_online_player_containers.dart';
 
+import '../../../global/event_listeners/background_listener_mixin.dart';
 import '../../../global/providers/global_socket_provider.dart';
 import '../event_listeners/player/game_online_player_change_listener_mixin.dart';
 import '../widgets/game/game_online_container_indicators.dart';
@@ -27,7 +28,9 @@ class GameOnlinePage extends ConsumerStatefulWidget {
 class _GameOnlinePageState extends ConsumerState<GameOnlinePage> with
     GameOnlinePlayerChangeListenerMixin,
     GameOnlineGameScoreListenerMixin,
-    GameOnlineGameWinListenerMixin {
+    GameOnlineGameWinListenerMixin,
+    WidgetsBindingObserver,
+    BackgroundListenerMixin<GameOnlinePage> {
 
   @override
   void initState() {

@@ -7,6 +7,7 @@ import 'package:tapit/global/utils/managers/global_sounds_manager.dart';
 
 import '../../game/local/pages/game_local_page.dart';
 import '../../game/online/pages/game_online_menu_page.dart';
+import '../../global/event_listeners/background_listener_mixin.dart';
 import '../../global/widgets/global_complex_button.dart';
 import '../../global/widgets/global_user_header.dart';
 import '../widgets/new_menu_audio_controls_button.dart';
@@ -23,7 +24,9 @@ class MenuPage extends StatefulWidget {
   State<MenuPage> createState() => _MenuPageState();
 }
 
-class _MenuPageState extends State<MenuPage> {
+class _MenuPageState extends State<MenuPage> with
+    WidgetsBindingObserver,
+    BackgroundListenerMixin<MenuPage> {
 
   @override
   void initState() {

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:socket_io_client/socket_io_client.dart' as socket_io;
 import 'package:tapit/global/utils/global_constants.dart';
 
+import '../../../../global/event_listeners/background_listener_mixin.dart';
 import '../../../../global/models/global_socket_model.dart';
 import '../../../../global/providers/global_socket_provider.dart';
 import '../../../../global/utils/global_enums.dart';
@@ -27,7 +28,10 @@ class GameOnlineLobbyJoinPage extends ConsumerStatefulWidget {
   ConsumerState<GameOnlineLobbyJoinPage> createState() => _NewGameOnlineJoinPageState();
 }
 
-class _NewGameOnlineJoinPageState extends ConsumerState<GameOnlineLobbyJoinPage> with GameOnlinePlayerChangeListenerMixin {
+class _NewGameOnlineJoinPageState extends ConsumerState<GameOnlineLobbyJoinPage> with
+    GameOnlinePlayerChangeListenerMixin,
+    WidgetsBindingObserver,
+    BackgroundListenerMixin<GameOnlineLobbyJoinPage> {
 
   final List<TextEditingController> _textEditingControllers = List.generate(6, (int _) => TextEditingController());
 

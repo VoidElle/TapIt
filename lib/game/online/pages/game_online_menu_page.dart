@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:socket_io_client/socket_io_client.dart' as socket_io;
 import 'package:tapit/game/online/pages/lobby/game_online_lobby_join_page.dart';
 
+import '../../../global/event_listeners/background_listener_mixin.dart';
 import '../../../global/providers/global_socket_provider.dart';
 import '../../../global/utils/global_constants.dart';
 import '../../../global/utils/global_enums.dart';
@@ -24,7 +25,11 @@ class GameOnlineMenuPage extends ConsumerStatefulWidget {
   ConsumerState<GameOnlineMenuPage> createState() => _NewGameOnlinePageState();
 }
 
-class _NewGameOnlinePageState extends ConsumerState<GameOnlineMenuPage> with GameOnlineSocketConnectivityChangeListenerMixin, GameOnlineLobbyCreationListenerMixin {
+class _NewGameOnlinePageState extends ConsumerState<GameOnlineMenuPage> with
+    GameOnlineSocketConnectivityChangeListenerMixin,
+    GameOnlineLobbyCreationListenerMixin,
+    WidgetsBindingObserver,
+    BackgroundListenerMixin<GameOnlineMenuPage> {
 
   late socket_io.Socket _socket;
 
