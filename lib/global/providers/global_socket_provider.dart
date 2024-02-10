@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:socket_io_client/socket_io_client.dart' as socket_io;
 import 'package:tapit/global/models/global_socket_model.dart';
+import 'package:tapit/global/utils/global_constants.dart';
 
 import '../../game/online/enums/socket_enums.dart';
 import '../../game/online/utils/game_online_constants.dart';
@@ -37,26 +37,26 @@ class GlobalSocketNotifier extends StateNotifier<GlobalSocketModel> {
     // On connection of the socket with the server, set
     // the socket state to Success
     socket.onConnect((_) {
-      debugPrint('SOCKET_INFO: Connection established');
+      GlobalConstants.logger.i('SOCKET_INFO: Connection established');
       _setStatus(GameOnlineSocketStatus.success);
     });
 
     // On disconnect of the socket with the server, set
     // the socket state to Disconnected
     socket.onDisconnect((_) {
-      debugPrint('SOCKET_INFO: Connection Disconnection');
+      GlobalConstants.logger.i('SOCKET_INFO: Connection Disconnection');
       _setStatus(GameOnlineSocketStatus.error);
     });
 
     // If an error is occurred, set the status of the socket to Error
     socket.onConnectError((err) async {
-      debugPrint(err);
+      GlobalConstants.logger.e(err);
       _setStatus(GameOnlineSocketStatus.error);
     });
 
     // If an error is occurred, set the status of the socket to Error
     socket.onError((err) async {
-      debugPrint(err);
+      GlobalConstants.logger.e(err);
       _setStatus(GameOnlineSocketStatus.error);
     });
 

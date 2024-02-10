@@ -5,12 +5,19 @@ import '../../../../global/widgets/global_action_button.dart';
 import '../../../../global/widgets/global_bordered_box.dart';
 import '../../../../global/widgets/stroke_text.dart';
 
-class GameOnlineGameLoseDialog extends StatelessWidget {
+enum GameResult {
+  win,
+  lose,
+}
+
+class GameOnlineGameResultDialog extends StatelessWidget {
 
   final Color winnerColor;
+  final GameResult gameResult;
 
-  const GameOnlineGameLoseDialog({
+  const GameOnlineGameResultDialog({
     required this.winnerColor,
+    required this.gameResult,
     super.key,
   });
 
@@ -63,12 +70,14 @@ class GameOnlineGameLoseDialog extends StatelessWidget {
                   height: 15,
                 ),
 
-                const Padding(
-                  padding: EdgeInsets.symmetric(
+                Padding(
+                  padding: const EdgeInsets.symmetric(
                     vertical: 15,
                   ),
                   child: StrokeText(
-                    text: "You lost!",
+                    text: gameResult == GameResult.win
+                        ? "You won!"
+                        : "You lost!",
                     strokeWidth: 3,
                   ),
                 ),

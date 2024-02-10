@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tapit/game/online/enums/socket_enums.dart';
 import 'package:tapit/game/online/providers/game_online_game_provider.dart';
+import 'package:tapit/global/utils/global_constants.dart';
 import 'package:tapit/global/utils/global_functions.dart';
 
 import 'package:socket_io_client/socket_io_client.dart' as socket_io;
@@ -25,15 +26,21 @@ mixin GameOnlineGameScoreListenerMixin {
       final Map<String, dynamic> jsonReceived = data as Map<String, dynamic>;
 
       // Get the attacker's socket id from the json
-      final String attackerSocketId = jsonReceived["socketId"];
+      final String attackerSocketId = jsonReceived["attackerId"];
+      final String victimSocketId = jsonReceived["victimId"];
 
       // Log the scoring event
-      debugPrint("$attackerSocketId scored!");
+      GlobalConstants.logger.i("""
+        SCORE SUCCESS
+        ATTACKER SOCKET ID: $attackerSocketId
+        VICTIM SOCKET ID: $victimSocketId
+      """);
 
       // Get the notifier, and call the score's function
       final GameOnlineGameNotifier gameOnlineGameNotifier = ref.read(gameOnlineGameProvider.notifier);
       gameOnlineGameNotifier.score(
-        socket: socket,
+        attackerSocketId: attackerSocketId,
+        victimSocketId: victimSocketId,
         ref: ref,
       );
 
