@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
+import '../../../../global/utils/global_functions.dart';
 import '../../../../global/widgets/global_action_button.dart';
 import '../../../../global/widgets/global_bordered_box.dart';
 import '../../../../global/widgets/stroke_text.dart';
+import '../../../../menu/pages/menu_page.dart';
 
 enum GameResult {
   win,
@@ -94,15 +97,22 @@ class GameOnlineGameResultDialog extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
 
-                      Tooltip(
-                        message: "Home",
-                        verticalOffset: 40,
-                        child: GlobalActionButton(
-                          iconData: MdiIcons.home,
-                          voidCallback: () {
-                            // Todo
-                          },
-                        ),
+                      Consumer(
+                        builder: (BuildContext _, WidgetRef ref, Widget? __) {
+                          return Tooltip(
+                            message: "Home",
+                            verticalOffset: 40,
+                            child: GlobalActionButton(
+                              iconData: MdiIcons.home,
+                              voidCallback: () {
+
+                                // Redirect to MenuPage
+                                GlobalFunctions.redirectAndClearRootTree(MenuPage.route);
+
+                              },
+                            ),
+                          );
+                        },
                       ),
 
                       Tooltip(

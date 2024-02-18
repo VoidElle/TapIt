@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tapit/game/online/providers/game_online_game_provider.dart';
 import 'package:tapit/global/utils/global_constants.dart';
 import 'package:tapit/global/utils/global_enums.dart';
 import 'package:tapit/global/utils/global_functions.dart';
@@ -12,7 +14,7 @@ import '../../global/widgets/global_complex_button.dart';
 import '../../global/widgets/global_user_header.dart';
 import '../widgets/new_menu_audio_controls_button.dart';
 
-class MenuPage extends StatefulWidget {
+class MenuPage extends ConsumerStatefulWidget {
 
   static const String route = "/menu-page";
 
@@ -21,10 +23,10 @@ class MenuPage extends StatefulWidget {
   });
 
   @override
-  State<MenuPage> createState() => _MenuPageState();
+  ConsumerState<MenuPage> createState() => _MenuPageState();
 }
 
-class _MenuPageState extends State<MenuPage> with
+class _MenuPageState extends ConsumerState<MenuPage> with
     WidgetsBindingObserver,
     BackgroundListenerMixin<MenuPage> {
 
@@ -75,7 +77,17 @@ class _MenuPageState extends State<MenuPage> with
                       i: 1,
                       globalComplexButtonType: GlobalComplexButtonType.online,
                       enabled: GlobalConstants.onlineGameEnabled,
-                      onTapCallback: () => GlobalFunctions.redirectAndClearRootTree(GameOnlineMenuPage.route),
+                      onTapCallback: () {
+
+                        // In case of a GameOnlineGameProvider existing, reset it
+                        if (ref.exists(gameOnlineGameProvider)) {
+                          GlobalFunctions.executeAfterBuild(() {
+                            ref.read(gameOnlineGameProvider.notifier).reset();
+                          });
+                        }
+
+                        GlobalFunctions.redirectAndClearRootTree(GameOnlineMenuPage.route);
+                      },
                       padding: const EdgeInsets.symmetric(
                         vertical: 15,
                       ),

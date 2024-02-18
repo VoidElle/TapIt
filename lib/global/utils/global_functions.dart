@@ -59,7 +59,7 @@ class GlobalFunctions {
 
   // Function to redirect to a route and remove all the pages below
   static void redirectAndClearRootTree(String route, {Map? arguments}) {
-    GlobalConstants.navigatorKey.currentState?.pushNamedAndRemoveUntil(route, (Route<dynamic> route) => false, arguments: arguments);;
+    GlobalConstants.navigatorKey.currentState?.pushNamedAndRemoveUntil(route, (Route<dynamic> route) => false, arguments: arguments);
   }
 
   static void pop() {

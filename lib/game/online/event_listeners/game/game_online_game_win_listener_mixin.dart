@@ -34,6 +34,7 @@ mixin GameOnlineGameWinListenerMixin {
       // show the win dialog
       if (socket.id == winnerSocketId) {
         showDialog(
+          barrierDismissible: false,
           context: context,
           builder: (BuildContext _) => const GameOnlineGameResultDialog(
             winnerColor: GlobalColorConstants.kBlueColor,
@@ -46,6 +47,7 @@ mixin GameOnlineGameWinListenerMixin {
       // Show the lose dialog
       showDialog(
         context: context,
+        barrierDismissible: false,
         builder: (BuildContext _) => const GameOnlineGameResultDialog(
           winnerColor: GlobalColorConstants.kBlueColor,
           gameResult: GameResult.lose,

@@ -20,13 +20,16 @@ class GameOnlineGameNotifier extends StateNotifier<GameOnlineGameModel> {
   // Constructor of the provider
   GameOnlineGameNotifier(): super(GameOnlineGameModel.fromJson(_initialState.toJson()));
 
+  void reset() {
+    final GameOnlineGameModel newState = GameOnlineGameModel.fromJson(_initialState.toJson());
+    state = newState;
+  }
+
   // Function to set the game model
   void setGameModel(GameOnlineGameModel gameModel, { notify = true }) {
-    if (notify) {
-      state = gameModel;
-    } else {
-      state.players = gameModel.players;
-    }
+    notify
+        ? state = gameModel
+        : state.players = gameModel.players;
   }
 
   // Function to retrieve a player from its socket id
