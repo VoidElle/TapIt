@@ -21,7 +21,7 @@ mixin GameOnlinePlayerChangeStatusListenerMixin {
 
       // Get the JSON
       final Map<String, dynamic> jsonReceived = data as Map<String, dynamic>;
-      final String socketId = jsonReceived["socket"];
+      final String socketId = jsonReceived["socketId"];
 
       final GameOnlineGameNotifier gameOnlineGameNotifier = ref.read(gameOnlineGameProvider.notifier);
       gameOnlineGameNotifier.changeReadyStatus(socketId);

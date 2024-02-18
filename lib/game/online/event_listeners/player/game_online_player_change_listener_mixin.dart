@@ -84,7 +84,7 @@ mixin GameOnlinePlayerChangeListenerMixin {
       final Map<String, dynamic> jsonData = data as Map<String, dynamic>;
 
       // Get the quitted socket id
-      final String quittedSocketId = jsonData["quittedSocket"];
+      final String quittedSocketId = jsonData["socketId"];
 
       // Get the notifier of the Online Game
       final GameOnlineGameModel gameOnlineGameModel = ref.read(gameOnlineGameProvider);
