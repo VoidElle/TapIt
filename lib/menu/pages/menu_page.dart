@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tapit/game/online/providers/game_online_game_provider.dart';
 import 'package:tapit/global/utils/global_constants.dart';
 import 'package:tapit/global/utils/global_enums.dart';
 import 'package:tapit/global/utils/global_functions.dart';
@@ -78,15 +77,12 @@ class _MenuPageState extends ConsumerState<MenuPage> with
                       globalComplexButtonType: GlobalComplexButtonType.online,
                       enabled: GlobalConstants.onlineGameEnabled,
                       onTapCallback: () {
-
-                        // In case of a GameOnlineGameProvider existing, reset it
-                        if (ref.exists(gameOnlineGameProvider)) {
-                          GlobalFunctions.executeAfterBuild(() {
-                            ref.read(gameOnlineGameProvider.notifier).reset();
-                          });
-                        }
-
-                        GlobalFunctions.redirectAndClearRootTree(GameOnlineMenuPage.route);
+                        GlobalFunctions.redirectAndClearRootTree(
+                          GameOnlineMenuPage.route,
+                          arguments: {
+                            "ref": ref,
+                          },
+                        );
                       },
                       padding: const EdgeInsets.symmetric(
                         vertical: 15,
