@@ -68,6 +68,7 @@ class _NewGameOnlineLobbyPageState extends ConsumerState<GameOnlineLobbyPage> wi
     final List<GameOnlinePlayerModel> playersList = gameOnlineGameState.players;
 
     final GameOnlineGameNotifier gameOnlineGameNotifier = ref.read(gameOnlineGameProvider.notifier);
+    final bool isClientSocketLeader = gameOnlineGameNotifier.isSocketLeader(_socket.id!);
 
     _checkStartGameButtonEnabled(playersList);
 
@@ -109,7 +110,7 @@ class _NewGameOnlineLobbyPageState extends ConsumerState<GameOnlineLobbyPage> wi
 
                 // Render the start game button only if
                 // the player is the leader of the lobby
-                if (gameOnlineGameNotifier.isSocketLeader(_socket.id!))
+                if (isClientSocketLeader)
                   GlobalCustomContainerBase.small(
                     margin: const EdgeInsets.symmetric(
                       horizontal: 50,

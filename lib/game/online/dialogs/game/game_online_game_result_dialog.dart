@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '../../../../global/utils/global_functions.dart';
@@ -59,29 +58,20 @@ class GameOnlineGameResultDialog extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
 
-                const StrokeText(
-                  text: "GAME OVER",
-                  textStyle: TextStyle(
-                    height: 0.85,
-                    fontFamily: "CircularStd",
-                    fontWeight: FontWeight.w900,
-                    fontSize: 60,
-                  ),
-                ),
-
-                const SizedBox(
-                  height: 15,
-                ),
-
                 Padding(
                   padding: const EdgeInsets.symmetric(
                     vertical: 15,
                   ),
                   child: StrokeText(
                     text: gameResult == GameResult.win
-                        ? "You won!"
-                        : "You lost!",
-                    strokeWidth: 3,
+                        ? "YOU WON"
+                        : "YOU LOST",
+                    textStyle: const TextStyle(
+                      height: 0.85,
+                      fontFamily: "CircularStd",
+                      fontWeight: FontWeight.w900,
+                      fontSize: 60,
+                    ),
                   ),
                 ),
 
@@ -97,22 +87,18 @@ class GameOnlineGameResultDialog extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
 
-                      Consumer(
-                        builder: (BuildContext _, WidgetRef ref, Widget? __) {
-                          return Tooltip(
-                            message: "Home",
-                            verticalOffset: 40,
-                            child: GlobalActionButton(
-                              iconData: MdiIcons.home,
-                              voidCallback: () {
+                      Tooltip(
+                        message: "Home",
+                        verticalOffset: 40,
+                        child: GlobalActionButton(
+                          iconData: MdiIcons.home,
+                          voidCallback: () {
 
-                                // Redirect to MenuPage
-                                GlobalFunctions.redirectAndClearRootTree(MenuPage.route);
+                            // Redirect to MenuPage
+                            GlobalFunctions.redirectAndClearRootTree(MenuPage.route);
 
-                              },
-                            ),
-                          );
-                        },
+                          },
+                        ),
                       ),
 
                       Tooltip(
