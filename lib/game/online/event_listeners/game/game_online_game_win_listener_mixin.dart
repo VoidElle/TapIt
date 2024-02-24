@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tapit/game/online/enums/socket_enums.dart';
-import 'package:tapit/global/utils/global_color_constants.dart';
+import 'package:tapit/game/online/models/player/game_online_player_model.dart';
+import 'package:tapit/game/online/providers/game_online_game_provider.dart';
 import 'package:tapit/global/utils/global_functions.dart';
 
 import 'package:socket_io_client/socket_io_client.dart' as socket_io;
@@ -30,14 +31,18 @@ mixin GameOnlineGameWinListenerMixin {
       // Get the winner's socket id from the json
       final String winnerSocketId = jsonReceived["socketId"];
 
+      final GameOnlineGameNotifier gameProvider = ref.read(gameOnlineGameProvider.notifier);
+      final Map<String, dynamic> winnerLoserPlayers = gameProvider.getWinnerLoserPlayer();
+
       // If the winner socket id is the same of the client's one
       // show the win dialog
       if (socket.id == winnerSocketId) {
+        final GameOnlinePlayerModel winnerPlayer = winnerLoserPlayers["winner"];
         showDialog(
           barrierDismissible: false,
           context: context,
-          builder: (BuildContext _) => const GameOnlineGameResultDialog(
-            winnerColor: GlobalColorConstants.kBlueColor,
+          builder: (BuildContext _) => GameOnlineGameResultDialog(
+            winnerColor: Color(winnerPlayer.colorValue),
             gameResult: GameResult.win,
           ),
         );
@@ -45,11 +50,12 @@ mixin GameOnlineGameWinListenerMixin {
       }
 
       // Show the lose dialog
+      final GameOnlinePlayerModel loserPlayer = winnerLoserPlayers["loser"];
       showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (BuildContext _) => const GameOnlineGameResultDialog(
-          winnerColor: GlobalColorConstants.kBlueColor,
+        builder: (BuildContext _) => GameOnlineGameResultDialog(
+          winnerColor: Color(loserPlayer.colorValue),
           gameResult: GameResult.lose,
         ),
       );

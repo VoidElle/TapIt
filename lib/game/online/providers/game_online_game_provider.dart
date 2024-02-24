@@ -48,6 +48,26 @@ class GameOnlineGameNotifier extends StateNotifier<GameOnlineGameModel> {
     return state.players[position];
   }
 
+  Map<String, dynamic> getWinnerLoserPlayer() {
+
+    final Map<String, dynamic> result = {
+      "winner": null,
+      "loser": null,
+    };
+
+    final List<GameOnlinePlayerModel> players = state.players;
+
+    if (players.length != 2) {
+      return result;
+    }
+
+    final bool isFirstPlayerWinner = players[0].percentageValue >= 100;
+    result["winner"] = isFirstPlayerWinner ? players[0] : players[1];
+    result["loser"] = isFirstPlayerWinner ? players[1] : players[0];
+
+    return result;
+  }
+
   // Function to get the position of a socket in the current state from its socket id
   int _getPositionOfSocketIdInState(String socketId) {
     int i = 0;

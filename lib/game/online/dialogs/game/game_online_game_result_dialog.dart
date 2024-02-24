@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '../../../../global/utils/global_functions.dart';
 import '../../../../global/widgets/global_action_button.dart';
-import '../../../../global/widgets/global_bordered_box.dart';
 import '../../../../global/widgets/stroke_text.dart';
 import '../../../../menu/pages/menu_page.dart';
 
@@ -59,18 +59,20 @@ class GameOnlineGameResultDialog extends StatelessWidget {
               children: <Widget>[
 
                 Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 15,
+                  padding: const EdgeInsets.only(
+                    top: 45,
+                    bottom: 15,
                   ),
                   child: StrokeText(
                     text: gameResult == GameResult.win
                         ? "YOU WON"
                         : "YOU LOST",
+                    strokeWidth: 7.5,
                     textStyle: const TextStyle(
-                      height: 0.85,
+                      height: 0.9,
                       fontFamily: "CircularStd",
                       fontWeight: FontWeight.w900,
-                      fontSize: 60,
+                      fontSize: 75,
                     ),
                   ),
                 ),
@@ -120,21 +122,36 @@ class GameOnlineGameResultDialog extends StatelessWidget {
             ),
           ),
 
+          // Positioned(
+          //   left: 20,
+          //   right: 20,
+          //   child: CircleAvatar(
+          //     backgroundColor: Colors.white,
+          //     radius: 45,
+          //     child: BorderedBox(
+          //       color: winnerColor,
+          //       shape: const CircleBorder(
+          //           side: BorderSide(
+          //             color: Colors.white,
+          //             width: 7.5,
+          //             strokeAlign: BorderSide.strokeAlignOutside,
+          //           )
+          //       ),
+          //     ),
+          //   ),
+          // ),
+
           Positioned(
             left: 20,
             right: 20,
             child: CircleAvatar(
-              backgroundColor: Colors.white,
-              radius: 45,
-              child: BorderedBox(
-                color: winnerColor,
-                shape: const CircleBorder(
-                    side: BorderSide(
-                      color: Colors.white,
-                      width: 7.5,
-                      strokeAlign: BorderSide.strokeAlignOutside,
-                    )
-                ),
+              backgroundColor: Colors.transparent,
+              radius: 55,
+              child: SvgPicture.asset(
+                gameResult == GameResult.win
+                    ? "assets/svgs/game/win_first_place.svg"
+                    : "assets/svgs/game/win_second_place.svg",
+                semanticsLabel: "",
               ),
             ),
           ),
