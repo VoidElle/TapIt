@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:tapit/global/pages/global_loading_page.dart';
 import 'package:tapit/global/utils/global_constants.dart';
 import 'package:tapit/global/utils/global_functions.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -15,6 +14,7 @@ import 'menu/pages/menu_page.dart';
 Future<void> main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
+  await GlobalConstants.globalSharedPreferencesManager.init();
 
   // Localizations
   await EasyLocalization.ensureInitialized();
@@ -78,17 +78,7 @@ class TapIt extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: GlobalConstants.globalTheme,
       onGenerateRoute: GlobalFunctions.generateRoutes,
-      home: FutureBuilder(
-        future: GlobalConstants.globalSharedPreferencesManager.init(),
-        builder: (BuildContext _, AsyncSnapshot<void> snapshot) {
-
-          if (snapshot.connectionState != ConnectionState.done) {
-            return const GlobalLoadingPage();
-          }
-
-          return const MenuPage();
-        }
-      ),
+      home: const MenuPage(),
     );
   }
 }
