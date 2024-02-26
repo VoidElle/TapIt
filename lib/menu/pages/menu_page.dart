@@ -61,21 +61,24 @@ class _MenuPageState extends ConsumerState<MenuPage> with
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
 
-                const GlobalUserHeader(),
+                Opacity(
+                  opacity: GlobalConstants.sectionsEnabled[MenuSection.headerName]! ? 1 : .6,
+                  child: const GlobalUserHeader(),
+                ),
 
                 Column(
                   children: [
 
                     GlobalComplexButton(
                       globalComplexButtonType: GlobalComplexButtonType.local,
-                      enabled: GlobalConstants.localGameEnabled,
+                      enabled: GlobalConstants.sectionsEnabled[MenuSection.localGame]!,
                       onTapCallback: () => GlobalFunctions.redirectAndClearRootTree(GameLocalPage.route),
                     ),
 
                     GlobalComplexButton(
                       i: 1,
                       globalComplexButtonType: GlobalComplexButtonType.online,
-                      enabled: GlobalConstants.onlineGameEnabled,
+                      enabled: GlobalConstants.sectionsEnabled[MenuSection.onlineGame]!,
                       onTapCallback: () {
                         GlobalFunctions.redirectAndClearRootTree(
                           GameOnlineMenuPage.route,
@@ -92,7 +95,7 @@ class _MenuPageState extends ConsumerState<MenuPage> with
                     GlobalComplexButton(
                       i: 2,
                       globalComplexButtonType: GlobalComplexButtonType.shop,
-                      enabled: GlobalConstants.shopEnabled,
+                      enabled: GlobalConstants.sectionsEnabled[MenuSection.shop]!,
                       bypassSvgUseJpg: true,
                       onTapCallback: () {
                         // Todo

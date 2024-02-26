@@ -55,29 +55,26 @@ class _GlobalUserHeaderState extends State<GlobalUserHeader> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
 
-              Opacity(
-                opacity: GlobalConstants.headerNameEnabled ? 1 : .6,
-                child: Row(
-                  children: [
+              Row(
+                children: [
 
-                    Icon(
-                      MdiIcons.account,
-                      size: 35,
-                      color: const Color(0xFF000000),
+                  Icon(
+                    MdiIcons.account,
+                    size: 35,
+                    color: const Color(0xFF000000),
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: 10,
                     ),
-
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        left: 10,
-                      ),
-                      child: Text(
-                        tr("menu_default_nickname"),
-                        style: Theme.of(context).textTheme.displayMedium,
-                      ),
+                    child: Text(
+                      tr("menu_default_nickname"),
+                      style: Theme.of(context).textTheme.displayMedium,
                     ),
+                  ),
 
-                  ],
-                ),
+                ],
               ),
 
               if (flagPath != null)

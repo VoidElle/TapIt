@@ -5,16 +5,20 @@ import 'package:tapit/game/online/utils/game_online_socket_emitter.dart';
 import 'package:tapit/global/utils/managers/global_shared_preferences_manager.dart';
 import 'package:tapit/global/utils/managers/global_sounds_manager.dart';
 
+import 'global_enums.dart';
+
 class GlobalConstants {
 
   static final Logger logger = Logger();
 
   static Flushbar? flushbar;
 
-  static bool headerNameEnabled = true;
-  static bool localGameEnabled = true;
-  static bool onlineGameEnabled = true;
-  static bool shopEnabled = true;
+  static Map<MenuSection, bool> sectionsEnabled = {
+    MenuSection.headerName: true,
+    MenuSection.localGame: true,
+    MenuSection.onlineGame: true,
+    MenuSection.shop: true,
+  };
 
   static final List<String> testDevicesIds = [
     "6B4E3C5928CB30318EF8A99715237195",

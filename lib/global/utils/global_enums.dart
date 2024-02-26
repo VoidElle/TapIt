@@ -7,3 +7,10 @@ enum GlobalComplexButtonType {
 
   joinGameFromPin
 }
+
+enum MenuSection {
+  headerName,
+  localGame,
+  onlineGame,
+  shop,
+}
