@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:tapit/game/online/providers/game_online_game_provider.dart';
+import 'package:tapit/global/providers/global_socket_provider.dart';
+import 'package:tapit/global/utils/global_constants.dart';
 
 import '../../../../global/utils/global_functions.dart';
 import '../../../../global/widgets/global_action_button.dart';
@@ -89,18 +93,28 @@ class GameOnlineGameResultDialog extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
 
-                      Tooltip(
-                        message: "Home",
-                        verticalOffset: 40,
-                        child: GlobalActionButton(
-                          iconData: MdiIcons.home,
-                          voidCallback: () {
+                      Consumer(
+                        builder: (BuildContext _, WidgetRef ref, Widget? __) {
+                          return Tooltip(
+                            message: "Home",
+                            verticalOffset: 40,
+                            child: GlobalActionButton(
+                              iconData: MdiIcons.home,
+                              voidCallback: () {
 
-                            // Redirect to MenuPage
-                            GlobalFunctions.redirectAndClearRootTree(MenuPage.route);
+                                // Emitting the quit event to the lobby
+                                GlobalConstants.gameOnlineSocketEmitter.emitQuitLobbyEvent(
+                                  socket: ref.read(globalSocketProvider).socket!,
+                                  lobbyId: ref.read(gameOnlineGameProvider).lobbyId,
+                                );
 
-                          },
-                        ),
+                                // Redirect to MenuPage
+                                GlobalFunctions.redirectAndClearRootTree(MenuPage.route);
+
+                              },
+                            ),
+                          );
+                        }
                       ),
 
                       Tooltip(
@@ -121,25 +135,6 @@ class GameOnlineGameResultDialog extends StatelessWidget {
               ],
             ),
           ),
-
-          // Positioned(
-          //   left: 20,
-          //   right: 20,
-          //   child: CircleAvatar(
-          //     backgroundColor: Colors.white,
-          //     radius: 45,
-          //     child: BorderedBox(
-          //       color: winnerColor,
-          //       shape: const CircleBorder(
-          //           side: BorderSide(
-          //             color: Colors.white,
-          //             width: 7.5,
-          //             strokeAlign: BorderSide.strokeAlignOutside,
-          //           )
-          //       ),
-          //     ),
-          //   ),
-          // ),
 
           Positioned(
             left: 20,

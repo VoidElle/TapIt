@@ -9,6 +9,7 @@ import 'package:tapit/global/utils/global_constants.dart';
 import 'package:tapit/menu/pages/menu_page.dart';
 
 import '../../../../global/utils/global_functions.dart';
+import '../../dialogs/game/game_online_opponent_disconnected_dialog.dart';
 import '../../enums/socket_enums.dart';
 import '../../pages/lobby/game_online_lobby_page.dart';
 import '../../providers/game_online_game_provider.dart';
@@ -77,6 +78,20 @@ mixin GameOnlinePlayerChangeListenerMixin {
     socket.on(GameOnlineSocketEvent.quitLobbyResponseSuccess.text, (dynamic data) {
 
       if (!context.mounted) {
+        return;
+      }
+
+      if (isInGame) {
+
+        // Redirect the user to the Menu page
+        GlobalFunctions.redirectAndClearRootTree(MenuPage.route);
+
+        // Show the opponent player disconnected
+        showDialog(
+          context: context,
+          builder: (BuildContext _) => const GameOnlineOpponentDisconnectedDialog(),
+        );
+
         return;
       }
 
