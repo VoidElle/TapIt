@@ -146,8 +146,12 @@ class GameOnlineGameNotifier extends StateNotifier<GameOnlineGameModel> {
     final GameOnlineGameModel newState = GameOnlineGameModel.fromJson(state.toJson());
     state = newState;
 
+    // Check if the attacker socket is the client socket to avoid multiple wrong score event
+    final socket_io.Socket clientSocket = ref.read(globalSocketProvider).socket!;
+    final bool isAttackerClient = attackerPlayerModel.gameOnlineSocketModel.socketId == clientSocket.id;
+
     // If the attacker has won, emit the win event
-    if (attackerPlayerModel.percentageValue == 100) {
+    if (isAttackerClient && attackerPlayerModel.percentageValue == 100) {
       final socket_io.Socket socket = ref.read(globalSocketProvider).socket!;
       GlobalConstants.gameOnlineSocketEmitter.emitGameWinEvent(
         socket: socket,
