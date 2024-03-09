@@ -6,9 +6,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:tapit/global/utils/global_constants.dart';
 import 'package:tapit/global/utils/global_functions.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:firebase_core/firebase_core.dart';
 
-import 'global/utils/firebase_options.dart';
 import 'menu/pages/menu_page.dart';
 
 Future<void> main() async {
@@ -18,11 +16,6 @@ Future<void> main() async {
 
   // Localizations
   await EasyLocalization.ensureInitialized();
-
-  // Firebase
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
 
   // Ads
   await MobileAds.instance.initialize();

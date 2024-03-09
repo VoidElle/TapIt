@@ -1,4 +1,3 @@
-import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:tapit/game/online/utils/game_online_socket_emitter.dart';
@@ -10,8 +9,6 @@ import 'global_enums.dart';
 class GlobalConstants {
 
   static final Logger logger = Logger();
-
-  static Flushbar? flushbar;
 
   static Map<MenuSection, bool> sectionsEnabled = {
     MenuSection.headerName: true,

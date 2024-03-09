@@ -64,12 +64,6 @@ mixin GameOnlinePlayerChangeListenerMixin {
         // Get the error from the json
         final String error = jsonReceived["error"];
 
-        // Show the top snackbar error
-        GameOnlineFunctions.showErrorTopSnackBar(
-          title: "Error",
-          subtitle: error,
-        );
-
       });
 
     }
