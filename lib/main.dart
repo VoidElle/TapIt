@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -7,6 +9,7 @@ import 'package:tapit/global/utils/global_constants.dart';
 import 'package:tapit/global/utils/global_functions.dart';
 import 'package:easy_localization/easy_localization.dart';
 
+import 'global/providers/global_player_name_provider.dart';
 import 'menu/pages/menu_page.dart';
 
 Future<void> main() async {
@@ -38,11 +41,34 @@ Future<void> main() async {
 
 }
 
-class TapIt extends StatelessWidget {
+class TapIt extends ConsumerStatefulWidget {
 
   const TapIt({
     super.key,
   });
+
+  @override
+  ConsumerState<TapIt> createState() => _TapItState();
+}
+
+class _TapItState extends ConsumerState<TapIt> {
+
+  @override
+  void initState() {
+
+    super.initState();
+
+    String? playerName = GlobalConstants.globalSharedPreferencesManager.getPlayerName();
+    if (playerName == null) {
+      playerName = GlobalConstants.initialNames[Random().nextInt(GlobalConstants.initialNames.length)];
+      GlobalConstants.globalSharedPreferencesManager.setPlayerName(playerName);
+    }
+
+    GlobalFunctions.executeAfterBuild(() {
+      ref.read(globalPlayerNameProvider.notifier).state = playerName!;
+    });
+
+  }
 
   @override
   Widget build(BuildContext context) {

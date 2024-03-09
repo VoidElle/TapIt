@@ -1,9 +1,10 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:tapit/menu/dialogs/menu_change_language_dialog.dart';
 
+import '../providers/global_player_name_provider.dart';
 import '../utils/global_constants.dart';
 import '../utils/global_functions.dart';
 
@@ -68,9 +69,14 @@ class _GlobalUserHeaderState extends State<GlobalUserHeader> {
                     padding: const EdgeInsets.only(
                       left: 10,
                     ),
-                    child: Text(
-                      tr("menu_default_nickname"),
-                      style: Theme.of(context).textTheme.displayMedium,
+                    child: Consumer(
+                      builder: (BuildContext _, WidgetRef ref, Widget? __) {
+                        final String playerName = ref.watch(globalPlayerNameProvider);
+                        return Text(
+                          playerName,
+                          style: Theme.of(context).textTheme.displayMedium,
+                        );
+                      },
                     ),
                   ),
 

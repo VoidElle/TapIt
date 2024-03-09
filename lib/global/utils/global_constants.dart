@@ -17,6 +17,21 @@ class GlobalConstants {
     MenuSection.shop: true,
   };
 
+  // The names that are gonna be randomly selected at the first
+  // start of the app for the player's name
+  static const List<String> initialNames = [
+    "Fumble", "Trickshot", "Sidekick", "Wheelie", "Buzzsaw",
+    "Whiff", "Cannon", "Tank", "Rocket", "Swivel",
+    "Mirage", "Cyclone", "Ricochet", "Houdini", "Boomerang",
+    "Ace", "Comet", "Laser", "Tornado", "Footwork",
+    "Clutch", "Whiz", "Maelstrom", "Finesse", "Juggernaut",
+    "Enigma", "Tornado", "Magnet", "Buzzer", "Cyclone",
+    "Spark", "Finesse", "Shadow", "Whirlwind", "Wall",
+    "Meteor", "Tank", "Barricade", "Phoenix", "Hawk",
+    "Cheetah", "Maelstrom", "Hurricane", "Wrench", "Slingshot",
+    "Hammer", "Juggernaut", "Titan", "Maverick", "Maestro",
+  ];
+
   static final List<String> testDevicesIds = [
     "6B4E3C5928CB30318EF8A99715237195",
   ];
@@ -32,6 +47,8 @@ class GlobalConstants {
 
   static const String sharedPreferencesMusicEnabledTag = "MUSIC_ENABLED";
   static const String sharedPreferencesFxSoundsEnabledTag = "FX_SOUNDS_ENABLED";
+
+  static const String sharedPreferencesPlayerNameTag = "PLAYER_NAME";
 
   static const String sharedPreferencesNumberOfMatchesPlayedAfterAd = "MATCHES_PLAYED_AFTER_AD";
 

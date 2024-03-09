@@ -36,4 +36,13 @@ class GlobalSharedPreferencesManager {
     await _sharedPreferences?.setInt(GlobalConstants.sharedPreferencesNumberOfMatchesPlayedAfterAd, value);
   }
 
+  Future<void> setPlayerName(String playerName) async {
+    await _sharedPreferences?.setString(GlobalConstants.sharedPreferencesPlayerNameTag, playerName);
+  }
+
+  String? getPlayerName() {
+    final String? value = _sharedPreferences?.getString(GlobalConstants.sharedPreferencesPlayerNameTag);
+    return value;
+  }
+
 }
