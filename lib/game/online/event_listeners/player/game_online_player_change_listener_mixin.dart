@@ -8,6 +8,7 @@ import 'package:tapit/game/online/utils/game_online_functions.dart';
 import 'package:tapit/global/utils/global_constants.dart';
 import 'package:tapit/menu/pages/menu_page.dart';
 
+import '../../../../global/providers/global_player_name_provider.dart';
 import '../../../../global/utils/global_functions.dart';
 import '../../dialogs/game/game_online_opponent_disconnected_dialog.dart';
 import '../../enums/socket_enums.dart';
@@ -29,6 +30,7 @@ mixin GameOnlinePlayerChangeListenerMixin {
 
       // Success event
       socket.on(GameOnlineSocketEvent.joinLobbyResponseSuccess.text, (dynamic data) {
+
         // Skip the event management if the context is not mounted
         if (!context.mounted) {
           return;
@@ -40,14 +42,43 @@ mixin GameOnlinePlayerChangeListenerMixin {
         // Create and set the new game model
         GameOnlineFunctions.createAndSetNewGameModel(jsonReceived, ref);
 
-        // If it's the guest socket, it needs to go the
-        // lobby page where the leader is already
-        if (needsToJoin) {
-          GlobalFunctions.executeAfterBuild(() {
-            GlobalFunctions.redirectAndClearRootTree(
-                GameOnlineLobbyPage.route);
-          });
-        }
+        GlobalFunctions.executeAfterBuild(() {
+
+          // If it's the guest socket, it needs to go the
+          // lobby page where the leader is already
+          if (needsToJoin) {
+              GlobalFunctions.redirectAndClearRootTree(GameOnlineLobbyPage.route);
+          }
+
+          // Forcing the EXCHANGE_INFO event being emitted multiple times
+          // (testing 5 times with a delay of 250ms)
+          // to force the information to be exchanged between clients
+          // TODO: Rework using a request if the name of the socket is not inside the list
+          const emittingDelayTimeMs = 250;
+          for (int i = 0; i < 5; i++) {
+            Future.delayed(
+              const Duration(milliseconds: emittingDelayTimeMs),
+              () {
+
+                if (!context.mounted){
+                  return;
+                }
+
+                // Emitting the client's socket name
+                final String clientSocketName = ref.read(globalPlayerNameProvider);
+                GlobalConstants.gameOnlineSocketEmitter.emitExchangeInfoEvent(
+                  socket: socket,
+                  ref: ref,
+                  socketName: clientSocketName,
+                );
+
+              },
+            );
+          }
+
+        });
+
+
       });
 
       // Fail event

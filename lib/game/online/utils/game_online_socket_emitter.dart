@@ -1,5 +1,7 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:socket_io_client/socket_io_client.dart' as socket_io;
 import 'package:tapit/game/online/enums/socket_enums.dart';
+import 'package:tapit/game/online/providers/game_online_game_provider.dart';
 
 /// EVERY FUNCTION / EVENT THAT IS LISTED IN THIS CLASS
 /// CAN RESULT IN A SUCCESS RESPONSE OR A FAIL RESPONSE
@@ -49,6 +51,23 @@ class GameOnlineSocketEmitter {
   }) {
     socket.emit(GameOnlineSocketEvent.startLobbyRequest.text, lobbyId);
   }
+
+  // Function used to exchange players' names
+  void emitExchangeInfoEvent({
+    required socket_io.Socket socket,
+    required WidgetRef ref,
+    required String socketName
+  }) {
+
+    final String lobbyId = ref.read(gameOnlineGameProvider).lobbyId;
+    final Map data = {
+      "lobbyId": lobbyId,
+      "socketName": socketName,
+    };
+
+    socket.emit(GameOnlineSocketEvent.exchangeInfoRequest.text, data);
+  }
+
 
   // ==============================
   //     END LOBBY SECTION

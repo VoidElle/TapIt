@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:socket_io_client/socket_io_client.dart' as socket_io;
 import 'package:tapit/game/online/event_listeners/lobby/game_online_lobby_start_listener_mixin.dart';
+import 'package:tapit/game/online/event_listeners/socket/game_online_socket_exchange_info_listener_mixin.dart';
+import 'package:tapit/global/providers/global_player_name_provider.dart';
 import 'package:tapit/global/utils/global_constants.dart';
 
 import '../../../../global/event_listeners/background_listener_mixin.dart';
@@ -32,7 +34,9 @@ class GameOnlineLobbyPage extends ConsumerStatefulWidget {
 class _NewGameOnlineLobbyPageState extends ConsumerState<GameOnlineLobbyPage> with
     GameOnlinePlayerChangeStatusListenerMixin,
     GameOnlineLobbyStartListenerMixin,
+    GameOnlineSocketExchangeInfoListenerMixin,
     WidgetsBindingObserver,
+
     BackgroundListenerMixin<GameOnlineLobbyPage> {
 
   bool _startGameButtonEnabled = false;
@@ -54,6 +58,20 @@ class _NewGameOnlineLobbyPageState extends ConsumerState<GameOnlineLobbyPage> wi
     listenLobbyStartEvent(
       context: context,
       socket: _socket,
+    );
+
+    listenToExchangeInfo(
+      context: context,
+      ref: ref,
+      socket: _socket,
+    );
+
+    // Emitting the client's socket name
+    final String clientSocketName = ref.read(globalPlayerNameProvider);
+    GlobalConstants.gameOnlineSocketEmitter.emitExchangeInfoEvent(
+      socket: _socket,
+      ref: ref,
+      socketName: clientSocketName,
     );
 
   }
